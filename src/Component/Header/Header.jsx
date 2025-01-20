@@ -1,3 +1,6 @@
+import {Link  } from "react-router-dom";
+
+
 function Header() {
   return (
     <>
@@ -8,7 +11,7 @@ function Header() {
         <div class="row">
             
             <div class="col-3 col-lg-1 col-xl-2 m-auto">
-                <a href="index.html" class="logo-area">
+                <a  class="logo-area">
                     <img src="assets/img/logo-black.png" alt="Logo" class="img-fluid"/>
                 </a>
             </div>
@@ -19,40 +22,12 @@ function Header() {
                 <div class="main-menu-wrap">
                     <nav id="mainmenu">
                         <ul>
-                            <li class="dropdown-show"><a href="index.html">Home</a>
-                                <ul class="dropdown-nav sub-dropdown">
-                                    <li><a href="index.html">Home Layout 1</a></li>
-                                    <li><a href="index2.html">Home Layout 2</a></li>
-                                    <li><a href="index3.html">Home Layout 3</a></li>
-                                    <li><a href="index4.html">Home Layout 4</a></li>
-                                    <li><a href="index5.html">Home Layout 5</a></li>
-                                    <li><a href="index6.html">Home Layout 6</a></li>
-                                </ul>
+                            
+                            <li>
+                            <Link to='/home'>Home</Link>
                             </li>
-                            <li class="dropdown-show"><a href="#">Shop</a>
-                                <ul class="mega-menu-wrap dropdown-nav">
-                                    <li class="mega-menu-item"><a href="shop.html" class="mega-item-title">Shop
-                                        Layout</a>
-                                        <ul>
-                                            <li><a href="shop.html">Shop Left Sidebar</a></li>
-                                            <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                            <li><a href="shop-left-full-wide.html">Shop Left Full Wide</a></li>
-                                            <li><a href="shop-right-full-wide.html">Shop Right Full Wide</a></li>
-                                            <li><a href="shop-full-wide.html">Shop Without Sidebar</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="mega-menu-item"><a href="single-product.html" class="mega-item-title">Single
-                                        Products</a>
-                                        <ul>
-                                            <li><a href="single-product.html">Single Product</a></li>
-                                            <li><a href="single-product-normal.html">Single Product Normal</a></li>
-                                            <li><a href="single-product-group.html">Single Product Group</a></li>
-                                            <li><a href="single-product-external.html">Single Product External</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                            <li ><Link to='/Shop'>Shop</Link></li>
+                           
                             <li class="dropdown-show"><a href="#">Pages</a>
                                 <ul class="dropdown-nav">
                                     <li><a href="cart.html">Shopping Cart</a></li>
@@ -256,6 +231,24 @@ function Header() {
         </div>
     </div>
 </header>
+
+
+
+<div class="body-popup-modal-area">
+    <span class="modal-close"><img src="assets/img/cancel.png" alt="Close" class="img-fluid"/></span>
+    <div class="modal-container d-flex">
+        <div class="search-box-area">
+            <div class="search-box-form">
+                <form action="#" method="post">
+                    <input type="search" placeholder="type keyword and hit enter"/>
+                    <button class="btn" type="button"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
     </>
   );
