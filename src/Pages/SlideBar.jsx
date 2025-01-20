@@ -4,7 +4,6 @@ function SlideBar(){
     return(
         <>
         
-
 <div id="page-title-area">
     <div class="container">
         <div class="row">
