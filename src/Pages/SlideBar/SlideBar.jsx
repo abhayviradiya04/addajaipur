@@ -1,5 +1,5 @@
 
-
+import {Link} from 'react-router-dom'
 function SlideBar(){
     return(
         <>
@@ -11,8 +11,8 @@ function SlideBar(){
                 <div class="page-title-content">
                     <h1>Shop</h1>
                     <ul class="breadcrumb">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="index.html" class="active">Shop</a></li>
+                        <li><Link to='/home'>Home</Link></li>
+                        <li><Link to='/Shop' className='active'>Shop</Link></li>
                     </ul>
                 </div>
             </div>
@@ -206,12 +206,12 @@ function SlideBar(){
                                 <div class="col-lg-4 col-sm-6">
                                     <div class="single-product-item text-center">
                                         <figure class="product-thumb">
-                                            <a href="single-product.html"><img src="assets/img/new-product-1.jpg"
-                                                                               alt="Products" class="img-fluid"/></a>
+                                            <Link to='/singleitem'><img src="assets/img/new-product-1.jpg"
+                                                                               alt="Products" class="img-fluid"/></Link>
                                         </figure>
 
                                         <div class="product-details">
-                                            <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
+                                            <h2><Link to='/singleitem'>Crown Summit Backpack</Link></h2>
                                             <div class="rating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>

@@ -30,13 +30,13 @@ function Header() {
                            
                             <li class="dropdown-show"><a href="#">Pages</a>
                                 <ul class="dropdown-nav">
-                                    <li><a href="cart.html">Shopping Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="compare.html">Compare</a></li>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="login-register.html">Login & Register</a></li>
-                                    <li><a href="my-account.html">My Account</a></li>
-                                    <li><a href="404.html">404 Error</a></li>
+                                    <li><Link to='/Cart'>Shopping Cart</Link></li>
+                                    <li><Link to='/checkout'>Checkout</Link></li>
+                                    <li><Link to='/compare'>Compare</Link></li>
+                                    <li><Link to='wishlist'>Wishlist</Link></li>
+                                    <li><Link to='login-register'>Login & Register</Link></li>
+                                    <li><Link to='/dashboard'>Dashboard</Link></li>
+                                    <li><Link to='/error'>404 Error</Link></li>
                                 </ul>
                             </li>
                             <li class="dropdown-show"><a href="#">Men</a>
@@ -122,15 +122,10 @@ function Header() {
                                     </li>
                                 </ul>
                             </li>
-                            <li class="dropdown-show"><a href="#">Blog</a>
-                                <ul class="dropdown-nav">
-                                    <li><a href="blog.html">Blog Right Sidebar</a></li>
-                                    <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                                    <li><a href="blog-grid.html">Blog Grid Layout</a></li>
-                                    <li><a href="single-blog.html">Blog Details</a></li>
-                                </ul>
+                            <li>
+                                <Link to='/blog'>Blog</Link>
                             </li>
-                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><Link to='/contact'>Contact Us</Link></li>
                         </ul>
                     </nav>
                 </div>
@@ -220,7 +215,7 @@ function Header() {
                                     </div>
                                 </div>
                                 <div class="mini-cart-footer">
-                                    <a href="checkout.html" class="btn-add-to-cart">Checkout</a>
+                                    <Link to='checkout' class="btn-add-to-cart">Checkout</Link>
                                 </div>
                             </div>
                         </li>
