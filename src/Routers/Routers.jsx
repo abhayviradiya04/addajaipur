@@ -1,7 +1,7 @@
 import { Routes,Route, Navigate } from "react-router-dom";
 
-import Home from "../Pages/Home";
-import SlideBar from "../Pages/SlideBar";
+import Home from "../Pages/Home/Home";
+import SlideBar from "../Pages/SlideBar/SlideBar";
 
 
 
