@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
 function Home()  {
-    
   return (
    <>
+  
+
   <section id="banner-area" class="banner__3">
     <div class="container-fluid">
         <div class="row">
@@ -29,11 +29,11 @@ function Home()  {
                    
                 </div>
             </div>
+          </div>
         </div>
-    </div>
-</section>
+      </section>
 
-<div id="products-area-wrapper" class="p-9">
+      <div id="products-area-wrapper" class="p-9">
     <div class="container-fluid">
       
         <div class="single-category-products">
@@ -1281,17 +1281,13 @@ function Home()  {
         </div>
     </div>
 </section>
-
-
-
-
-
-
-
-
-   
-   </>
+    </>
   );
 }
 
 export default Home;
+
+
+
+
+
