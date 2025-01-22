@@ -1,39 +1,68 @@
-function Home()  {
+import React, { useEffect } from "react";
+
+function Home() {
+  useEffect(() => {
+    // Ensure jQuery and Owl Carousel are available globally
+    const $ = window.$;
+
+    // Initialize Owl Carousel
+    $("#banner-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: true,
+      items: 1,
+      autoplay: true,
+      autoplayTimeout: 3000, // 3 seconds delay
+      autoplayHoverPause: true,
+    });
+
+    // Cleanup to destroy the carousel instance on unmount
+    return () => {
+      $("#banner-carousel").trigger("destroy.owl.carousel");
+    };
+  }, []);
+
   return (
-   <>
-  
-
-  <section id="banner-area" class="banner__3">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="banner-carousel" class="owl-carousel">
-                 
-                    <div class="single-carousel-wrap home_4_slide_1">
-                        <div class="banner-caption">
-                            <h4>New Collection 2018</h4>
-                            <h2>this looks beautiful</h2>
-                            <p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-                            <a href="#" class="btn-long-arrow">Shop Now</a>
-                        </div>
-                    </div>
-                    
-                    <div class="single-carousel-wrap home_4_slide_2">
-                        <div class="banner-caption">
-                            <h4>New Collection 2017</h4>
-                            <h2>Beautiful Earrings</h2>
-                            <p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-                            <a href="#" class="btn-long-arrow">Shop Now</a>
-                        </div>
-                    </div>
-                   
+    <>
+      <section id="banner-area" className="banner__3">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-12">
+              <div id="banner-carousel" className="owl-carousel">
+                <div className="single-carousel-wrap home_4_slide_1">
+                  <div className="banner-caption">
+                    <h4>New Collection 2018</h4>
+                    <h2>this looks beautiful</h2>
+                    <p>
+                      Eodem modo typi, qui nunc nobis videntur parum clari,
+                      fiant sollemnes in futurum.
+                    </p>
+                    <a href="#" className="btn-long-arrow">
+                      Shop Now
+                    </a>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<div id="products-area-wrapper" class="p-9">
+                <div className="single-carousel-wrap home_4_slide_2">
+                  <div className="banner-caption">
+                    <h4>New Collection 2017</h4>
+                    <h2>Beautiful Earrings</h2>
+                    <p>
+                      Eodem modo typi, qui nunc nobis videntur parum clari,
+                      fiant sollemnes in futurum.
+                    </p>
+                    <a href="#" className="btn-long-arrow">
+                      Shop Now
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="products-area-wrapper" class="p-9">
     <div class="container-fluid">
       
         <div class="single-category-products">
@@ -1281,17 +1310,13 @@ function Home()  {
         </div>
     </div>
 </section>
-
-
-
-
-
-
-
-
-   
-   </>
+    </>
   );
 }
 
 export default Home;
+
+
+
+
+
