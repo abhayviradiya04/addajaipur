@@ -1,8 +1,8 @@
+import React, { useEffect } from 'react';
 function Home()  {
+    
   return (
    <>
-  
-
   <section id="banner-area" class="banner__3">
     <div class="container-fluid">
         <div class="row">
