@@ -1,57 +1,26 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-// Define the Product Schema
-const productSchema = new mongoose.Schema({
-    productName: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    productPrice: {
-        type: Number,
-        required: true,
-        min: 0,
-    },
-    photo:{
-        type:String,
-        required:false
-    },
-    description: {
-        type: String,
-        trim: true,
-    },
-    stylecode: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    pattern: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    type: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-     lengthType: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    stock: {
-        type: Number,
-        required: true,
-        min: 0,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+const productSchema = new Schema({
+  name: { type: String, required: true },
+  image: [{ type: String }], // Array of image URLs
+  description: { type: String, required: true },
+  sku: { type: String, required: true },
+  brand: {
+    name: { type: String, required: true }
+  },
+   
+  price: { type: Number, required: true },
+  material: { type: String, required: true },
+  pattern: { type: String, required: true },
+  type: { type: String, required: true },
+  fabricCare: { type: String, required: true },
+  lengthType: { type: String, required: true },
+  idealFor: { type: String, required: true },
+  neck: { type: String, required: true },
+  sleeve: { type: String, required: true }
+}, { timestamps: true }); // Optional: Adds createdAt and updatedAt fields
 
-// Create the Product model
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
