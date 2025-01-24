@@ -9,9 +9,10 @@ import Wishlist from "../Pages/Wishlist/Wishlist";
 import Login_Register from "../Pages/Login-Register/Login_Register";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import Error from "../Pages/Error/Error";
-import Blog from "../Pages/Blog/Blog";
+
 import ContactUs from "../Pages/ContactUs/ContactUs";
 import Singleitem from "../Pages/SingleItem/Singleitem";
+import Aboutus from "../Pages/AboutUs/Aboutus";
 
 
 
@@ -29,7 +30,7 @@ const Routers = () => {
         <Route path="/login-register" element={<Login_Register/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/error" element={<Error/>} />
-        <Route path="/blog" element={<Blog/>} />
+        <Route path="/aboutus" element={<Aboutus/>} />
         <Route path="/contact" element={<ContactUs/>} />
         <Route path="/singleitem" element={<Singleitem/>} />
         </Routes>

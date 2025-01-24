@@ -12,7 +12,7 @@ function Header() {
             
             <div class="col-3 col-lg-1 col-xl-2 m-auto">
                 <a  class="logo-area">
-                    <img src="assets/img/logo-black.png" alt="Logo" class="img-fluid"/>
+                    <img src="assets/img/logo.jpg" alt="Logo" class="img-fluid"/>
                 </a>
             </div>
             
@@ -26,20 +26,50 @@ function Header() {
                             <li>
                             <Link to='/home'>Home</Link>
                             </li>
-                            <li ><Link to='/Shop'>Shop</Link></li>
+                        
                            
-                            <li class="dropdown-show"><a href="#">Pages</a>
+                            <li class="dropdown-show"><a href="#">Kurtas</a>
                                 <ul class="dropdown-nav">
-                                    <li><Link to='/Cart'>Shopping Cart</Link></li>
-                                    <li><Link to='/checkout'>Checkout</Link></li>
-                                    <li><Link to='/compare'>Compare</Link></li>
-                                    <li><Link to='wishlist'>Wishlist</Link></li>
-                                    <li><Link to='login-register'>Login & Register</Link></li>
-                                    <li><Link to='/dashboard'>Dashboard</Link></li>
-                                    <li><Link to='/error'>404 Error</Link></li>
+                                    <li><Link to=''>A-Line Kurtas </Link></li>
+                                    <li><Link to=''>Embroiderykurta</Link></li>
+                                    <li><Link to=''>Straight kurta</Link></li>
+                                   
                                 </ul>
                             </li>
-                            <li class="dropdown-show"><a href="#">Men</a>
+                            <li class="dropdown-show"><a href="#">Kurtas Sets</a>
+                                <ul class="dropdown-nav">
+                                    <li><Link to=''>Festive Suit Sets </Link></li>
+                                    <li><Link to=''>Kurta Pant</Link></li>
+                                    <li><Link to=''>Kurta Pant and Dupatta</Link></li>
+                                   
+                                </ul>
+                            </li>
+                            <li class="dropdown-show"><a href="#">Gowns</a>
+                                <ul class="dropdown-nav">
+                                    <li><Link to=''>Ankle Gown</Link></li>
+                                    <li><Link to=''>Festive Mal Gown</Link></li>
+                                    <li><Link to=''>Gown With Dupatta</Link></li>
+                                   
+                                </ul>
+                            </li>
+                            <li class="dropdown-show"><a href="#">Bottoms</a>
+                                <ul class="dropdown-nav">
+                                    <li><Link to=''>Pants</Link></li>
+                                    <li><Link to=''>Plazzo</Link></li>
+                                    <li><Link to=''>Skirt</Link></li>
+                                   
+                                </ul>
+                            </li>
+                            <li class="dropdown-show"><a href="#">Tops</a>
+                                <ul class="dropdown-nav">
+                                    <li><Link to=''>Co-Ords</Link></li>
+                                    <li><Link to=''>Shirt</Link></li>
+                                    <li><Link to=''>Short Top</Link></li>
+                                    <li><Link to=''>Tunics</Link></li>
+                                   
+                                </ul>
+                            </li>
+                             {/* <li class="dropdown-show"><a href="#">Men</a>
                                 <ul class="mega-menu-wrap dropdown-nav">
                                     <li class="mega-menu-item"><a href="shop-left-full-wide.html"
                                                                   class="mega-item-title">Shirt</a>
@@ -121,9 +151,9 @@ function Header() {
                                         </ul>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> */}
                             <li>
-                                <Link to='/blog'>Blog</Link>
+                                <Link to='/aboutus'>About Us</Link>
                             </li>
                             <li><Link to='/contact'>Contact Us</Link></li>
                         </ul>
