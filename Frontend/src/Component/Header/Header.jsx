@@ -15,9 +15,6 @@ function Header() {
                     <img src="assets/img/logo.jpg" alt="Logo" class="img-fluid"/>
                 </a>
             </div>
-            
-
-            
             <div class="col-3 col-lg-9 col-xl-8 m-auto">
                 <div class="main-menu-wrap">
                     <nav id="mainmenu">
