@@ -22,6 +22,7 @@ function Home() {
                     </p>
                     <a href="#" className="btn-long-arrow">
                       Shop Now
+                      
                     </a>
                   </div>
                 </div>
