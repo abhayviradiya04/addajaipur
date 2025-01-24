@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 
-function Blog(){
+function Aboutus(){
     return(
        <>
        
@@ -9,11 +9,11 @@ function Blog(){
         <div class="row">
             <div class="col-12 text-center">
                 <div class="page-title-content">
-                    <h1>Blog</h1>
+                    <h1>About Us</h1>
                     <ul class="breadcrumb">
                     <li><Link to='/home'>Home</Link></li>
                         
-                        <li><Link to='/blog' className='active'>Blog</Link></li></ul>
+                        <li><Link to='/abhoutus' className='active'>About Us</Link></li></ul>
                 </div>
             </div>
         </div>
@@ -205,4 +205,4 @@ function Blog(){
     )
 }
 
-export default Blog;
+export default Aboutus;
