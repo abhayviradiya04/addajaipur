@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const productSchema = new Schema({
   name: { type: String, required: true },
+  stylecode:{type:String,required:true},
   image: [{ type: String }], // Array of image URLs
   description: { type: String, required: true },
   brand: {
