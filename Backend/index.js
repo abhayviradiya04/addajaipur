@@ -1,4 +1,4 @@
-// Backend/index.js
+require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const mongoose = require('mongoose');
 const productRoutes = require('./routes/productRoutes');
@@ -7,16 +7,16 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT || 5000;
-
+const uploadRoutes = require("./routes/uploadRoutes")
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json()); // Parse JSON bodies
 app.use('/api/products', productRoutes); // Use product routes
 app.use('/api/users', userRoutes); 
-
+app.use('/api/upload', uploadRoutes); // Use upload routes
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://adaajaipur:adaajaipur123@adaajaipur.dhmxx.mongodb.net/', { // Replace with your MongoDB connection string
+mongoose.connect(process.env.MONGO_URL, { // Use the MONGO_URL from .env
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
