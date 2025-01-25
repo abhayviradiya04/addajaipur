@@ -16,9 +16,11 @@ router.post('/add', async (req, res) => {
 
 // Get all products
 router.get('/', async (req, res) => {
+    console.log("call")
     try {
         const products = await Product.find();
-        res.status(200).send(products);
+        res.status(200).json(products);
+        console.log("data=",products)
     } catch (error) {
         res.status(500).send(error);
     }
