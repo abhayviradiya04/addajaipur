@@ -74,7 +74,7 @@ function footer() {
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="follow-content-wrap">
-                            <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="logo"/></a>
+                            <a href="index.html" class="logo"><img src="assets/img/logo.jpg" alt="logo"/></a>
                             <p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum</p>
 
                             <div class="footer-social-icons">
@@ -123,7 +123,7 @@ function footer() {
         </div>
     </div>
    
-    <div class="copyright-area">
+    {/* <div class="copyright-area">
         <div class="ruby-container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -134,7 +134,7 @@ function footer() {
             </div>
         </div>
     </div>
-   
+    */}
 
 </footer>
 

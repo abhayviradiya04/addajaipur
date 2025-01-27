@@ -1,0 +1,64 @@
+/* src/Pages/AdminPanel/UserList.css */
+.user-list {
+    margin-top: 20px;
+}
+
+.user-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+}
+
+.user-item:hover {
+    background-color: #e9ecef;
+}
+
+.user-info {
+    flex-grow: 1; /* Allow the info section to take up remaining space */
+}
+
+.user-info h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.user-info p {
+    margin: 5px 0;
+}
+
+.user-item button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.user-item button:hover {
+    background-color: #c82333;
+}
+
+.order-details {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.order-item {
+    margin: 5px 0;
+}

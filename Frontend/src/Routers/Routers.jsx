@@ -13,6 +13,7 @@ import Error from "../Pages/Error/Error";
 import ContactUs from "../Pages/ContactUs/ContactUs";
 import Singleitem from "../Pages/SingleItem/Singleitem";
 import Aboutus from "../Pages/AboutUs/Aboutus";
+import AdminPanel from "../Pages/AdminPanel/AdminPanel";
 
 
 
@@ -32,7 +33,8 @@ const Routers = () => {
         <Route path="/error" element={<Error/>} />
         <Route path="/aboutus" element={<Aboutus/>} />
         <Route path="/contact" element={<ContactUs/>} />
-        <Route path="/singleitem" element={<Singleitem/>} />
+        <Route path="/singleitem" element={<Singleitem/>} /> 
+        <Route path="/admin" element={<AdminPanel/>}/>
         </Routes>
         </>   
          )
