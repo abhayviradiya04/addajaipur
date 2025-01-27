@@ -11,7 +11,12 @@ const uploadRoutes = require("./routes/uploadRoutes")
 const userActionsRoutes = require('./routes/userActionsRoutes'); // Import the user actions routes
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Your frontend URL
+    credentials: true, // Allow credentials
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(bodyParser.json());
 app.use(express.json()); // Parse JSON bodies
 app.use('/api/products', productRoutes); // Use product routes

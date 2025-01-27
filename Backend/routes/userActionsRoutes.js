@@ -92,6 +92,72 @@ router.post('/order', async (req, res) => {
         res.status(500).json({ message: 'Error creating order.', error: error.message });
     }
 });
+// Remove from Wishlist
+router.delete('/wishlist/remove', async (req, res) => {
+    const { userId, productId } = req.body;
+
+    if (!userId || !productId) {
+        return res.status(400).json({ message: 'User ID and Product ID are required.' });
+    }
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        // Remove productId from wishlistItems
+        user.wishlistItems = user.wishlistItems.filter(
+            item => item.toString() !== productId
+        );
+        
+        await user.save();
+
+        res.status(200).json({ 
+            message: 'Product removed from wishlist successfully!',
+            wishlistItems: user.wishlistItems 
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Error removing from wishlist.',
+            error: error.message 
+        });
+    }
+});
+
+// Remove from Cart
+router.delete('/cart/remove', async (req, res) => {
+    const { userId, productId } = req.body;
+
+    if (!userId || !productId) {
+        return res.status(400).json({ message: 'User ID and Product ID are required.' });
+    }
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        // Remove productId from cartItems
+        user.cartItems = user.cartItems.filter(
+            item => item.toString() !== productId
+        );
+        
+        await user.save();
+
+        res.status(200).json({ 
+            message: 'Product removed from cart successfully!',
+            cartItems: user.cartItems 
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Error removing from cart.',
+            error: error.message 
+        });
+    }
+});
+
 
 // Get Wishlist
 router.get('/wishlist/:userId', async (req, res) => {

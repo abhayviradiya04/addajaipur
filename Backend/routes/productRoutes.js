@@ -13,7 +13,21 @@ router.post('/addProduct', async (req, res) => {
         res.status(400).send(error);
     }
 });
-
+// Get products by type
+router.get('/type/:type', async (req, res) => {
+    try {
+        const products = await Product.find({ 
+            type: req.params.type 
+        }).populate('brand');
+        
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Error fetching products by type.',
+            error: error.message 
+        });
+    }
+});
 // Get all products
 router.get('/', async (req, res) => {
     console.log("call")
