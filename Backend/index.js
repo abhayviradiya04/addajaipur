@@ -8,6 +8,8 @@ const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT || 5000;
 const uploadRoutes = require("./routes/uploadRoutes")
+const userActionsRoutes = require('./routes/userActionsRoutes'); // Import the user actions routes
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -15,6 +17,8 @@ app.use(express.json()); // Parse JSON bodies
 app.use('/api/products', productRoutes); // Use product routes
 app.use('/api/users', userRoutes); 
 app.use('/api/upload', uploadRoutes); // Use upload routes
+app.use('/api/user-actions', userActionsRoutes); // Use user actions routes
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL, { // Use the MONGO_URL from .env
     useNewUrlParser: true,
