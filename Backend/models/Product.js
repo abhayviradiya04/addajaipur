@@ -46,6 +46,10 @@ const productSchema = new Schema({
     type: String, 
     required: true 
   },
+  stock:{
+    type:Number,
+    required:true
+  },
 }, { timestamps: true }); // Optional: Adds createdAt and updatedAt fields
 
 const Product = mongoose.model('Product', productSchema);
