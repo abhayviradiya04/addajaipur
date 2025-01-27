@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ProductList.css'; // Import the CSS file for ProductList
+import './ProductList.css'; // Ensure you have appropriate styles in this CSS file
 import ProductForm from './ProductForm'; // Import the ProductForm component
 
 const ProductList = () => {
@@ -70,29 +70,26 @@ const ProductList = () => {
                 setEditingProduct={setEditingProduct} 
                 updateProduct={updateProduct} // Pass the updateProduct function to the form
             />
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Style Code</th>
-                        <th>Price</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.map(product => (
-                        <tr key={product._id}>
-                            <td>{product.name}</td>
-                            <td>{product.stylecode}</td>
-                            <td>{product.price}</td>
-                            <td>
-                                <button onClick={() => setEditingProduct(product)}>Edit</button> {/* Set the product to be edited */}
+            <div className="product-grid">
+                {products.map(product => (
+                    <div key={product._id} className="product-card">
+                        <img 
+                            src={product.image[0]} 
+                            alt={product.name} 
+                            className="product-image" 
+                        />
+                        <div className="product-details">
+                            <h3>{product.name}</h3>
+                            <p>Style Code: {product.stylecode}</p>
+                            <p>Price: ${product.price}</p>
+                            <div className="product-actions">
+                                <button onClick={() => setEditingProduct(product)}>Edit</button>
                                 <button onClick={() => deleteProduct(product._id)}>Delete</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

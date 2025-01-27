@@ -109,7 +109,6 @@ const AdminPanel = () => {
             <div className="content">
                 {activeTab === 'products' ? (
                     <>
-                       
                         <ProductList 
                             products={products} 
                             updateProduct={updateProduct} 
