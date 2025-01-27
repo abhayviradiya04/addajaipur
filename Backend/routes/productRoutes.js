@@ -65,4 +65,20 @@ router.delete('/deleteProduct/:id', async (req, res) => {
     }
 });
 
+// Get Products by Type
+router.get('/type/:type', async (req, res) => {
+    const { type } = req.params;
+
+    try {
+        const products = await Product.find({ type }); // Find products by type
+        if (products.length === 0) {
+            return res.status(404).json({ message: 'No products found for this type.' });
+        }
+
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching products by type.', error: error.message });
+    }
+});
+
 module.exports = router;
