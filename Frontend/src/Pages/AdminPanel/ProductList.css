@@ -1,0 +1,67 @@
+/* src/Pages/AdminPanel/ProductList.css */
+.product-list {
+    margin-top: 20px;
+}
+
+.product-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+}
+
+.product-item:hover {
+    background-color: #e9ecef;
+}
+
+.product-image {
+    width: 100px; /* Set a fixed width for the image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px;
+    margin-right: 15px; /* Space between image and text */
+}
+
+.product-info {
+    flex-grow: 1; /* Allow the info section to take up remaining space */
+}
+
+.product-info h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.product-info p {
+    margin: 5px 0;
+}
+
+.product-info button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-info button:hover {
+    background-color: #0056b3;
+}
+
+.product-info button:last-child {
+    background-color: #dc3545; /* Delete button color */
+}
+
+.product-info button:last-child:hover {
+    background-color: #c82333; /* Delete button hover color */
+}

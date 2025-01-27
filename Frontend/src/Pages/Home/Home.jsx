@@ -1281,6 +1281,24 @@ function Home() {
                 </div>
             </div>
         </section>
+        <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+
+<script src="assets/js/vendor/jquery-migrate-1.4.1.min.js"></script>
+
+
+<script src="assets/js/vendor/bootstrap.min.js"></script>
+
+<script src="assets/js/plugins.js"></script>
+
+
+<script src="assets/js/active.js"></script>
+
+
+  <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
         </>
     )
 }
