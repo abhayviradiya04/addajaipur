@@ -27,42 +27,42 @@ function Header() {
                            
                             <li class="dropdown-show"><a href="#">Kurtas</a>
                                 <ul class="dropdown-nav">
-                                    <li><Link to=''>A-Line Kurtas </Link></li>
-                                    <li><Link to=''>Embroiderykurta</Link></li>
-                                    <li><Link to=''>Straight kurta</Link></li>
+                                    <li><Link to='/shop'>A-Line Kurtas </Link></li>
+                                    <li><Link to='/shop'>Embroiderykurta</Link></li>
+                                    <li><Link to='/shop'>Straight kurta</Link></li>
                                    
                                 </ul>
                             </li>
                             <li class="dropdown-show"><a href="#">Kurtas Sets</a>
                                 <ul class="dropdown-nav">
-                                    <li><Link to=''>Festive Suit Sets </Link></li>
-                                    <li><Link to=''>Kurta Pant</Link></li>
-                                    <li><Link to=''>Kurta Pant and Dupatta</Link></li>
+                                    <li><Link to='/shop'>Festive Suit Sets </Link></li>
+                                    <li><Link to='/shop'>Kurta Pant</Link></li>
+                                    <li><Link to='/shop'>Kurta Pant and Dupatta</Link></li>
                                    
                                 </ul>
                             </li>
                             <li class="dropdown-show"><a href="#">Gowns</a>
                                 <ul class="dropdown-nav">
-                                    <li><Link to=''>Ankle Gown</Link></li>
-                                    <li><Link to=''>Festive Mal Gown</Link></li>
-                                    <li><Link to=''>Gown With Dupatta</Link></li>
+                                    <li><Link to='/shop'>Ankle Gown</Link></li>
+                                    <li><Link to='/shop'>Festive Mal Gown</Link></li>
+                                    <li><Link to='/shop'>Gown With Dupatta</Link></li>
                                    
                                 </ul>
                             </li>
                             <li class="dropdown-show"><a href="#">Bottoms</a>
                                 <ul class="dropdown-nav">
-                                    <li><Link to=''>Pants</Link></li>
-                                    <li><Link to=''>Plazzo</Link></li>
-                                    <li><Link to=''>Skirt</Link></li>
+                                    <li><Link to='/shop'>Pants</Link></li>
+                                    <li><Link to='/shop'>Plazzo</Link></li>
+                                    <li><Link to='/shop'>Skirt</Link></li>
                                    
                                 </ul>
                             </li>
                             <li class="dropdown-show"><a href="#">Tops</a>
                                 <ul class="dropdown-nav">
-                                    <li><Link to=''>Co-Ords</Link></li>
-                                    <li><Link to=''>Shirt</Link></li>
-                                    <li><Link to=''>Short Top</Link></li>
-                                    <li><Link to=''>Tunics</Link></li>
+                                    <li><Link to='/shop'>Co-Ords</Link></li>
+                                    <li><Link to='/shop'>Shirt</Link></li>
+                                    <li><Link to='/shop'>Short Top</Link></li>
+                                    <li><Link to='/shop'>Tunics</Link></li>
                                    
                                 </ul>
                             </li>
