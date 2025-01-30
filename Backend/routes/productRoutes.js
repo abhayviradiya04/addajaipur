@@ -54,15 +54,18 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update a product by ID
-router.patch('/updateProduct/:id', async (req, res) => {
+router.put('/updateProduct/:id', async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body;
+
     try {
-        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-        if (!product) {
-            return res.status(404).send();
+        const updatedProduct = await Product.findByIdAndUpdate(id, updatedData, { new: true });
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
         }
-        res.status(200).send(product);
+        res.json(updatedProduct);
     } catch (error) {
-        res.status(400).send(error);
+        res.status(500).json({ error: error.message });
     }
 });
 
