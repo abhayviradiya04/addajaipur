@@ -10,6 +10,7 @@ import ProductType from './pages/ProductType/ProductType';
 import Checkout from './pages/Checkout/Checkout';
 import AboutUs from './pages/AboutUs/AboutUs';
 import ContactUs from './pages/ContactUs/ContactUs';
+import AdminPanel from './pages/AdminPanel/AdminPanel'
 import './App.css';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           {/* 404 Route */}
           <Route path="*" element={<div>Page Not Found</div>} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>
     </Router>
