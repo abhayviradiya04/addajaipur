@@ -20,6 +20,19 @@ const Checkout = () => {
     setError(null);
 
     try {
+      const loadRazorpayScript = () => {
+        return new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+          script.onload = () => {
+            resolve();
+          };
+          document.body.appendChild(script);
+        });
+      };
+      if (!window.Razorpay) {
+        await loadRazorpayScript();
+      }
       // Create an order on the backend
       const response = await fetch('http://localhost:5000/api/create-order', {
         method: 'POST',

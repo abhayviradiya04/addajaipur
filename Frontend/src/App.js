@@ -11,6 +11,7 @@ import Checkout from './pages/Checkout/Checkout';
 import AboutUs from './pages/AboutUs/AboutUs';
 import ContactUs from './pages/ContactUs/ContactUs';
 import AdminPanel from './pages/AdminPanel/AdminPanel'
+import Profile from'./pages/Profile/Profile'
 import './App.css';
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
           <Route path="/contact" element={<ContactUs/>} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/profile" element={<div>Profile Page</div>} />
+          <Route path="/profile" element={<Profile/>} />
           {/* Product Details Route */}
           <Route path="/:type/:id" element={<ProductDetails />} />
           <Route path="/register" element={<Register />} />
