@@ -1,7 +1,21 @@
 
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Layout from './Component/Layout/Layout';
 import React, { useEffect } from "react";
+import Home from './Pages/Home/Home';
+import SlideBar from './Pages/SlideBar/SlideBar';
+import Cart from './Pages/Cart/Cart';
+import Compare from './Pages/Compare/Compare';
+import Wishlist from './Pages/Wishlist/Wishlist';
+import Login_Register from './Pages/Login-Register/Login_Register';
+import Dashboard from './Pages/Dashboard/Dashboard';
+import Aboutus from './Pages/AboutUs/Aboutus';
+import ContactUs from './Pages/ContactUs/ContactUs';
+import Singleitem from './Pages/SingleItem/Singleitem';
+import AdminPanel from './Pages/AdminPanel/AdminPanel';
+import Checkout from './Pages/CheckOut/Checkout';
+import Error from './Pages/Error/Error';
 
 
 
@@ -83,9 +97,29 @@ function App() {
   //     $("#banner-carousel").trigger("destroy.owl.carousel");
   //   };
   // }, []);
+  
   return (
     <>
-      <Layout/>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout/>}>  
+          <Route index element={<Home/>}/>
+          <Route path="/home" element={<Home />} />
+          <Route path="/Shop" element={<SlideBar/>} />
+          <Route path="/Cart" element={<Cart/>} />
+          <Route path="/checkout" element={<Checkout/>} />
+          <Route path="/compare" element={<Compare/>} />
+          <Route path="/wishlist" element={<Wishlist/>} />
+          <Route path="/login-register" element={<Login_Register/>} />
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/error" element={<Error/>} />
+          <Route path="/aboutus" element={<Aboutus/>} />
+          <Route path="/contact" element={<ContactUs/>} />
+          <Route path="/singleitem" element={<Singleitem/>} /> 
+          <Route path="/admin" element={<AdminPanel/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
     </>
   );
 }

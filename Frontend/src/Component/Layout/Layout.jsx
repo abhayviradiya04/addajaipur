@@ -2,14 +2,14 @@ import React from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-import Routers from '../../Routers/Routers';
+import { Outlet } from 'react-router-dom';
 
 
 const Layout=()=> {
   return (
     <>
     <Header/>
-    <Routers/>
+    <Outlet/>
     <Footer/>
     </>
   )
