@@ -1,1306 +1,147 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ProductCard from '../../component/product/ProductCard';
+import './Home.css';
 
-function Home() {
-    return (
-        <>
+export default function Home() {
+  const navigate = useNavigate();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [groupedProducts, setGroupedProducts] = useState({});
+
+  const slides = [
+    {
+      image: '../../asset/images/1.jpg',
+      title: 'New Collection',
+    },
+    {
+      image: '../../asset/images/2.jpg',
+      title: 'Summer Sale',
+    },
+    {
+      image: '../../asset/images/3.jpg',
+      title: 'Festival Special',
+    },
+  ];
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/products');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json();
+        setProducts(data);
         
-        <section id="banner-area" class="banner__3">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div id="banner-carousel" class="owl-carousel">
-                            
-                            <div class="single-carousel-wrap home_4_slide_1">
-                                <div class="banner-caption">
-                                    <h4>New Collection 2018</h4>
-                                    <h2>this looks beautiful</h2>
-                                    <p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-                                    <a href="#" class="btn-long-arrow">Shop Now</a>
-                                </div>
-                            </div>
-                            <div class="single-carousel-wrap home_4_slide_2">
-                                <div class="banner-caption">
-                                    <h4>New Collection 2017</h4>
-                                    <h2>Beautiful Earrings</h2>
-                                    <p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-                                    <a href="#" class="btn-long-arrow">Shop Now</a>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
+        // Group products by type
+        const grouped = data.reduce((acc, product) => {
+          const type = product.type;
+          if (!acc[type]) {
+            acc[type] = [];
+          }
+          acc[type].push(product);
+          return acc;
+        }, {});
+        
+        setGroupedProducts(grouped);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Slideshow timer effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  if (loading) {
+    return <div className="loading">Loading products...</div>;
+  }
+
+  if (error) {
+    return <div className="error">Error: {error}</div>;
+  }
+
+  return (
+    <div className="home">
+      {/* Slideshow */}
+      <div className="slideshow">
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`slide ${index === currentSlide ? 'active' : ''}`}
+          >
+            <img src={slide.image} alt={slide.title} />
+            <div className="slide-content">
+              <h2>{slide.title}</h2>
             </div>
-        </section>
-        
-        
-        
-        <div id="products-area-wrapper" class="p-9">
-            <div class="container-fluid">
-                
-                <div class="single-category-products">
-                    <div class="row">
-                        <div class="col-lg-6 mt-5 mt-lg-0">
-                            <div class="products-categories-carousel owl-carousel">
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-        
-                        <div class="col-lg-6 order-first order-lg-last">
-                            <a href="#" class="product-category-name-warp d-flex">
-                                <div class="category-title-box d-flex">
-                                    <h2 class="pro-cate-title">Men</h2>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="single-category-products">
-                    <div class="row">
-                        <div class="col-lg-6 mb-5 mb-lg-0">
-                            <a href="#" class="product-category-name-warp women d-flex">
-                                <div class="category-title-box d-flex">
-                                    <h2 class="pro-cate-title">Women</h2>
-                                </div>
-                            </a>
-                        </div>
-        
-                        <div class="col-lg-6">
-                            <div class="products-categories-carousel owl-carousel">
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="single-category-products">
-                    <div class="row">
-                        <div class="col-lg-6 mt-5 mt-lg-0">
-                            <div class="products-categories-carousel owl-carousel">
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-        
-                        <div class="col-lg-6 order-first order-lg-last">
-                            <a href="#" class="product-category-name-warp clothing d-flex">
-                                <div class="category-title-box d-flex">
-                                    <h2 class="pro-cate-title">Clothing</h2>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-        
-                
-                <div class="single-category-products">
-                    <div class="row">
-                        <div class="col-lg-6 mb-5 mb-lg-0">
-                            <a href="#" class="product-category-name-warp jewelry d-flex">
-                                <div class="category-title-box d-flex">
-                                    <h2 class="pro-cate-title">Jewelry</h2>
-                                </div>
-                            </a>
-                        </div>
-        
-                        <div class="col-lg-6">
-                            <div class="products-categories-carousel owl-carousel">
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="single-pro-cate-slide">
-                                    <div class="products-wrapper products-gird">
-                                        <div class="row">
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-1.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-2.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-3.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-        
-                                            
-                                            <div class="col-sm-6">
-                                                <div class="single-product-item">
-                                                    <figure class="product-thumb">
-                                                        <a href="#"><img src="assets/img/product-4.jpg" alt="Product"
-                                                                         class="img-fluid"/></a>
-                                                    </figure>
-                                                    <div class="product-details">
-                                                        <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
-                                                        <div class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <span class="price">$52.00</span>
-                                                        <a href="single-product.html" class="btn btn-add-to-cart">+ Add to
-                                                            Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
+          </div>
+        ))}
+        <div className="slide-dots">
+          {slides.map((_, index) => (
+            <span
+              key={index}
+              className={`dot ${index === currentSlide ? 'active' : ''}`}
+              onClick={() => setCurrentSlide(index)}
+            />
+          ))}
         </div>
-        
-        
-        
-        <section id="newsletter-area" class="p-9">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        
-                        <div class="section-title">
-                            <h2>Join The Newsletter</h2>
-                            <p>Sign Up for Our Newsletter</p>
-                        </div>
-                        
-                    </div>
-                </div>
-        
-                <div class="row">
-                    <div class="col-lg-8 m-auto">
-                        <div class="newsletter-form-wrap">
-                            <form id="subscribe-form" action="https://d29u17ylf1ylz9.cloudfront.net/ruby-v2/ruby/assets/php/subscribe.php" method="post">
-                                <input id="subscribe" type="email" name="email" placeholder="Enter your Email  Here" required/>
-                                <button type="submit" class="btn-long-arrow">Subscribe</button>
-                                <div id="result"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+      </div>
+
+      {/* Products by Type */}
+      <div className="products-by-type">
+        {Object.entries(groupedProducts).map(([type, typeProducts]) => (
+          <div key={type} className="product-type-section">
+            <h2 className="type-title">{capitalizeFirstLetter(type)}</h2>
+            <div className="product-grid">
+              {typeProducts.map((product) => (
+                <ProductCard
+                  key={product._id}
+                  product={product}
+                  type={product.type.toLowerCase()}
+                />
+              ))}
             </div>
-        </section>
-        <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+            {typeProducts.length >= 4 && (
+              <div className="view-all-container">
+                <button 
+                  className="view-all-button"
+                  onClick={() => navigate(`/${type}`)}
+                >
+                  View All {capitalizeFirstLetter(type)}
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
 
-<script src="assets/js/vendor/jquery-migrate-1.4.1.min.js"></script>
-
-
-<script src="assets/js/vendor/bootstrap.min.js"></script>
-
-<script src="assets/js/plugins.js"></script>
-
-
-<script src="assets/js/active.js"></script>
-
-
-  <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-        </>
-    )
+      {/* Add Checkout Button */}
+      <div className="checkout-container">
+        <button 
+          className="checkout-button"
+          onClick={() => navigate('/checkout')}
+        >
+          Go to Checkout
+        </button>
+      </div>
+    </div>
+  );
 }
-
-export default Home;
