@@ -133,15 +133,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Add Checkout Button */}
-      <div className="checkout-container">
-        <button 
-          className="checkout-button"
-          onClick={() => navigate('/checkout')}
-        >
-          Go to Checkout
-        </button>
-      </div>
+     
     </div>
   );
 }
