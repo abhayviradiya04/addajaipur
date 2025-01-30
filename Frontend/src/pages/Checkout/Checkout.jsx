@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Checkout.css'; // Add your CSS for styling
-
+import Swal from 'sweetalert2';
 const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,61 +18,90 @@ const Checkout = () => {
   const handlePayment = async () => {
     setLoading(true);
     setError(null);
-
+  
     try {
       const loadRazorpayScript = () => {
         return new Promise((resolve) => {
           const script = document.createElement('script');
           script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-          script.onload = () => {
-            resolve();
-          };
+          script.onload = () => resolve();
           document.body.appendChild(script);
         });
       };
+  
       if (!window.Razorpay) {
         await loadRazorpayScript();
       }
+  
+      // Get user from localStorage
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user || !user._id) {
+        throw new Error('User not logged in.');
+      }
+      
+      const userId = user._id; // Extract userId
+  
       // Create an order on the backend
       const response = await fetch('http://localhost:5000/api/create-order', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ products }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ products, totalAmount: calculateTotal() }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to create order');
       }
-
+  
       const orderData = await response.json();
       const { id, amount, currency } = orderData;
-
+  
       // Razorpay options
       const options = {
-        key: 'rzp_test_2K2eGnhmTiYi44', // Replace with your Razorpay key ID
-        amount: amount.toString(), // Amount is in currency subunits (e.g., paise for INR)
+        key: 'rzp_test_2K2eGnhmTiYi44',
+        amount: amount.toString(),
         currency: currency,
         name: 'E-clothing',
         description: 'Payment for your order',
-        order_id: id, // Order ID generated in the backend
-        handler: function (response) {
-          alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-          // Optionally, send payment details to your server for verification
-          navigate('/order-success'); // Redirect to a success page
+        order_id: id,
+        handler: async function (response) {
+          // Save order in the database
+          const orderResponse = await fetch('http://localhost:5000/api/user-actions/order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId, // Pass userId from localStorage
+              products,
+              totalAmount: calculateTotal(),
+              paymentId: response.razorpay_payment_id,
+            }),
+          });
+
+
+          if (!orderResponse.ok) {
+            throw new Error('Failed to save order');
+          }
+  
+          // Show success message
+          Swal.fire({
+            title: 'Payment Successful!',
+            text: `Your payment ID is: ${response.razorpay_payment_id}`,
+            icon: 'success',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            navigate('/order-success');
+          });
+  
+          // Clear cart after successful order
+          localStorage.removeItem('cart');
         },
         prefill: {
-          name: 'Customer Name', // Replace with dynamic user data if available
-          email: 'customer@example.com',
-          contact: '9999999999',
+          name: user.name || 'Clothing Website',
+          email: user.email || 'clothing@example.com',
+          contact: user.contact || '+91 5432112345',
         },
-        theme: {
-          color: '#3399cc', // Customize the theme color
-        },
+        theme: { color: '#3399cc' },
       };
-
-      // Open Razorpay checkout
+  
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (err) {

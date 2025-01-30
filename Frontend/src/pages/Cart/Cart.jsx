@@ -85,7 +85,9 @@ export default function Cart() {
       });
 
       // Update localStorage
-      const updatedCart = cartItems.filter(item => item._id !== productId);
+      const tempCart = localStorage.getItem('cart'); // Retrieve data from localStorage
+      const cart = tempCart ? JSON.parse(tempCart) : [];
+      const updatedCart = cart.filter(item => item._id !== productId);
       localStorage.setItem('cart', JSON.stringify(updatedCart));
     } catch (err) {
       alert('Error removing item from cart: ' + err.message);
@@ -107,7 +109,9 @@ export default function Cart() {
       }
 
       // Update localStorage with the new quantity
-      const updatedCart = cartItems.map(item => {
+      const tempCart = localStorage.getItem('cart'); // Retrieve data from localStorage
+      const cart = tempCart ? JSON.parse(tempCart) : [];
+      const updatedCart = cart.map(item => {
         if (item._id === productId) {
           return { ...item, quantity: newQuantity };
         }

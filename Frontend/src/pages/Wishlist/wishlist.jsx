@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaTrash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 import './Wishlist.css';
 
 export default function Wishlist() {
@@ -13,19 +14,17 @@ export default function Wishlist() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
-    // Redirect if not logged in
     if (!user) {
       navigate('/login');
       return;
     }
-
     fetchWishlistItems();
   }, [user, navigate]);
 
   const fetchWishlistItems = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/user-actions/wishlist/${user._id}`, {
-        credentials: 'include'
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -42,27 +41,43 @@ export default function Wishlist() {
   };
 
   const handleRemoveFromWishlist = async (productId) => {
+    const confirmRemove = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to remove this item from your wishlist?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, remove it!',
+    });
+
+    if (!confirmRemove.isConfirmed) return;
+
     try {
       const response = await fetch(`http://localhost:5000/api/user-actions/wishlist/remove`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user._id,
-          productId: productId
-        }),
-        credentials: 'include'
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user._id, productId }),
+        credentials: 'include',
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to remove item from wishlist');
-      }
+      if (!response.ok) throw new Error('Failed to remove item from wishlist');
 
-      // Update the wishlist items state
-      setWishlistItems(prevItems => prevItems.filter(item => item._id !== productId));
+      setWishlistItems((prevItems) => prevItems.filter((item) => item._id !== productId));
+
+      Swal.fire({
+        title: 'Removed!',
+        text: 'Item has been removed from your wishlist.',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+      });
     } catch (err) {
-      alert('Error removing item from wishlist: ' + err.message);
+      Swal.fire({
+        title: 'Error',
+        text: err.message,
+        icon: 'error',
+      });
     }
   };
 
@@ -70,37 +85,36 @@ export default function Wishlist() {
     try {
       const response = await fetch('http://localhost:5000/api/user-actions/cart', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user._id,
-          productId: productId
-        }),
-        credentials: 'include'
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user._id, productId }),
+        credentials: 'include',
       });
 
       const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to add to cart');
-      }
 
-      alert('Product added to cart successfully!');
+      if (!response.ok) throw new Error(data.message || 'Failed to add to cart');
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'Product added to cart successfully!',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
       // Optionally remove from wishlist after adding to cart
       await handleRemoveFromWishlist(productId);
     } catch (err) {
-      alert('Error adding to cart: ' + err.message);
+      Swal.fire({
+        title: 'Error',
+        text: err.message,
+        icon: 'error',
+      });
     }
   };
 
-  if (loading) {
-    return <div className="wishlist-loading">Loading wishlist...</div>;
-  }
-
-  if (error) {
-    return <div className="wishlist-error">Error: {error}</div>;
-  }
+  if (loading) return <div className="wishlist-loading">Loading wishlist...</div>;
+  if (error) return <div className="wishlist-error">Error: {error}</div>;
 
   if (wishlistItems.length === 0) {
     return (
@@ -133,17 +147,10 @@ export default function Wishlist() {
                 )}
               </div>
               <div className="item-actions">
-                <button
-                  className="add-to-cart-btn"
-                  onClick={() => handleAddToCart(item._id)}
-                  disabled={item.stock === 0}
-                >
+                <button className="add-to-cart-btn" onClick={() => handleAddToCart(item._id)} disabled={item.stock === 0}>
                   <FaShoppingCart /> Move to Cart
                 </button>
-                <button
-                  className="remove-btn"
-                  onClick={() => handleRemoveFromWishlist(item._id)}
-                >
+                <button className="remove-btn" onClick={() => handleRemoveFromWishlist(item._id)}>
                   <FaTrash /> Remove
                 </button>
               </div>
@@ -153,4 +160,4 @@ export default function Wishlist() {
       </div>
     </div>
   );
-} 
+}

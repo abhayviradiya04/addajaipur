@@ -57,8 +57,9 @@ router.post('/cart', async (req, res) => {
 });
 
 // Create Order
+
 router.post('/order', async (req, res) => {
-    const { userId, products } = req.body; // products should be an array of { productId, quantity }
+    const { userId, products, paymentId } = req.body;
 
     if (!userId || !products || products.length === 0) {
         return res.status(400).json({ message: 'User ID and products are required.' });
@@ -75,19 +76,20 @@ router.post('/order', async (req, res) => {
         for (const item of products) {
             const product = await Product.findById(item.productId);
             if (product) {
-                totalAmount += product.price * item.quantity; // Assuming product has a price field
+                totalAmount += product.price * item.quantity;
             }
         }
 
-        // Create a new order
-        const order = new Order({
+        // Create and save the order
+        const newOrder = new Order({
             userId,
             products,
             totalAmount,
+            status: 'Paid',
         });
 
-        await order.save();
-        res.status(201).json({ message: 'Order created successfully!', order });
+        await newOrder.save();
+        res.status(201).json({ message: 'Order created successfully!', orderId: newOrder._id });
     } catch (error) {
         res.status(500).json({ message: 'Error creating order.', error: error.message });
     }

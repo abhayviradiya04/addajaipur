@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaHeart, FaShoppingCart, FaTimes, FaShippingFast, FaBox, FaUndo } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 import './ProductDetails.css';
 
 export default function ProductDetails() {
@@ -14,7 +15,7 @@ export default function ProductDetails() {
 
   // Get user from localStorage
   const user = JSON.parse(localStorage.getItem('user'));
-  const isLoggedIn = !!user; // Convert to boolean
+  const isLoggedIn = !!user;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -35,7 +36,7 @@ export default function ProductDetails() {
     fetchProduct();
   }, [id]);
 
-  const checkLoginAndProceed = (action) => {
+  const checkLoginAndProceed = () => {
     if (!isLoggedIn) {
       setShowLoginModal(true);
       return false;
@@ -44,58 +45,68 @@ export default function ProductDetails() {
   };
 
   const handleAddToCart = async () => {
-    if (!checkLoginAndProceed('cart')) return;
+    if (!checkLoginAndProceed()) return;
 
     try {
       const response = await fetch('http://localhost:5000/api/user-actions/cart', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user._id, // Use logged in user's ID
-          productId: id
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user._id, productId: id }),
         credentials: 'include',
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Failed to add to cart');
       }
-      
-      alert('Product added to cart successfully!');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Added to Cart!',
+        text: 'Product successfully added to your cart.',
+        showConfirmButton: false,
+        timer: 1500
+      });
     } catch (err) {
-      alert('Error adding to cart: ' + err.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.message,
+      });
     }
   };
 
   const handleAddToWishlist = async () => {
-    if (!checkLoginAndProceed('wishlist')) return;
+    if (!checkLoginAndProceed()) return;
 
     try {
       const response = await fetch('http://localhost:5000/api/user-actions/wishlist', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user._id, // Use logged in user's ID
-          productId: id
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user._id, productId: id }),
         credentials: 'include',
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Failed to add to wishlist');
       }
-      
-      alert('Product added to wishlist successfully!');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Added to Wishlist!',
+        text: 'Product successfully added to your wishlist.',
+        showConfirmButton: false,
+        timer: 1500
+      });
     } catch (err) {
-      alert('Error adding to wishlist: ' + err.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.message,
+      });
     }
   };
 
@@ -108,16 +119,10 @@ export default function ProductDetails() {
         <h2>Please Login</h2>
         <p>You need to be logged in to perform this action.</p>
         <div className="modal-buttons">
-          <button 
-            className="login-button"
-            onClick={() => navigate('/login')}
-          >
+          <button className="login-button" onClick={() => navigate('/login')}>
             Login
           </button>
-          <button 
-            className="register-button"
-            onClick={() => navigate('/register')}
-          >
+          <button className="register-button" onClick={() => navigate('/register')}>
             Register
           </button>
         </div>
@@ -143,15 +148,8 @@ export default function ProductDetails() {
           </div>
           <div className="image-thumbnails">
             {product.image.map((img, index) => (
-              <div 
-                key={index} 
-                className={`thumbnail-wrapper ${currentImage === index ? 'active' : ''}`}
-              >
-                <img
-                  src={img}
-                  alt={`${product.name} view ${index + 1}`}
-                  onClick={() => setCurrentImage(index)}
-                />
+              <div key={index} className={`thumbnail-wrapper ${currentImage === index ? 'active' : ''}`}>
+                <img src={img} alt={`${product.name} view ${index + 1}`} onClick={() => setCurrentImage(index)} />
               </div>
             ))}
           </div>
@@ -191,18 +189,11 @@ export default function ProductDetails() {
           </div>
 
           <div className="action-buttons">
-            <button 
-              className="add-to-cart"
-              onClick={handleAddToCart}
-              disabled={product.stock === 0}
-            >
-              <FaShoppingCart /> 
+            <button className="add-to-cart" onClick={handleAddToCart} disabled={product.stock === 0}>
+              <FaShoppingCart />
               <span>Add to Cart</span>
             </button>
-            <button 
-              className="add-to-wishlist"
-              onClick={handleAddToWishlist}
-            >
+            <button className="add-to-wishlist" onClick={handleAddToWishlist}>
               <FaHeart />
               <span>Add to Wishlist</span>
             </button>
@@ -212,38 +203,15 @@ export default function ProductDetails() {
             <div className="details-section">
               <h3>Product Details</h3>
               <div className="details-grid">
-                <div className="detail-item">
-                  <span className="label">Material</span>
-                  <span className="value">{product.material}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="label">Pattern</span>
-                  <span className="value">{product.pattern}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="label">Type</span>
-                  <span className="value">{product.type}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="label">Length</span>
-                  <span className="value">{product.lengthType}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="label">Neck</span>
-                  <span className="value">{product.neck}</span>
-                </div>
+                <div className="detail-item"><span className="label">Material</span><span className="value">{product.material}</span></div>
+                <div className="detail-item"><span className="label">Pattern</span><span className="value">{product.pattern}</span></div>
+                <div className="detail-item"><span className="label">Type</span><span className="value">{product.type}</span></div>
+                <div className="detail-item"><span className="label">Length</span><span className="value">{product.lengthType}</span></div>
+                <div className="detail-item"><span className="label">Neck</span><span className="value">{product.neck}</span></div>
               </div>
             </div>
-
-            <div className="description">
-              <h3>Description</h3>
-              <p>{product.description}</p>
-            </div>
-
-            <div className="fabric-care">
-              <h3>Fabric Care</h3>
-              <p>{product.fabricCare}</p>
-            </div>
+            <div className="description"><h3>Description</h3><p>{product.description}</p></div>
+            <div className="fabric-care"><h3>Fabric Care</h3><p>{product.fabricCare}</p></div>
           </div>
         </div>
       </div>
@@ -251,4 +219,4 @@ export default function ProductDetails() {
       {showLoginModal && <LoginModal />}
     </div>
   );
-} 
+}
