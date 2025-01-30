@@ -21,7 +21,9 @@ export default function Header() {
         </div>
 
         {/* Dropdown pages in the center */}
+       
         <div className="nav-links">
+        <Link to="/">Home</Link>
           {Object.entries(categories).map(([category, subcategories]) => (
             <div
               className="dropdown"
