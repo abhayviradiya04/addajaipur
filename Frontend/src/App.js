@@ -8,6 +8,8 @@ import Wishlist from './pages/Wishlist/wishlist';
 import Cart from './pages/Cart/Cart';
 import ProductType from './pages/ProductType/ProductType';
 import Checkout from './pages/Checkout/Checkout';
+import AboutUs from './pages/AboutUs/AboutUs';
+import ContactUs from './pages/ContactUs/ContactUs';
 import './App.css';
 
 function App() {
@@ -22,8 +24,8 @@ function App() {
           <Route path="/tops" element={<div>Tops Page</div>} />
           <Route path="/bottoms" element={<div>Bottoms Page</div>} />
           <Route path="/gowns" element={<div>Gowns Page</div>} />
-          <Route path="/about" element={<div>About Us Page</div>} />
-          <Route path="/contact" element={<div>Contact Us Page</div>} />
+          <Route path="/about" element={<AboutUs/>} />
+          <Route path="/contact" element={<ContactUs/>} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<div>Profile Page</div>} />

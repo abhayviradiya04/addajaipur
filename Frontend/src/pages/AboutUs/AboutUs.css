@@ -1,0 +1,343 @@
+/* Base Styles */
+.about-container {
+    --primary-color: #2a2a2a;
+    --accent-color: #e8b4bc;
+    --text-dark: #333;
+    --text-light: #fff;
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    height: 80vh;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding-top: 15vh;
+    text-align: center;
+    color: var(--text-light);
+  }
+  
+  .hero-title {
+    font-size: 4rem;
+    letter-spacing: -2px;
+    margin-bottom: 1rem;
+    animation: fadeInUp 1s ease;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    animation: fadeInUp 1s 0.2s ease backwards;
+  }
+  
+  .hero-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #2a2a2a 0%, #4a4a4a 100%);
+    z-index: 1;
+  }
+  
+  /* Story Section */
+  .story-section {
+    padding: 8rem 2rem;
+    background: #fff;
+  }
+  
+  .story-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+  
+  .story-image {
+    position: relative;
+    margin-right:50px;
+  }
+  
+  .image-frame {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background: url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da') center/cover;
+    transform: rotate(-5deg);
+    box-shadow: 20px 20px 60px rgba(0,0,0,0.1);
+  }
+  
+  .story-content {
+    padding: 2rem;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  
+  .section-title::after {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-color);
+  }
+  
+  .story-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+  }
+  
+  .stats-container {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .stat-card {
+    padding: 2rem;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: var(--transition);
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* Values Section */
+  .values-section {
+    padding: 6rem 2rem;
+    background: #f9f9f9;
+  }
+  
+  .values-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+  
+  .value-card {
+    padding: 3rem;
+    background: #fff;
+    border-radius: 20px;
+    text-align: center;
+    transition: var(--transition);
+  }
+  
+  .value-card:hover {
+    box-shadow: 0 15px 45px rgba(0,0,0,0.1);
+  }
+  
+  .value-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 2rem;
+  }
+  
+  .spin-icon {
+    animation: spin 8s linear infinite;
+  }
+  
+  .pulse-icon {
+    animation: pulse 2s ease infinite;
+  }
+  
+  .float-icon {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  /* Team Section */
+  .team-section {
+    padding: 8rem 2rem;
+  }
+  
+  .team-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+  
+  .team-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+  
+  .member-image {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+  }
+  
+  .member-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+  }
+  
+  .team-card:hover img {
+    transform: scale(1.05);
+  }
+  
+  .social-overlay {
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    transition: var(--transition);
+  }
+  
+  .team-card:hover .social-overlay {
+    bottom: 0;
+  }
+  
+  .social-icon {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: var(--transition);
+  }
+  
+  .social-icon:hover {
+    color: var(--accent-color);
+  }
+  
+  /* CTA Section */
+  .cta-section {
+    padding: 6rem 2rem;
+    background: var(--primary-color);
+    color: var(--text-light);
+  }
+  
+  .cta-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .cta-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .cta-text {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+  
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .cta-btn {
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+  
+  .cta-btn.primary {
+    background: var(--accent-color);
+    color: #fff;
+  }
+  
+  .cta-btn.secondary {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+  }
+  
+  .cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .story-grid,
+    .values-grid,
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .stats-container {
+      flex-direction: column;
+    }
+  }
