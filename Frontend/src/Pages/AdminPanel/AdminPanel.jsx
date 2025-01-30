@@ -16,7 +16,7 @@ const AdminPanel = () => {
         const fetchUsers = async () => {
             try {
                 const response = await fetch('http://localhost:5000/api/users'); // Adjust the API endpoint as necessary
-                console.log(response.data)
+
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -45,8 +45,25 @@ const AdminPanel = () => {
         fetchProducts();
     }, []);
 
-    const addProduct = (product) => {
-        setProducts([...products, product]);
+    const addProduct = async (product) => {
+        try {
+            const response = await fetch('http://localhost:5000/api/products/addproduct', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(product),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add product');
+            }
+
+            const newProduct = await response.json();
+            setProducts([...products, newProduct]);
+        } catch (error) {
+            console.error('Error adding product:', error);
+        }
     };
 
     const updateProduct = (updatedProduct) => {
@@ -92,12 +109,6 @@ const AdminPanel = () => {
             <div className="content">
                 {activeTab === 'products' ? (
                     <>
-                        <ProductForm 
-                            addProduct={addProduct} 
-                            editingProduct={editingProduct} 
-                            setEditingProduct={setEditingProduct} 
-                            updateProduct={updateProduct} 
-                        />
                         <ProductList 
                             products={products} 
                             updateProduct={updateProduct} 

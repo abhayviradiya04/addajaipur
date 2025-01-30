@@ -1,278 +1,70 @@
-import {Link  } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaHeart, FaShoppingCart, FaUser, FaAngleDown } from 'react-icons/fa';
+import './Header.css';
 
+export default function Header() {
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
-function Header() {
+  const categories = {
+    shirt: ['classicsottonshirt'],
+    Dress: ['FloralSummerDress'],
+    Pants: ['slimfitdenimjeans', 'casualchinopants']
+  };
+
   return (
-    <>
-    
-
-<header id="header-area" class="header__3">
-    <div class="ruby-container">
-        <div class="row">
-            
-            <div class="col-3 col-lg-1 col-xl-2 m-auto">
-                <a  class="logo-area">
-                    <img src="assets/img/logo.jpg" alt="Logo" class="img-fluid"/>
-                </a>
-            </div>
-            <div class="col-3 col-lg-9 col-xl-8 m-auto">
-                <div class="main-menu-wrap">
-                    <nav id="mainmenu">
-                        <ul>
-                            
-                            <li>
-                            <Link to='/home'>Home</Link>
-                            </li>
-                        
-                           
-                            <li class="dropdown-show"><a href="#">Kurtas</a>
-                                <ul class="dropdown-nav">
-                                    <li><Link to='/shop'>A-Line Kurtas </Link></li>
-                                    <li><Link to='/shop'>Embroiderykurta</Link></li>
-                                    <li><Link to='/shop'>Straight kurta</Link></li>
-                                   
-                                </ul>
-                            </li>
-                            <li class="dropdown-show"><a href="#">Kurtas Sets</a>
-                                <ul class="dropdown-nav">
-                                    <li><Link to='/shop'>Festive Suit Sets </Link></li>
-                                    <li><Link to='/shop'>Kurta Pant</Link></li>
-                                    <li><Link to='/shop'>Kurta Pant and Dupatta</Link></li>
-                                   
-                                </ul>
-                            </li>
-                            <li class="dropdown-show"><a href="#">Gowns</a>
-                                <ul class="dropdown-nav">
-                                    <li><Link to='/shop'>Ankle Gown</Link></li>
-                                    <li><Link to='/shop'>Festive Mal Gown</Link></li>
-                                    <li><Link to='/shop'>Gown With Dupatta</Link></li>
-                                   
-                                </ul>
-                            </li>
-                            <li class="dropdown-show"><a href="#">Bottoms</a>
-                                <ul class="dropdown-nav">
-                                    <li><Link to='/shop'>Pants</Link></li>
-                                    <li><Link to='/shop'>Plazzo</Link></li>
-                                    <li><Link to='/shop'>Skirt</Link></li>
-                                   
-                                </ul>
-                            </li>
-                            <li class="dropdown-show"><a href="#">Tops</a>
-                                <ul class="dropdown-nav">
-                                    <li><Link to='/shop'>Co-Ords</Link></li>
-                                    <li><Link to='/shop'>Shirt</Link></li>
-                                    <li><Link to='/shop'>Short Top</Link></li>
-                                    <li><Link to='/shop'>Tunics</Link></li>
-                                   
-                                </ul>
-                            </li>
-                             {/* <li class="dropdown-show"><a href="#">Men</a>
-                                <ul class="mega-menu-wrap dropdown-nav">
-                                    <li class="mega-menu-item"><a href="shop-left-full-wide.html"
-                                                                  class="mega-item-title">Shirt</a>
-                                        <ul>
-                                            <li><a href="shop.html">Tops & Tees</a></li>
-                                            <li><a href="shop.html">Polo Short Sleeve</a></li>
-                                            <li><a href="shop.html">Graphic T-Shirts</a></li>
-                                            <li><a href="shop.html">Jackets & Coats</a></li>
-                                            <li><a href="shop.html">Fashion Jackets</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="mega-menu-item"><a href="shop-left-full-wide.html"
-                                                                  class="mega-item-title">Jeans</a>
-                                        <ul>
-                                            <li><a href="shop.html">Crochet</a></li>
-                                            <li><a href="shop.html">Sleeveless</a></li>
-                                            <li><a href="shop.html">Stripes</a></li>
-                                            <li><a href="shop.html">Sweaters</a></li>
-                                            <li><a href="shop.html">Hoodies</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="mega-menu-item"><a href="shop-left-full-wide.html"
-                                                                  class="mega-item-title">Shoes</a>
-                                        <ul>
-                                            <li><a href="shop.html">Tops & Tees</a></li>
-                                            <li><a href="shop.html">Polo Short Sleeve</a></li>
-                                            <li><a href="shop.html">Graphic T-Shirts</a></li>
-                                            <li><a href="shop.html">Jackets & Coats</a></li>
-                                            <li><a href="shop.html">Fashion Jackets</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="mega-menu-item"><a href="shop-left-full-wide.html"
-                                                                  class="mega-item-title">Watches</a>
-                                        <ul>
-                                            <li><a href="shop.html">Crochet</a></li>
-                                            <li><a href="shop.html">Sleeveless</a></li>
-                                            <li><a href="shop.html">Stripes</a></li>
-                                            <li><a href="shop.html">Sweaters</a></li>
-                                            <li><a href="shop.html">Hoodies</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-show"><a href="shop-left-full-wide.html">Women</a>
-                                <ul class="mega-menu-wrap dropdown-nav">
-                                    <li class="mega-menu-item"><a href="shop-left-full-wide.html"
-                                                                  class="mega-item-title">Kamiz</a>
-                                        <ul>
-                                            <li><a href="shop.html">Tops & Tees</a></li>
-                                            <li><a href="shop.html">Polo Short Sleeve</a></li>
-                                            <li><a href="shop.html">Graphic T-Shirts</a></li>
-                                            <li><a href="shop.html">Jackets & Coats</a></li>
-                                            <li><a href="shop.html">Fashion Jackets</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="mega-menu-item"><a href="shop-left-full-wide.html"
-                                                                  class="mega-item-title">Life Style</a>
-                                        <ul>
-                                            <li><a href="shop.html">Crochet</a></li>
-                                            <li><a href="shop.html">Sleeveless</a></li>
-                                            <li><a href="shop.html">Stripes</a></li>
-                                            <li><a href="shop.html">Sweaters</a></li>
-                                            <li><a href="shop.html">Hoodies</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="mega-menu-item"><a href="shop-left-full-wide.html"
-                                                                  class="mega-item-title">Shoes</a>
-                                        <ul>
-                                            <li><a href="shop.html">Tops & Tees</a></li>
-                                            <li><a href="shop.html">Polo Short Sleeve</a></li>
-                                            <li><a href="shop.html">Graphic T-Shirts</a></li>
-                                            <li><a href="shop.html">Jackets & Coats</a></li>
-                                            <li><a href="shop.html">Fashion Jackets</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li> */}
-                            <li>
-                                <Link to='/aboutus'>About Us</Link>
-                            </li>
-                            <li><Link to='/contact'>Contact Us</Link></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-           
-            <div class="col-6 col-lg-2 m-auto">
-                <div class="header-right-meta text-right">
-                    <ul>
-                        <li><a href="#" class="modal-active"><i class="fa fa-search"></i></a></li>
-                        <li class="settings"><a href="#"><i class="fa fa-cog"></i></a>
-                            <div class="site-settings d-block d-sm-flex">
-                                <dl class="currency">
-                                    <dt>Currency</dt>
-                                    <dd class="current"><a href="#">USD</a></dd>
-                                    <dd><a href="#">AUD</a></dd>
-                                    <dd><a href="#">CAD</a></dd>
-                                    <dd><a href="#">BDT</a></dd>
-                                </dl>
-
-                                <dl class="my-account">
-                                    <dt>My Account</dt>
-                                    <dd><a href="#">Dashboard</a></dd>
-                                    <dd><a href="#">Profile</a></dd>
-                                    <dd><a href="#">Sign</a></dd>
-                                </dl>
-
-                                <dl class="language">
-                                    <dt>Language</dt>
-                                    <dd class="current"><a href="#">English (US)</a></dd>
-                                    <dd><a href="#">English (UK)</a></dd>
-                                    <dd><a href="#">Chinees</a></dd>
-                                    <dd><a href="#">Bengali</a></dd>
-                                    <dd><a href="#">Hindi</a></dd>
-                                    <dd><a href="#">Japanees</a></dd>
-                                </dl>
-                            </div>
-                        </li>
-                        <li class="shop-cart"><a href="#"><i class="fa fa-shopping-bag"></i> <span
-                                class="count">3</span></a>
-                            <div class="mini-cart">
-                                <div class="mini-cart-body">
-                                    <div class="single-cart-item d-flex">
-                                        <figure class="product-thumb">
-                                            <a href="#"><img class="img-fluid" src="assets/img/product-1.jpg"
-                                                             alt="Products"/></a>
-                                        </figure>
-
-                                        <div class="product-details">
-                                            <h2><a href="#">Sprite Yoga Companion</a></h2>
-                                            <div class="cal d-flex align-items-center">
-                                                <span class="quantity">3</span>
-                                                <span class="multiplication">X</span>
-                                                <span class="price">$77.00</span>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="remove-icon"><i class="fa fa-trash-o"></i></a>
-                                    </div>
-                                    <div class="single-cart-item d-flex">
-                                        <figure class="product-thumb">
-                                            <a href="#"><img class="img-fluid" src="assets/img/product-2.jpg"
-                                                             alt="Products"/></a>
-                                        </figure>
-                                        <div class="product-details">
-                                            <h2><a href="#">Yoga Companion Kit</a></h2>
-                                            <div class="cal d-flex align-items-center">
-                                                <span class="quantity">2</span>
-                                                <span class="multiplication">X</span>
-                                                <span class="price">$6.00</span>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="remove-icon"><i class="fa fa-trash-o"></i></a>
-                                    </div>
-                                    <div class="single-cart-item d-flex">
-                                        <figure class="product-thumb">
-                                            <a href="#"><img class="img-fluid" src="assets/img/product-3.jpg"
-                                                             alt="Products"/></a>
-                                        </figure>
-                                        <div class="product-details">
-                                            <h2><a href="#">Sprite Yoga Companion Kit</a></h2>
-                                            <div class="cal d-flex align-items-center">
-                                                <span class="quantity">1</span>
-                                                <span class="multiplication">X</span>
-                                                <span class="price">$116.00</span>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="remove-icon"><i class="fa fa-trash-o"></i></a>
-                                    </div>
-                                </div>
-                                <div class="mini-cart-footer">
-                                    <Link to='checkout' class="btn-add-to-cart">Checkout</Link>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
+    <header className="header">
+      <nav className="nav-container">
+        {/* Logo on the left */}
+        <div className="logo flex items-center h-16">
+          <Link to="/"><img src='../../asset/images/logo.webp' alt="Logo" /></Link>
         </div>
-    </div>
-</header>
 
-
-
-<div class="body-popup-modal-area">
-    <span class="modal-close"><img src="assets/img/cancel.png" alt="Close" class="img-fluid"/></span>
-    <div class="modal-container d-flex">
-        <div class="search-box-area">
-            <div class="search-box-form">
-                <form action="#" method="post">
-                    <input type="search" placeholder="type keyword and hit enter"/>
-                    <button class="btn" type="button"><i class="fa fa-search"></i></button>
-                </form>
+        {/* Dropdown pages in the center */}
+        <div className="nav-links">
+          {Object.entries(categories).map(([category, subcategories]) => (
+            <div
+              className="dropdown"
+              key={category}
+              onMouseEnter={() => setActiveDropdown(category)}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <Link to={`/${category}`} className="dropdown-trigger">
+                {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                <FaAngleDown />
+              </Link>
+              {activeDropdown === category && (
+                <div className="dropdown-content">
+                  {subcategories.map((subcat) => (
+                    <Link
+                      key={subcat}
+                      to={`/${subcat.toLowerCase()}`}
+                    >
+                      {subcat.charAt(0).toUpperCase() + subcat.slice(1)}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
+          ))}
+
+          <Link to="/about">About Us</Link>
+          <Link to="/contact">Contact Us</Link>
         </div>
-    </div>
-</div>
 
-
-
-    </>
+        {/* Icons on the right */}
+        <div className="nav-icons">
+          <Link to="/wishlist" className="icon">
+            <FaHeart />
+          </Link>
+          <Link to="/cart" className="icon">
+            <FaShoppingCart />
+          </Link>
+          <Link to="/profile" className="icon">
+            <FaUser />
+          </Link>
+        </div>
+      </nav>
+    </header>
   );
 }
-export default Header;
