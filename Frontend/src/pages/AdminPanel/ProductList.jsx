@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import './ProductList.css'; // Ensure you have appropriate styles in this CSS file
 import ProductForm from './ProductForm'; // Import the ProductForm component
 
@@ -22,20 +23,32 @@ const ProductList = () => {
     }, []);
 
     const deleteProduct = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:5000/api/products/deleteproduct/${id}`, {
-                method: 'DELETE',
-            });
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+        });
 
-            if (!response.ok) {
-                throw new Error('Failed to delete product');
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/products/deleteproduct/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete product');
+                }
+
+                // Remove the deleted product from the state
+                setProducts(products.filter(product => product._id !== id));
+                Swal.fire('Deleted!', 'Your product has been deleted.', 'success');
+            } catch (error) {
+                console.error('Error deleting product:', error);
             }
-
-            // Remove the deleted product from the state
-            setProducts(products.filter(product => product._id !== id));
-            console.log('Product deleted successfully');
-        } catch (error) {
-            console.error('Error deleting product:', error);
         }
     };
 
@@ -56,7 +69,7 @@ const ProductList = () => {
             const newProduct = await response.json(); // Assuming the response returns the updated product
             setProducts(products.map(product => (product._id === newProduct._id ? newProduct : product))); // Update the product in the state
             setEditingProduct(null); // Clear the editing state
-            console.log('Product updated successfully');
+            Swal.fire('Updated!', 'Your product has been updated.', 'success'); // Show success message
         } catch (error) {
             console.error('Error updating product:', error);
         }
@@ -64,34 +77,33 @@ const ProductList = () => {
 
     return (
         <div className="product-list">
-        <h2>Product List</h2>
-        <ProductForm 
-            editingProduct={editingProduct} 
-            setEditingProduct={setEditingProduct} 
-            updateProduct={updateProduct} 
-        />
-        <div className="product-grid">
-            {products.map(product => (
-                <div key={product._id} className="product-card">
-                    <img 
-                        src={product.image[0]} 
-                        alt={product.name} 
-                        className="product-image" 
-                    />
-                    <div className="product-details">
-                        <h3>{product.name}</h3>
-                        <p><strong>Style Code:</strong> {product.stylecode}</p>
-                        <p><strong>Price:</strong> ₹{product.price}</p>
-                        <div className="product-actions">
-                            <button onClick={() => setEditingProduct(product)}>✏️ Edit</button>
-                            <button onClick={() => deleteProduct(product._id)}>🗑️ Delete</button>
+            <h2>Product List</h2>
+            <ProductForm 
+                editingProduct={editingProduct} 
+                setEditingProduct={setEditingProduct} 
+                updateProduct={updateProduct} // Pass the updateProduct function to the form
+            />
+            <div className="product-grid">
+                {products.map(product => (
+                    <div key={product._id} className="product-card">
+                        <img 
+                            src={product.image[0]} 
+                            alt={product.name} 
+                            className="product-image" 
+                        />
+                        <div className="product-details">
+                            <h3>{product.name}</h3>
+                            <p>Style Code: {product.stylecode}</p>
+                            <p>Price: ₹{product.price}</p>
+                            <div className="product-actions">
+                                <button onClick={() => setEditingProduct(product)}>Edit</button>
+                                <button onClick={() => deleteProduct(product._id)}>Delete</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
-    </div>
-    
     );
 };
 

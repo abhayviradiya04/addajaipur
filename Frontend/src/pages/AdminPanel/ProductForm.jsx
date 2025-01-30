@@ -1,5 +1,6 @@
 // src/components/ProductForm.jsx
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const ProductForm = ({ editingProduct, setEditingProduct, updateProduct }) => {
     const [product, setProduct] = useState({
@@ -111,7 +112,7 @@ const ProductForm = ({ editingProduct, setEditingProduct, updateProduct }) => {
         } else {
             const newProduct = await addProduct(product); // Call addProduct to add the product
             if (newProduct) {
-                console.log('Product added successfully:', newProduct);
+                Swal.fire('Added!', 'Your product has been added.', 'success'); // Show success message
             }
         }
         setEditingProduct(null); // Clear the editing state after submission
