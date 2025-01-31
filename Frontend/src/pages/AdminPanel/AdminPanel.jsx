@@ -2,20 +2,37 @@ import React, { useState, useEffect } from 'react';
 import ProductForm from './ProductForm';
 import ProductList from './ProductList';
 import UserList from './UserList';
-
+import Swal from 'sweetalert2';
+import Login from '../Login/Login'
 import './adminpanel.css';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const AdminPanel = () => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('products');
     const [products, setProducts] = useState([]);
     const [users, setUsers] = useState([]);
     const [editingProduct, setEditingProduct] = useState(null);
 
     useEffect(() => {
+        
+        const user = localStorage.getItem('user');
+        console.log(JSON.parse(user).admin)
+        if(JSON.parse(user).admin === 0){
+            Swal.fire({
+                icon: 'error',
+                title: 'Unauthorized',
+                text: 'You are not authorized to access this panel.',
+                confirmButtonText: 'OK',
+            }).then(() => {
+                navigate('/login'); // Navigate to login after pressing OK
+            });
+            return;
+        }
         // Fetch users from the backend
         const fetchUsers = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/users'); // Adjust the API endpoint as necessary
+                const response = await fetch('https://addajaipur.onrender.com/api/users'); // Adjust the API endpoint as necessary
 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -30,7 +47,7 @@ const AdminPanel = () => {
         // Fetch products from the backend
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/products'); // Adjust the API endpoint as necessary
+                const response = await fetch('https://addajaipur.onrender.com/api/products'); // Adjust the API endpoint as necessary
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -47,7 +64,7 @@ const AdminPanel = () => {
 
     const addProduct = async (product) => {
         try {
-            const response = await fetch('http://localhost:5000/api/products/addproduct', {
+            const response = await fetch('https://addajaipur.onrender.com/api/products/addproduct', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +90,7 @@ const AdminPanel = () => {
 
     const deleteProduct = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/products/deleteProduct/${id}`, {
+            const response = await fetch(`https://addajaipur.onrender.com/api/products/deleteProduct/${id}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {
@@ -87,7 +104,7 @@ const AdminPanel = () => {
 
     const deleteUser = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/users/deleteUser/${id}`, {
+            const response = await fetch(`https://addajaipur.onrender.com/api/users/deleteUser/${id}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {

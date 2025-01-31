@@ -12,7 +12,7 @@ export default function ProductType() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/products/type/${type}`);
+        const response = await fetch(`https://addajaipur.onrender.com/api/products/type/${type}`);
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }

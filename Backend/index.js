@@ -31,7 +31,7 @@ app.post('/api/create-order', async (req, res) => {
     const { products } = req.body;
   
     // Calculate total amount
-    const amount = products.reduce((total, product) => total + product.price, 0) * 100; // Convert to paise
+    const amount = products.reduce((total, product) => total + (product.price * product.quantity), 0) * 100; // Convert to paise
     const currency = 'INR'; // Change to your currency if needed
   
     const options = {

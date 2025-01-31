@@ -97,6 +97,7 @@ router.post('/login', async (req, res) => {
         const userData = {
             _id: user._id,
             name: user.name,
+            admin:user.admin,
             email: user.email,
             wishlistItems: user.wishlistItems,
             cartItems: user.cartItems,

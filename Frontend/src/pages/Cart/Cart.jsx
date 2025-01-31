@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 import './Cart.css';
@@ -25,7 +26,7 @@ export default function Cart() {
 
   const fetchCartItems = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/user-actions/cart/${user._id}`, {
+      const response = await fetch(`https://addajaipur.onrender.com/api/user-actions/cart/${user._id}`, {
         credentials: 'include'
       });
 
@@ -59,7 +60,7 @@ export default function Cart() {
 
   const handleRemoveFromCart = async (productId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/user-actions/cart/remove`, {
+      const response = await fetch(`https://addajaipur.onrender.com/api/user-actions/cart/remove`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -70,11 +71,11 @@ export default function Cart() {
         }),
         credentials: 'include'
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to remove item from cart');
       }
-
+  
       // Update the cart items state
       setCartItems(prevItems => prevItems.filter(item => item._id !== productId));
       // Remove quantity state for this item
@@ -83,14 +84,29 @@ export default function Cart() {
         delete newQuantities[productId];
         return newQuantities;
       });
-
+  
       // Update localStorage
       const tempCart = localStorage.getItem('cart'); // Retrieve data from localStorage
       const cart = tempCart ? JSON.parse(tempCart) : [];
       const updatedCart = cart.filter(item => item._id !== productId);
       localStorage.setItem('cart', JSON.stringify(updatedCart));
+  
+      // Show SweetAlert notification
+      Swal.fire({
+        icon: 'success',
+        title: 'Item Removed',
+        text: 'The item has been removed from your cart.',
+        confirmButtonText: 'OK',
+        timer: 2000, // Auto close after 2 seconds
+        timerProgressBar: true,
+      });
     } catch (err) {
-      alert('Error removing item from cart: ' + err.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error removing item from cart: ' + err.message,
+        confirmButtonText: 'OK',
+      });
     }
   };
 

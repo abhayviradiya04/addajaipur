@@ -42,7 +42,7 @@ const Checkout = () => {
       const userId = user._id; // Extract userId
   
       // Create an order on the backend
-      const response = await fetch('http://localhost:5000/api/create-order', {
+      const response = await fetch('https://addajaipur.onrender.com/api/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ products, totalAmount: calculateTotal() }),
@@ -65,7 +65,7 @@ const Checkout = () => {
         order_id: id,
         handler: async function (response) {
           // Save order in the database
-          const orderResponse = await fetch('http://localhost:5000/api/user-actions/order', {
+          const orderResponse = await fetch('https://addajaipur.onrender.com/api/user-actions/order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -113,6 +113,7 @@ const Checkout = () => {
 
   // Calculate total amount
   const calculateTotal = () => {
+    console.log(products)
     return products.reduce((total, product) => total + (product.price * product.quantity
     ), 0);
   };
@@ -130,7 +131,7 @@ const Checkout = () => {
           ) : (
             products.map((product) => (
               <div key={product.id} className="checkout-item">
-                <img src={product.image} alt={product.name} className="item-image" />
+                <img src={product.image[0]} alt={product.name} className="checkout-item-image" />
                 <div className="item-details">
                   <h3>{product.name}</h3>
                   <p>Price: ₹{product.price}</p>

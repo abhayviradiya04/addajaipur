@@ -20,7 +20,7 @@ export default function ProductDetails() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/products/${id}`);
+        const response = await fetch(`https://addajaipur.onrender.com/api/products/${id}`);
         if (!response.ok) {
           throw new Error('Product not found');
         }
@@ -48,7 +48,7 @@ export default function ProductDetails() {
     if (!checkLoginAndProceed()) return;
 
     try {
-      const response = await fetch('http://localhost:5000/api/user-actions/cart', {
+      const response = await fetch('https://addajaipur.onrender.com/api/user-actions/cart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user._id, productId: id }),
@@ -81,7 +81,7 @@ export default function ProductDetails() {
     if (!checkLoginAndProceed()) return;
 
     try {
-      const response = await fetch('http://localhost:5000/api/user-actions/wishlist', {
+      const response = await fetch('https://addajaipur.onrender.com/api/user-actions/wishlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user._id, productId: id }),

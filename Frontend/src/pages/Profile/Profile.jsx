@@ -20,7 +20,7 @@ const Profile = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/api/users/${userData._id}`);
+        const response = await fetch(`https://addajaipur.onrender.com/api/users/${userData._id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch user data');
         }
@@ -41,7 +41,7 @@ const Profile = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/updateUser/${user._id}`, {
+      const response = await fetch(`https://addajaipur.onrender.com/api/users/updateUser/${user._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
