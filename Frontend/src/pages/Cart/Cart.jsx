@@ -161,7 +161,7 @@ export default function Cart() {
         <div className="cart-items">
           {cartItems.map((item) => (
             <div key={item._id} className="cart-item">
-              <div className="item-image" onClick={() => navigate(`/${item.type}/${item._id}`)}>
+              <div className="cart-item-image" onClick={() => navigate(`/${item.type}/${item._id}`)}>
                 <img src={item.image[0]} alt={item.name} />
               </div>
               <div className="item-details">

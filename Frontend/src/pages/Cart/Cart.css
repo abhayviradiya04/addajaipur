@@ -37,13 +37,13 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
 }
 
-.item-image {
+.cart-item-image {
   width: 150px;
-  height: 150px;
+  height: 200px;
   cursor: pointer;
 }
 
-.item-image img {
+.cart-item-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
