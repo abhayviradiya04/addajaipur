@@ -76,26 +76,26 @@ const ProductList = () => {
     };
 
     return (
-        <div className="product-list">
+        <div className="product-list-admin">
             <h2>Product List</h2>
             <ProductForm 
                 editingProduct={editingProduct} 
                 setEditingProduct={setEditingProduct} 
                 updateProduct={updateProduct} // Pass the updateProduct function to the form
             />
-            <div className="product-grid">
+            <div className="product-grid-admin">
                 {products.map(product => (
-                    <div key={product._id} className="product-card">
+                    <div key={product._id} className="product-card-admin">
                         <img 
                             src={product.image[0]} 
                             alt={product.name} 
-                            className="product-image" 
+                            className="product-image-admin" 
                         />
-                        <div className="product-details">
+                        <div className="product-details-admin">
                             <h3>{product.name}</h3>
                             <p>Style Code: {product.stylecode}</p>
                             <p>Price: ₹{product.price}</p>
-                            <div className="product-actions">
+                            <div className="product-actions-admin">
                                 <button onClick={() => setEditingProduct(product)}>Edit</button>
                                 <button onClick={() => deleteProduct(product._id)}>Delete</button>
                             </div>

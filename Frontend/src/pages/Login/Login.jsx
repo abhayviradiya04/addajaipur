@@ -90,53 +90,53 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <h2>Login</h2>
+    <div className="login-page-container">
+      <div className="login-page-card">
+        <h2 className="login-page-title">Login</h2>
         
         {errors.submit && (
-          <div className="error-message">{errors.submit}</div>
+          <div className="login-error-message">{errors.submit}</div>
         )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+        <form onSubmit={handleSubmit} className="login-page-form">
+          <div className="login-form-group">
+            <label htmlFor="email" className="login-form-label">Email</label>
             <input
               type="email"
               id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={errors.email ? 'error' : ''}
+              className={`login-form-input ${errors.email ? 'login-input-error' : ''}`}
               placeholder="Enter your email"
             />
-            {errors.email && <span className="error-text">{errors.email}</span>}
+            {errors.email && <span className="login-error-text">{errors.email}</span>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          <div className="login-form-group">
+            <label htmlFor="password" className="login-form-label">Password</label>
             <input
               type="password"
               id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={errors.password ? 'error' : ''}
+              className={`login-form-input ${errors.password ? 'login-input-error' : ''}`}
               placeholder="Enter your password"
             />
-            {errors.password && <span className="error-text">{errors.password}</span>}
+            {errors.password && <span className="login-error-text">{errors.password}</span>}
           </div>
 
           <button 
             type="submit" 
-            className="login-button"
+            className="login-submit-button"
             disabled={loading}
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
-        <div className="register-link">
+        <div className="login-register-link">
           Don't have an account? <span onClick={() => navigate('/register')}>Register</span>
         </div>
       </div>
