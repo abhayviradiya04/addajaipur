@@ -71,7 +71,6 @@ const Checkout = () => {
             body: JSON.stringify({
               userId, // Pass userId from localStorage
               products,
-              totalAmount: calculateTotal(),
               paymentId: response.razorpay_payment_id,
             }),
           });
