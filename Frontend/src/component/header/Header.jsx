@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHeart, FaShoppingCart, FaUser, FaAngleDown } from 'react-icons/fa';
+import { FaHeart, FaShoppingCart, FaUser, FaAngleDown, FaBars } from 'react-icons/fa';
 import './Header.css';
 
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const categories = {
     shirt: ['classicsottonshirt'],
     Dress: ['FloralSummerDress'],
     Pants: ['slimfitdenimjeans', 'casualchinopants']
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setActiveDropdown(null);
   };
 
   return (
@@ -20,16 +26,21 @@ export default function Header() {
           <Link to="/"><img src='../../asset/images/logo.webp' alt="Logo" /></Link>
         </div>
 
+        {/* Mobile menu button */}
+        <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+          <FaBars />
+        </button>
+
         {/* Dropdown pages in the center */}
-       
-        <div className="nav-links">
-        <Link to="/">Home</Link>
+        <div className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
+          <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
           {Object.entries(categories).map(([category, subcategories]) => (
             <div
               className="dropdown"
               key={category}
-              onMouseEnter={() => setActiveDropdown(category)}
-              onMouseLeave={() => setActiveDropdown(null)}
+              onMouseEnter={() => window.innerWidth > 768 && setActiveDropdown(category)}
+              onMouseLeave={() => window.innerWidth > 768 && setActiveDropdown(null)}
+              onClick={() => window.innerWidth <= 768 && setActiveDropdown(activeDropdown === category ? null : category)}
             >
               <Link to={`/${category}`} className="dropdown-trigger">
                 {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
@@ -41,6 +52,7 @@ export default function Header() {
                     <Link
                       key={subcat}
                       to={`/${subcat.toLowerCase()}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {subcat.charAt(0).toUpperCase() + subcat.slice(1)}
                     </Link>
@@ -50,8 +62,8 @@ export default function Header() {
             </div>
           ))}
 
-          <Link to="/about">About Us</Link>
-          <Link to="/contact">Contact Us</Link>
+          <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
+          <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
         </div>
 
         {/* Icons on the right */}

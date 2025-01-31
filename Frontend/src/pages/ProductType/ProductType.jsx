@@ -33,32 +33,37 @@ export default function ProductType() {
   };
 
   if (loading) {
-    return <div className="loading">Loading products...</div>;
+    return <div className="product-type-loading">Loading products...</div>;
   }
 
   if (error) {
-    return <div className="error">Error: {error}</div>;
+    return <div className="product-type-error">Error: {error}</div>;
   }
 
   if (products.length === 0) {
-    return <div className="no-products">No products found for {capitalizeFirstLetter(type)}</div>;
+    return <div className="product-type-empty">No products found for {capitalizeFirstLetter(type)}</div>;
   }
 
   return (
-    <div className="product-type-page">
-      <h1>{capitalizeFirstLetter(type)}</h1>
-      <div className="filters-section">
-        <p>{products.length} Products</p>
-        {/* Add filters here if needed */}
-      </div>
-      <div className="products-grid">
-        {products.map((product) => (
-          <ProductCard
-            key={product._id}
-            product={product}
-            type={type}
-          />
-        ))}
+    <div className="product-type-container">
+      <div className="product-type-wrapper">
+        <h1 className="product-type-title">{capitalizeFirstLetter(type)}</h1>
+        
+        <div className="product-type-filters">
+          <p className="product-type-count">{products.length} Products</p>
+          {/* Add filters here if needed */}
+        </div>
+        
+        <div className="product-type-grid">
+          {products.map((product) => (
+            <div className="product-type-card-wrapper" key={product._id}>
+              <ProductCard
+                product={product}
+                type={type}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

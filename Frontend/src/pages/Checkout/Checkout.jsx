@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Checkout.css'; // Add your CSS for styling
 import Swal from 'sweetalert2';
+
 const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -119,40 +120,44 @@ const Checkout = () => {
   };
 
   return (
-    <div className="checkout-container">
-      <h1>Checkout</h1>
-      {error && <div className="error-message">{error}</div>}
+    <div className="checkout-page-container">
+      <h1 className="checkout-page-title">Checkout</h1>
+      {error && <div className="checkout-error-message">{error}</div>}
 
-      <div className="checkout-content">
-        <div className="checkout-items">
-          <h2>Your Order</h2>
+      <div className="checkout-page-content">
+        <div className="checkout-items-section">
+          <h2 className="checkout-section-title">Your Order</h2>
           {products.length === 0 ? (
-            <p>Your cart is empty.</p>
+            <p className="checkout-empty-message">Your cart is empty.</p>
           ) : (
             products.map((product) => (
-              <div key={product.id} className="checkout-item">
-                <img src={product.image[0]} alt={product.name} className="checkout-item-image" />
-                <div className="item-details">
-                  <h3>{product.name}</h3>
-                  <p>Price: ₹{product.price}</p>
+              <div key={product.id} className="checkout-product-item">
+                <img 
+                  src={product.image[0]} 
+                  alt={product.name} 
+                  className="checkout-product-image" 
+                />
+                <div className="checkout-product-details">
+                  <h3 className="checkout-product-name">{product.name}</h3>
+                  <p className="checkout-product-price">Price: ₹{product.price}</p>
                 </div>
               </div>
             ))
           )}
         </div>
 
-        <div className="checkout-summary">
-          <h2>Order Summary</h2>
-          <div className="summary-details">
-            <div className="summary-row">
+        <div className="checkout-summary-section">
+          <h2 className="checkout-section-title">Order Summary</h2>
+          <div className="checkout-summary-details">
+            <div className="checkout-summary-row">
               <span>Subtotal</span>
               <span>₹{calculateTotal()}</span>
             </div>
-            <div className="summary-row">
+            <div className="checkout-summary-row">
               <span>Shipping</span>
               <span>Free</span>
             </div>
-            <div className="summary-row total">
+            <div className="checkout-summary-row checkout-total-row">
               <span>Total</span>
               <span>₹{calculateTotal()}</span>
             </div>
@@ -160,7 +165,7 @@ const Checkout = () => {
 
           <button
             onClick={handlePayment}
-            className="payment-button"
+            className="checkout-payment-button"
             disabled={loading || products.length === 0}
           >
             {loading ? 'Processing...' : 'Pay Now'}

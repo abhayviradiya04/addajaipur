@@ -1,15 +1,19 @@
-.login-container {
+*{
+  box-sizing: border-box;
+}
+
+.login-page-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: clamp(1rem, 3vw, 2rem);
   background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
 }
 
-.login-card {
+.login-page-card {
   background: linear-gradient(145deg, #ffffff, #f8f9fa);
-  padding: 2.5rem;
+  padding: clamp(2rem, 4vw, 2.5rem);
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
@@ -18,17 +22,17 @@
   backdrop-filter: blur(8px);
 }
 
-.login-card h2 {
+.login-page-title {
   text-align: center;
   margin-bottom: 2rem;
   color: #2c3e50;
-  font-size: 2rem;
+  font-size: clamp(1.8rem, 4vw, 2rem);
   font-weight: 600;
   position: relative;
   padding-bottom: 1rem;
 }
 
-.login-card h2::after {
+.login-page-title::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -40,48 +44,53 @@
   border-radius: 2px;
 }
 
-.form-group {
-  margin-bottom: 1.8rem;
+.login-page-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.6rem;
+.login-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.login-form-label {
   color: #34495e;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: clamp(0.9rem, 2vw, 0.95rem);
 }
 
-.form-group input {
+.login-form-input {
   width: 100%;
-  padding: 0.9rem;
+  padding: clamp(0.8rem, 2vw, 0.9rem);
   border: 2px solid #e0e0e0;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.9);
 }
 
-.form-group input:focus {
+.login-form-input:focus {
   outline: none;
   border-color: #3498db;
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
-.form-group input.error {
+.login-input-error {
   border-color: #e74c3c;
   background-color: rgba(231, 76, 60, 0.05);
 }
 
-.error-text {
+.login-error-text {
   color: #e74c3c;
   font-size: 0.85rem;
   margin-top: 0.5rem;
-  display: block;
   font-weight: 500;
 }
 
-.error-message {
+.login-error-message {
   background: linear-gradient(to right, #ff7675, #e74c3c);
   color: white;
   padding: 1rem;
@@ -92,42 +101,43 @@
   box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
 }
 
-.login-button {
+.login-submit-button {
   width: 100%;
-  padding: 1rem;
+  padding: clamp(0.9rem, 2vw, 1rem);
   background: linear-gradient(to right, #3498db, #2980b9);
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-top: 0.5rem;
 }
 
-.login-button:hover {
+.login-submit-button:hover {
   background: linear-gradient(to right, #2980b9, #2573a7);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
 }
 
-.login-button:disabled {
+.login-submit-button:disabled {
   background: linear-gradient(to right, #bdc3c7, #95a5a6);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
-.register-link {
+.login-register-link {
   text-align: center;
   margin-top: 1.8rem;
   color: #34495e;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
 }
 
-.register-link span {
+.login-register-link span {
   color: #3498db;
   cursor: pointer;
   font-weight: 600;
@@ -135,21 +145,55 @@
   transition: color 0.3s ease;
 }
 
-.register-link span:hover {
+.login-register-link span:hover {
   color: #2980b9;
   text-decoration: underline;
 }
 
+/* Responsive Breakpoints */
 @media (max-width: 480px) {
-  .login-card {
-    padding: 1.8rem;
+  .login-page-card {
+    padding: 1.5rem;
+    margin: 1rem;
   }
 
-  .login-card h2 {
-    font-size: 1.8rem;
-  }
-
-  .form-group {
+  .login-page-title {
+    font-size: 1.6rem;
     margin-bottom: 1.5rem;
+  }
+
+  .login-form-group {
+    gap: 0.4rem;
+  }
+
+  .login-form-input {
+    padding: 0.8rem;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+  .login-submit-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Landscape Mode */
+@media (max-height: 500px) and (orientation: landscape) {
+  .login-page-container {
+    padding: 1rem;
+  }
+
+  .login-page-card {
+    padding: 1.5rem;
+  }
+
+  .login-page-title {
+    margin-bottom: 1.2rem;
+  }
+
+  .login-form-group {
+    gap: 0.3rem;
   }
 } 
