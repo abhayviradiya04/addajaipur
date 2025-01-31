@@ -9,7 +9,7 @@ export default function ProductType() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchProducts = async () => {
       try {
         const response = await fetch(`http://localhost:5000/api/products/type/${type}`);
