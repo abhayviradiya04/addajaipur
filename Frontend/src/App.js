@@ -21,6 +21,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/kurtas" element={<div>Kurtas Page</div>} />
           <Route path="/kurta-sets" element={<div>Kurta Sets Page</div>} />
           <Route path="/tops" element={<div>Tops Page</div>} />
