@@ -12,7 +12,7 @@ const userActionsRoutes = require('./routes/userActionsRoutes'); // Import the u
 const Razorpay = require('razorpay');
 // Middleware
 app.use(cors({
-    origin: ['https://addajaipur.onrender.com'], // Your frontend URL
+    origin: ['http://localhost:3000','http://localhost:3002'], // Your frontend URL
     credentials: true, // Allow credentials
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
