@@ -12,7 +12,7 @@ const userActionsRoutes = require('./routes/userActionsRoutes'); // Import the u
 const Razorpay = require('razorpay');
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:3000','http://localhost:3002'], // Your frontend URL
+    origin: ['http://localhost:3000','http://localhost:3002','https://adaajaipur-frontend.vercel.app','https://adaajaipur-frontend-g2l24c137.vercel.app/'], // Your frontend URL
     credentials: true, // Allow credentials
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -31,7 +31,7 @@ app.post('/api/create-order', async (req, res) => {
     const { products } = req.body;
   
     // Calculate total amount
-    const amount = products.reduce((total, product) => total + product.price, 0) * 100; // Convert to paise
+    const amount = products.reduce((total, product) => total + (product.price * product.quantity), 0) * 100; // Convert to paise
     const currency = 'INR'; // Change to your currency if needed
   
     const options = {

@@ -20,37 +20,42 @@ export default function ProductCard({ product, type }) {
   };
 
   return (
-    <div className="product-card" onClick={handleClick}>
-      {/* Image Section */}
-      <div className="image-container">
+    <div className="pcard-container" onClick={handleClick}>
+      <div className="pcard-image-wrapper">
         <img
           src={product.image[0]}
           alt={product.name}
-          className="product-image"
+          className="pcard-image"
           loading="lazy"
         />
-        {/* Quick View Button */}
-        <button className="quick-add-btn" onClick={handleQuickView}>
-          <span className="quick-view-icon">🔍</span>
+        <button className="pcard-quick-view-btn" onClick={handleQuickView}>
+          <span className="pcard-quick-view-icon">🔍</span>
         </button>
+        
         {/* Status Badges */}
-        {product.stock === 0 && <div className="status-badge out-of-stock">Sold Out</div>}
-        {product.stock > 0 && product.stock <= 5 && <div className="status-badge low-stock">Almost Gone</div>}
+        {product.stock === 0 && 
+          <div className="pcard-badge pcard-sold-out">Sold Out</div>
+        }
+        {product.stock > 0 && product.stock <= 5 && 
+          <div className="pcard-badge pcard-low-stock">Almost Gone</div>
+        }
       </div>
 
-      {/* Product Details */}
-      <div className="card-details">
-        <h3 className="product-title">{product.name}</h3>
-        <div className="price-section">
-          <span className="current-price">₹{product.price.toLocaleString()}</span>
-          {product.originalPrice && <span className="original-price">₹{product.originalPrice.toLocaleString()}</span>}
+      <div className="pcard-details">
+        <h3 className="pcard-title">{product.name}</h3>
+        <div className="pcard-price-section">
+          <span className="pcard-current-price">₹{product.price.toLocaleString()}</span>
+          {product.originalPrice && 
+            <span className="pcard-original-price">₹{product.originalPrice.toLocaleString()}</span>
+          }
         </div>
-        <div className="product-meta">
-          <span className="brand">{product.brand.name}</span>
-          <div className="rating">★★★★☆ <span className="rating-count">(128)</span></div>
+        <div className="pcard-meta">
+          <span className="pcard-brand">{product.brand.name}</span>
+          <div className="pcard-rating">
+            ★★★★☆ <span className="pcard-rating-count">(128)</span>
+          </div>
         </div>
-        {/* Wishlist Button on the right */}
-        <button className="wishlist-btn" aria-label="Add to Wishlist">❤️</button>
+    
       </div>
 
       {/* Quick View Modal */}

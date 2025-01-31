@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const orderSchema = new Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the User model
     products: [{
-        productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }, // Reference to the Product model
+        _id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }, // Reference to the Product model
         quantity: { type: Number, required: true, default: 1 }, // Quantity of the product
     }],
     totalAmount: { type: Number, required: true }, // Total amount for the order

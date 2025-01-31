@@ -23,7 +23,7 @@ export default function Wishlist() {
 
   const fetchWishlistItems = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/user-actions/wishlist/${user._id}`, {
+      const response = await fetch(`https://addajaipur.onrender.com/api/user-actions/wishlist/${user._id}`, {
         credentials: 'include',
       });
 
@@ -54,7 +54,7 @@ export default function Wishlist() {
     if (!confirmRemove.isConfirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/user-actions/wishlist/remove`, {
+      const response = await fetch(`https://addajaipur.onrender.com/api/user-actions/wishlist/remove`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user._id, productId }),
@@ -83,7 +83,7 @@ export default function Wishlist() {
 
   const handleAddToCart = async (productId) => {
     try {
-      const response = await fetch('http://localhost:5000/api/user-actions/cart', {
+      const response = await fetch('https://addajaipur.onrender.com/api/user-actions/cart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user._id, productId }),
@@ -102,8 +102,16 @@ export default function Wishlist() {
         showConfirmButton: false,
       });
 
-      // Optionally remove from wishlist after adding to cart
-      await handleRemoveFromWishlist(productId);
+      const response1 = await fetch(`https://addajaipur.onrender.com/api/user-actions/wishlist/remove`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user._id, productId }),
+        credentials: 'include',
+      });
+
+      if (!response1.ok) throw new Error('Failed to remove item from wishlist');
+
+      setWishlistItems((prevItems) => prevItems.filter((item) => item._id !== productId));
     } catch (err) {
       Swal.fire({
         title: 'Error',
