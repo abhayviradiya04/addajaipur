@@ -88,6 +88,8 @@ router.post('/order', async (req, res) => {
             status: 'Paid',
         });
 
+        console.log(newOrder);
+
         await newOrder.save();
         res.status(201).json({ message: 'Order created successfully!', orderId: newOrder._id });
     } catch (error) {
