@@ -182,8 +182,17 @@
 }
 
 .empty-wishlist button {
-  padding: clamp(0.8rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
-  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  background: linear-gradient(90deg, #3498db, #2980b9);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: .5px;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  transition: all .3s ease;
 }
 
 .empty-wishlist button:hover {
