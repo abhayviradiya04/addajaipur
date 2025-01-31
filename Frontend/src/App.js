@@ -22,11 +22,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/kurtas" element={<div>Kurtas Page</div>} />
-          <Route path="/kurta-sets" element={<div>Kurta Sets Page</div>} />
-          <Route path="/tops" element={<div>Tops Page</div>} />
-          <Route path="/bottoms" element={<div>Bottoms Page</div>} />
-          <Route path="/gowns" element={<div>Gowns Page</div>} />
           <Route path="/about" element={<AboutUs/>} />
           <Route path="/contact" element={<ContactUs/>} />
           <Route path="/wishlist" element={<Wishlist />} />
