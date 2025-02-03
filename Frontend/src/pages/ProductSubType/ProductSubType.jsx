@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductCard from '../../component/product/ProductCard';
-import './ProductType.css';
 
-export default function ProductType() {
-  const { type } = useParams();
+export default function ProductSubType() {
+  const { subtype } = useParams();
+  console.log("Type from URL:", subtype);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +12,9 @@ export default function ProductType() {
   useEffect(() => { 
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`https://addajaipur.onrender.com/api/products/type/${type}`);
+        var arr = subtype.split("-").join(' ');
+        console.log("parms : ",arr)
+        const response = await fetch(`http://localhost:5000/api/products/subtype/${arr}`);
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }
@@ -26,7 +28,7 @@ export default function ProductType() {
     };
 
     fetchProducts();
-  }, [type]);
+  }, [subtype]);
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -41,13 +43,13 @@ export default function ProductType() {
   }
 
   if (products.length === 0) {
-    return <div className="product-type-empty">No products found for {type}</div>;
+    return <div className="product-type-empty">No products found for {subtype}</div>;
   }
 
   return (
     <div className="product-type-container">
       <div className="product-type-wrapper">
-        <h1 className="product-type-title">{capitalizeFirstLetter(type)}</h1>
+        <h1 className="product-type-title">{subtype.split("-").join(' ')}</h1>
         
         <div className="product-type-filters">
           <p className="product-type-count">{products.length} Products</p>
@@ -59,7 +61,7 @@ export default function ProductType() {
             <div className="product-type-card-wrapper" key={product._id}>
               <ProductCard
                 product={product}
-                type={type}
+                type={subtype}
               />
             </div>
           ))}
