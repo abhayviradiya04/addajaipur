@@ -14,7 +14,7 @@ export default function ProductSubType() {
       try {
         var arr = subtype.split("-").join(' ');
         console.log("parms : ",arr)
-        const response = await fetch(`http://localhost:5000/api/products/subtype/${arr}`);
+        const response = await fetch(`https://addajaipur.onrender.com/api/products/subtype/${arr}`);
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }

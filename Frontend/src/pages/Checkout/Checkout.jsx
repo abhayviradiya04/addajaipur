@@ -39,7 +39,7 @@ const Checkout = () => {
       if (!user || !user._id) {
         throw new Error('User not logged in.');
       }
-      
+  
       const userId = user._id; // Extract userId
   
       // Create an order on the backend
@@ -65,34 +65,54 @@ const Checkout = () => {
         description: 'Payment for your order',
         order_id: id,
         handler: async function (response) {
-          // Save order in the database
-          const orderResponse = await fetch('https://addajaipur.onrender.com/api/user-actions/order', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              userId, // Pass userId from localStorage
-              products,
-              paymentId: response.razorpay_payment_id,
-            }),
-          });
-
-
-          if (!orderResponse.ok) {
-            throw new Error('Failed to save order');
+          try {
+            // Save order in the database
+            const orderResponse = await fetch('https://addajaipur.onrender.com/api/user-actions/order', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                userId, // Pass userId from localStorage
+                products,
+                paymentId: response.razorpay_payment_id,
+              }),
+            });
+  
+            if (!orderResponse.ok) {
+              throw new Error('Failed to save order');
+            }
+  
+            // ✅ Update stock after successful payment
+            const updateStockResponse = await fetch('http://localhost:5000/api/products/update-quantity ', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                products: products.map(product => ({
+                  productId: product.id, // Ensure correct field names
+                  quantity: product.quantity
+                }))
+              }),
+            });
+  
+            if (!updateStockResponse.ok) {
+              throw new Error('Failed to update product stock');
+            }
+  
+            // Show success message
+            Swal.fire({
+              title: 'Payment Successful!',
+              text: `Your payment ID is: ${response.razorpay_payment_id}`,
+              icon: 'success',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              navigate('/home');
+            });
+  
+            // Clear cart after successful order
+            localStorage.removeItem('cart');
+          } catch (err) {
+            console.error('Error updating stock:', err);
+            setError('Failed to update product stock. Please contact support.');
           }
-  
-          // Show success message
-          Swal.fire({
-            title: 'Payment Successful!',
-            text: `Your payment ID is: ${response.razorpay_payment_id}`,
-            icon: 'success',
-            confirmButtonText: 'OK',
-          }).then(() => {
-            navigate('/home');
-          });
-  
-          // Clear cart after successful order
-          localStorage.removeItem('cart');
         },
         prefill: {
           name: user.name || 'Clothing Website',
@@ -111,7 +131,7 @@ const Checkout = () => {
       setLoading(false);
     }
   };
-
+  
   // Calculate total amount
   const calculateTotal = () => {
     console.log(products)
