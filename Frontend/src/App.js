@@ -13,6 +13,7 @@ import ContactUs from './pages/ContactUs/ContactUs';
 import AdminPanel from './pages/AdminPanel/AdminPanel'
 import Profile from'./pages/Profile/Profile'
 import './App.css';
+import Footer from './component/Footer/Footer';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="*" element={<div>Page Not Found</div>} />
           <Route path="/admin" element={<AdminPanel />} />
         </Routes>
+        <Footer/>
       </div>
     </Router>
   );
