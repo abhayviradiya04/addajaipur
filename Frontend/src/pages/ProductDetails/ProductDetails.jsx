@@ -4,6 +4,10 @@ import { FaHeart, FaShoppingCart, FaTimes, FaShippingFast, FaBox, FaUndo } from 
 import Swal from 'sweetalert2';
 import './ProductDetails.css';
 
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+
 export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -16,6 +20,29 @@ export default function ProductDetails() {
   // Get user from localStorage
   const user = JSON.parse(localStorage.getItem('user'));
   const isLoggedIn = !!user;
+  // Skeleton Loader Component
+const ProductSkeleton = () => (
+  <div className="product-details-container">
+    <div className="product-details">
+      <div className="product-images">
+        <Skeleton height={400} width={400} />
+        <div className="image-thumbnails">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <Skeleton key={index} height={70} width={70} style={{ margin: '5px' }} />
+          ))}
+        </div>
+      </div>
+      <div className="product-info">
+        <Skeleton height={30} width="60%" />
+        <Skeleton height={20} width="40%" />
+        <Skeleton height={20} width="50%" />
+        <Skeleton height={30} width="30%" />
+        <Skeleton height={40} width="80%" />
+        <Skeleton height={40} width="50%" />
+      </div>
+    </div>
+  </div>
+);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -130,7 +157,7 @@ export default function ProductDetails() {
     </div>
   );
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) return <ProductSkeleton />;
   if (error) return <div className="error">Error: {error}</div>;
   if (!product) return <div className="error">Product not found</div>;
 
@@ -219,4 +246,7 @@ export default function ProductDetails() {
       {showLoginModal && <LoginModal />}
     </div>
   );
+
+  
 }
+
