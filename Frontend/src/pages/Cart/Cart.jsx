@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 import './Cart.css';
+import Skeleton from 'react-loading-skeleton';
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -153,7 +154,28 @@ export default function Cart() {
   };
 
   if (loading) {
-    return <div className="cart-loading">Loading cart...</div>;
+    return (
+      <div className="cart-container">
+        <h1>Shopping Cart</h1>
+        <div className="cart-content">
+          <div className="cart-items">
+            {[...Array(3)].map((_, index) => (
+              <div key={index} className="cart-item">
+                <div className="cart-item-image">
+                  <Skeleton height={100} width={100} />
+                </div>
+                <div className="item-details">
+                  <h3><Skeleton width={150} /></h3>
+                  <p className="brand"><Skeleton width={100} /></p>
+                  <p className="price"><Skeleton width={80} /></p>
+                  <Skeleton width={120} height={30} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (error) {

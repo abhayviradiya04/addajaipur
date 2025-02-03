@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaTrash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import './Wishlist.css';
+import Skeleton from 'react-loading-skeleton';
 
 export default function Wishlist() {
   const navigate = useNavigate();
@@ -121,7 +122,35 @@ export default function Wishlist() {
     }
   };
 
-  if (loading) return <div className="wishlist-loading">Loading wishlist...</div>;
+ 
+  if (loading) {
+    return (
+      <div className="wishlist-container">
+        <h1>My Wishlist</h1>
+        <div className="wishlist-items">
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="wishlist-item">
+              <div className="item-image">
+                <Skeleton height={150} width={150} />
+              </div>
+              <div className="item-details">
+                <h3><Skeleton width={120} /></h3>
+                <p className="brand"><Skeleton width={100} /></p>
+                <p className="price"><Skeleton width={80} /></p>
+                <div className="stock-status">
+                  <Skeleton width={60} />
+                </div>
+                <div className="item-actions">
+                  <Skeleton width={120} height={35} />
+                  <Skeleton width={100} height={35} style={{ marginLeft: '10px' }} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
   if (error) return <div className="wishlist-error">Error: {error}</div>;
 
   if (wishlistItems.length === 0) {
