@@ -1,58 +1,107 @@
 .profile-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    text-align: center;
-  }
-  
-  .profile-container h1 {
-    margin-bottom: 20px;
-  }
-  
-  .profile-container p {
-    font-size: 18px;
-    margin: 10px 0;
-  }
-  
-  .profile-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .profile-container input {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .profile-container button {
-    padding: 10px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .profile-container button:hover {
-    background-color: #0056b3;
-  }
-  
-  .logout-button {
-    margin-top: 20px;
-    background-color: #dc3545;
-  }
-  
-  .logout-button:hover {
-    background-color: #c82333;
-  }
-  
-  .error {
-    color: red;
-    margin-bottom: 10px;
-  }
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-content {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+  margin-bottom: 20px;
+}
+
+.user-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: white;
+  width: 120px;
+}
+
+.logout-button {
+  background-color: #6c757d;
+  color: white;
+  margin-top: 20px;
+  width: 120px;
+}
+
+.error {
+  color: red;
+  margin-bottom: 20px;
+}
+
+.skeleton {
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+.skeleton-text {
+  height: 20px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.skeleton-button {
+  height: 40px;
+  width: 100px;
+  margin: 0 auto;
+}
