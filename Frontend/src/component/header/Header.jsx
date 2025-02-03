@@ -8,9 +8,9 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const categories = {
-    shirt: ['classicsottonshirt'],
-    Dress: ['FloralSummerDress'],
-    Pants: ['slimfitdenimjeans', 'casualchinopants']
+    shirt: ['Classic Cotton Shirt'],
+    Dress: ['Floral Summer Dress'],
+    Pants: ['Slimfit Denim Jeans', 'Casual Chino Pants']
   };
 
   const toggleMobileMenu = () => {
@@ -51,7 +51,7 @@ export default function Header() {
                   {subcategories.map((subcat) => (
                     <Link
                       key={subcat}
-                      to={`/${subcat.toLowerCase()}`}
+                      to={`subtype/${subcat.replace(/\s+/g, '-')}`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {subcat.charAt(0).toUpperCase() + subcat.slice(1)}

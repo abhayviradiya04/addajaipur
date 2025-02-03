@@ -109,13 +109,13 @@ export default function Home() {
       <div className="products-by-type">
         {Object.entries(groupedProducts).map(([type, typeProducts]) => (
           <div key={type} className="product-type-section">
-            <h2 className="type-title">{capitalizeFirstLetter(type)}</h2>
+            <h2 className="type-title">{type}</h2>
             <div className="product-grid">
               {typeProducts.map((product) => (
                 <ProductCard
                   key={product._id}
                   product={product}
-                  type={product.type.toLowerCase()}
+                  type={product.type.toLowerCase().replace(/\s+/g, '')}
                 />
               ))}
             </div>

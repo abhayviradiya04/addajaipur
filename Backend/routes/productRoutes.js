@@ -28,6 +28,21 @@ router.get('/type/:type', async (req, res) => {
         });
     }
 });
+router.get('/subtype/:subtype', async (req, res) => {
+    try {
+        console.log(req.params.subtype);
+        const products = await Product.find({ 
+            subtype: req.params.subtype 
+        }).populate('brand');
+        
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Error fetching products by subtype.',
+            error: error.message 
+        });
+    }
+});
 // Get all products
 router.get('/', async (req, res) => {
    

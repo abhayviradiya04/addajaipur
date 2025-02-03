@@ -50,6 +50,10 @@ const productSchema = new Schema({
     type:Number,
     required:true
   },
+  subtype:{
+    type:String,
+    required:true
+  },
 }, { timestamps: true }); // Optional: Adds createdAt and updatedAt fields
 
 const Product = mongoose.model('Product', productSchema);

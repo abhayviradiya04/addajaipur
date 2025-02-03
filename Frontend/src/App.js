@@ -12,6 +12,7 @@ import AboutUs from './pages/AboutUs/AboutUs';
 import ContactUs from './pages/ContactUs/ContactUs';
 import AdminPanel from './pages/AdminPanel/AdminPanel'
 import Profile from'./pages/Profile/Profile'
+import ProductSubType from './pages/ProductSubType/ProductSubType';
 import './App.css';
 
 
@@ -32,7 +33,10 @@ function App() {
           <Route path="/:type/:id" element={<ProductDetails />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/subtype/:subtype" element={<ProductSubType />} />
+
           <Route path="/:type" element={<ProductType />} />
+
           {/* Razorpay Checkout Route */}
           <Route path="/checkout" element={<Checkout />} />
           {/* 404 Route */}
