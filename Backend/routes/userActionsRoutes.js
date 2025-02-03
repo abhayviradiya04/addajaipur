@@ -211,41 +211,7 @@ router.get('/orders/:userId', async (req, res) => {
     }
 });
 
-// Update quantity of an item in the cart
-router.put('/cart/update-quantity', async (req, res) => {
-    const { userId, productId, quantity } = req.body;
 
-    try {
-        if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(productId)) {
-            return res.status(400).json({ message: 'Invalid userId or productId' });
-        }
 
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Ensure cartItems structure includes quantity
-        const cartItem = user.cartItems.find(item => item.productId.equals(productId));
-        
-        if (!cartItem) {
-            return res.status(404).json({ message: 'Item not found in cart' });
-        }
-
-        if (quantity <= 0) {
-            // Remove item if quantity is zero or less
-            user.cartItems = user.cartItems.filter(item => !item.productId.equals(productId));
-        } else {
-            cartItem.quantity = quantity;
-        }
-
-        await user.save();
-
-        res.status(200).json({ message: 'Cart quantity updated successfully', cart: user.cartItems });
-    } catch (error) {
-        console.error('Error updating cart quantity:', error);
-        res.status(500).json({ message: 'Failed to update cart quantity' });
-    }
-});
 
 module.exports = router; 
