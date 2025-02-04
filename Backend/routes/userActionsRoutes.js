@@ -211,6 +211,21 @@ router.get('/orders/:userId', async (req, res) => {
     }
 });
 
+router.delete('/orders/:orderId', async (req, res) => {
+    const { orderId } = req.params;
+
+    try {
+        const deletedOrder = await Order.findByIdAndDelete(orderId);
+
+        if (!deletedOrder) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        res.status(200).json({ message: 'Order deleted successfully', deletedOrder });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting order', error: error.message });
+    }
+});
 
 
 

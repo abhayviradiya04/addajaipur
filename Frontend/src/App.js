@@ -15,6 +15,7 @@ import Profile from'./pages/Profile/Profile'
 import ProductSubType from './pages/ProductSubType/ProductSubType';
 import './App.css';
 import Footer from './component/Footer/Footer';
+import Orders from './pages/Orders/Order';
 
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/order" element={<Orders/>} />
+
           {/* Product Details Route */}
           <Route path="/:type/:id" element={<ProductDetails />} />
           <Route path="/register" element={<Register />} />
