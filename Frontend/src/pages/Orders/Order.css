@@ -1,0 +1,220 @@
+/* Orders Container */
+.orders-container {
+    padding: 40px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+}
+
+/* Orders Title */
+.orders-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #222;
+    text-align: center;
+}
+
+/* Loading, Error, and Empty Messages */
+.orders-loading,
+.orders-error,
+.orders-empty {
+    font-size: 18px;
+    color: #ff4d4d;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* Orders Grid */
+.orders-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Order Card */
+.order-card {
+    flex: 1 1 320px; /* Flexible with a minimum width */
+    max-width: 360px; /* Limits the width */
+    border-radius: 12px;
+    padding: 25px;
+    background: linear-gradient(135deg, #ffffff, #f8f8f8);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Order Details */
+.order-id {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.order-total,
+.order-date,
+.order-status {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+/* Order Status Styling */
+.order-status {
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 5px;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.order-status.Pending {
+    background-color: #ffcc00;
+    color: #333;
+}
+
+.order-status.Completed {
+    background-color: #28a745;
+    color: white;
+}
+
+.order-status.Cancelled {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Products Section */
+.order-products-title {
+    font-size: 20px;
+    color: #222;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.order-products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+}
+
+/* Product Card */
+.product-card {
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fff;
+    width: 280px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-image img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: opacity 0.3s;
+}
+
+.product-image img:hover {
+    opacity: 0.9;
+}
+
+.product-details {
+    margin-top: 12px;
+    text-align: center;
+}
+
+.product-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 5px;
+}
+
+.product-stylecode,
+.product-brand,
+.product-price,
+.product-quantity,
+.product-material,
+.product-pattern,
+.product-type,
+.product-fabric-care,
+.product-length-type,
+.product-neck,
+.product-subtype,
+.product-size {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+/* Cancel Order Button */
+.cancel-order-btn {
+    background-color: #d9534f;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 15px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+.cancel-order-btn:hover {
+    background-color: #c9302c;
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .orders-grid {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .order-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .orders-container {
+        padding: 20px;
+    }
+
+    .orders-grid {
+        flex-direction: column;
+    }
+
+    .order-products {
+        justify-content: center;
+    }
+
+    .product-card {
+        width: 90%;
+    }
+
+    .cancel-order-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
