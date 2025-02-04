@@ -83,7 +83,7 @@ const Checkout = () => {
             }
             console.log(products)
             // ✅ Update stock after successful payment
-            const updateStockResponse = await fetch('http://localhost:5000/api/products/update-quantity ', {
+            const updateStockResponse = await fetch('https://addajaipur.onrender.com/api/products/update-quantity ', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
