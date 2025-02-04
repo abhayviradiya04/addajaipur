@@ -16,6 +16,7 @@ export default function ProductDetails() {
   const [error, setError] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
 
   // Get user from localStorage
   const user = JSON.parse(localStorage.getItem('user'));
@@ -202,6 +203,21 @@ const ProductSkeleton = () => (
                   <FaTimes /> Out of Stock
                 </span>
               )}
+            </div>
+          </div>
+
+          <div className="size-selection">
+            <h3>Select Size</h3>
+            <div className="size-options">
+              {['S', 'M', 'L', 'XL'].map((size) => (
+                <div
+                  key={size}
+                  className={`size-option ${selectedSize === size ? 'selected' : ''}`}
+                  onClick={() => setSelectedSize(size)}
+                >
+                  {size}
+                </div>
+              ))}
             </div>
           </div>
 

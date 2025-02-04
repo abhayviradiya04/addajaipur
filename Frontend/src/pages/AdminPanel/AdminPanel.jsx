@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import ProductForm from './ProductForm';
-import ProductList from './ProductList';
-import UserList from './UserList';
 import Swal from 'sweetalert2';
-import Login from '../Login/Login'
+import { useNavigate } from 'react-router-dom';
+import ProductList from './ProductList';
+import ProductForm from './ProductForm';
+import UserList from './UserList';
 import './adminpanel.css';
-import { Navigate, useNavigate } from 'react-router-dom';
 
 const AdminPanel = () => {
     const navigate = useNavigate();
@@ -13,30 +12,27 @@ const AdminPanel = () => {
     const [products, setProducts] = useState([]);
     const [users, setUsers] = useState([]);
     const [editingProduct, setEditingProduct] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        
         const user = localStorage.getItem('user');
-        console.log(JSON.parse(user).admin)
-        if(JSON.parse(user).admin === 0){
+        if (JSON.parse(user).admin === 0) {
             Swal.fire({
                 icon: 'error',
                 title: 'Unauthorized',
                 text: 'You are not authorized to access this panel.',
                 confirmButtonText: 'OK',
             }).then(() => {
-                navigate('/login'); // Navigate to login after pressing OK
+                navigate('/login'); 
             });
             return;
         }
-        // Fetch users from the backend
+
+        // Fetch users and products from the backend
         const fetchUsers = async () => {
             try {
-                const response = await fetch('https://addajaipur.onrender.com/api/users'); // Adjust the API endpoint as necessary
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                const response = await fetch('https://addajaipur.onrender.com/api/users');
+                if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 setUsers(data);
             } catch (error) {
@@ -44,13 +40,10 @@ const AdminPanel = () => {
             }
         };
 
-        // Fetch products from the backend
         const fetchProducts = async () => {
             try {
-                const response = await fetch('https://addajaipur.onrender.com/api/products'); // Adjust the API endpoint as necessary
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                const response = await fetch('https://addajaipur.onrender.com/api/products');
+                if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
@@ -60,32 +53,43 @@ const AdminPanel = () => {
 
         fetchUsers();
         fetchProducts();
-    }, []);
+    }, [navigate]);
 
     const addProduct = async (product) => {
         try {
             const response = await fetch('https://addajaipur.onrender.com/api/products/addproduct', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(product),
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to add product');
-            }
-
+            if (!response.ok) throw new Error('Failed to add product');
             const newProduct = await response.json();
             setProducts([...products, newProduct]);
+            Swal.fire('Success', 'Product added successfully', 'success');
+            setIsModalOpen(false);
         } catch (error) {
             console.error('Error adding product:', error);
+            Swal.fire('Error', 'Failed to add product', 'error');
         }
     };
 
-    const updateProduct = (updatedProduct) => {
-        setProducts(products.map(product => product.id === updatedProduct.id ? updatedProduct : product));
-        setEditingProduct(null); // Reset editing state
+    const updateProduct = async (updatedProduct) => {
+        try {
+            const response = await fetch(`https://addajaipur.onrender.com/api/products/updateProduct/${updatedProduct.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedProduct),
+            });
+
+            if (!response.ok) throw new Error('Failed to update product');
+            setProducts(products.map(product => product.id === updatedProduct.id ? updatedProduct : product));
+            Swal.fire('Success', 'Product updated successfully', 'success');
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error('Error updating product:', error);
+            Swal.fire('Error', 'Failed to update product', 'error');
+        }
     };
 
     const deleteProduct = async (id) => {
@@ -93,12 +97,13 @@ const AdminPanel = () => {
             const response = await fetch(`https://addajaipur.onrender.com/api/products/deleteProduct/${id}`, {
                 method: 'DELETE',
             });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+
+            if (!response.ok) throw new Error('Failed to delete product');
             setProducts(products.filter(product => product.id !== id));
+            Swal.fire('Success', 'Product deleted successfully', 'success');
         } catch (error) {
             console.error('Error deleting product:', error);
+            Swal.fire('Error', 'Failed to delete product', 'error');
         }
     };
 
@@ -107,12 +112,13 @@ const AdminPanel = () => {
             const response = await fetch(`https://addajaipur.onrender.com/api/users/deleteUser/${id}`, {
                 method: 'DELETE',
             });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+
+            if (!response.ok) throw new Error('Failed to delete user');
             setUsers(users.filter(user => user.id !== id));
+            Swal.fire('Success', 'User deleted successfully', 'success');
         } catch (error) {
             console.error('Error deleting user:', error);
+            Swal.fire('Error', 'Failed to delete user', 'error');
         }
     };
 
@@ -123,23 +129,32 @@ const AdminPanel = () => {
                 <button onClick={() => setActiveTab('products')}>Manage Products</button>
                 <button onClick={() => setActiveTab('users')}>Manage Users</button>
             </div>
+
             <div className="content">
                 {activeTab === 'products' ? (
                     <>
+                        <button onClick={() => setIsModalOpen(true)} className="add-product-btn">Add Product</button>
                         <ProductList 
                             products={products} 
-                            updateProduct={updateProduct} 
                             deleteProduct={deleteProduct} 
                             setEditingProduct={setEditingProduct} 
+                            updateProduct={updateProduct} 
                         />
                     </>
                 ) : (
-                    <UserList 
-                        users={users} 
-                        deleteUser={deleteUser} 
-                    />
+                    <UserList users={users} deleteUser={deleteUser} />
                 )}
             </div>
+
+            {/* Modal for adding or editing product */}
+            {isModalOpen && (
+                <ProductForm 
+                    product={editingProduct} 
+                    addProduct={addProduct} 
+                    updateProduct={updateProduct} 
+                    setIsModalOpen={setIsModalOpen} 
+                />
+            )}
         </div>
     );
 };

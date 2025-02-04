@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaShoppingCart, FaUser, FaAngleDown, FaBars } from 'react-icons/fa';
-import { BiBox } from "react-icons/bi";
+import { HiShoppingBag } from "react-icons/hi";
 import './Header.css';
 
 export default function Header() {
@@ -78,7 +78,7 @@ export default function Header() {
             <FaShoppingCart />
           </Link>
           <Link to="/order" className="icon">
-          <BiBox/>
+          <HiShoppingBag />
           </Link>
           <Link to="/profile" className="icon">
             <FaUser />

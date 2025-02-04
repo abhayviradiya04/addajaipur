@@ -368,3 +368,27 @@
     width: auto;
   }
 } 
+
+.quantity-controls button {
+  background: none; /* Remove default button styling */
+  border: none; /* Remove border */
+  cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%; /* Make it circular */
+  transition: all 0.2s ease-in-out;
+}
+
+.quantity-controls button:hover {
+  background-color: #f0f0f0;
+}
+
+.quantity-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
