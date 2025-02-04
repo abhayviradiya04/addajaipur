@@ -1,10 +1,20 @@
 /* src/Pages/AdminPanel/UserList.css */
 .user-list {
-    margin-top: 20px;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
 }
 
 .user-list ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
 }
 
@@ -12,12 +22,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 10px;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s;
+    background-color: #f8f9fa;
+    transition: background 0.3s ease-in-out;
 }
 
 .user-item:hover {
@@ -25,40 +35,72 @@
 }
 
 .user-info {
-    flex-grow: 1; /* Allow the info section to take up remaining space */
-}
-
-.user-info h3 {
-    margin: 0;
-    font-size: 1.2em;
-}
-
-.user-info p {
-    margin: 5px 0;
-}
-
-.user-item button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    border: none;
-    background-color: #dc3545;
-    color: white;
-    border-radius: 5px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.user-item button:hover {
-    background-color: #c82333;
+.user-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+.user-email {
+    font-size: 14px;
+    color: #555;
+}
+
+.user-orders {
+    font-size: 13px;
+    color: #777;
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #dc3545;
+    transition: color 0.3s ease;
+}
+
+.delete-btn:hover {
+    color: #a71d2a;
 }
 
 .order-details {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f1f1f1;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #eef2f7;
     border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .order-item {
-    margin: 5px 0;
+    margin-bottom: 10px;
+    padding: 8px;
+    background: white;
+    border-radius: 5px;
+    border-left: 4px solid #007bff;
+}
+
+.product-item {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .user-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .delete-btn {
+        margin-top: 5px;
+        align-self: flex-end;
+    }
 }

@@ -11,7 +11,7 @@ const ProductList = () => {
         // Fetch products from the API when the component mounts
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/products'); // Adjust the endpoint as necessary
+                const response = await fetch('https://addajaipur.onrender.com/api/products'); // Adjust the endpoint as necessary
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
@@ -35,7 +35,7 @@ const ProductList = () => {
 
         if (result.isConfirmed) {
             try {
-                const response = await fetch(`http://localhost:5000/api/products/deleteproduct/${id}`, {
+                const response = await fetch(`https://addajaipur.onrender.com/api/products/deleteproduct/${id}`, {
                     method: 'DELETE',
                 });
 
@@ -54,7 +54,7 @@ const ProductList = () => {
 
     const updateProduct = async (updatedProduct) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/products/updateproduct/${updatedProduct._id}`, {
+            const response = await fetch(`https://addajaipur.onrender.com/api/products/updateproduct/${updatedProduct._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
