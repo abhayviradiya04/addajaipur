@@ -5,7 +5,7 @@ import './ProductSubType.css';
 
 export default function ProductSubType() {
   const { subtype } = useParams();
-  console.log("Type from URL:", subtype);
+ 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ export default function ProductSubType() {
     const fetchProducts = async () => {
       try {
         const formattedSubtype = subtype.replace(/-/g, ' ');
-        console.log("Params: ", formattedSubtype);
+        
         const response = await fetch(`https://addajaipur.onrender.com/api/products/subtype/${formattedSubtype}`);
 
         if (!response.ok) {

@@ -67,40 +67,48 @@ const Orders = () => {
     };
 
     if (loading) {
-        return <div className="orders-loading">Loading...</div>;
+        return (
+            <div className="orders-container">
+                <h1 className="orders-title">Your Orders</h1>
+                <div className="skeleton-grid">
+                    <div className="skeleton-loader"></div>
+                    <div className="skeleton-loader"></div>
+                    <div className="skeleton-loader"></div>
+                </div>
+            </div>
+        );
     }
 
     if (error) {
         return <div className="orders-error">Error: {error}</div>;
     }
 
-    return (<div className="orders-container">
-        <h1 className="orders-title">Your Orders</h1>
-        {orders.length === 0 ? (
-            <p className="orders-empty">No orders found.</p>
-        ) : (
-            <div className="orders-grid">
-                {orders.map((order) => (
-                    <div key={order._id} className="order-card">
-                        <h2 className="order-id">Order ID: {order._id}</h2>
-                        <p className="order-total">Total Amount: ${order.totalAmount}</p>
-                        <p className="order-date">Order Date: {new Date(order.orderDate).toLocaleDateString()}</p>
-                        <p className="order-status">Status: {order.status}</p>
-                        <h3 className="order-products-title">Products:</h3>
-                        <div className="order-products">
-                            {order.products.map((product) => (
-                                <ProductCard key={product._id._id} product={product._id} quantity={product.quantity} />
-                            ))}
+    return (
+        <div className="orders-container">
+            <h1 className="orders-title">Your Orders</h1>
+            {orders.length === 0 ? (
+                <p className="orders-empty">No orders found.</p>
+            ) : (
+                <div className="orders-grid">
+                    {orders.map((order) => (
+                        <div key={order._id} className="order-card">
+                            <h2 className="order-id">Order ID: {order._id}</h2>
+                            <p className="order-date">Order Date: {new Date(order.orderDate).toLocaleDateString()}</p>
+                            <p className="order-status">Status: {order.status}</p>
+                            <h3 className="order-products-title">Products:</h3>
+                            <div className="order-products">
+                                {order.products.map((product) => (
+                                    <ProductCard key={product._id._id} product={product._id} quantity={product.quantity} />
+                                ))}
+                            </div>
+                            <button className="cancel-order-btn" onClick={() => handleCancelOrder(order._id)}>
+                                Cancel Order
+                            </button>
                         </div>
-                        <button className="cancel-order-btn" onClick={() => handleCancelOrder(order._id)}>
-                            Cancel Order
-                        </button>
-                    </div>
-                ))}
-            </div>
-        )}
-    </div>
-    
+                    ))}
+                </div>
+            )}
+        </div>
     );
 };
 
