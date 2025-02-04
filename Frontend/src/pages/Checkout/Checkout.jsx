@@ -80,14 +80,14 @@ const Checkout = () => {
             if (!orderResponse.ok) {
               throw new Error('Failed to save order');
             }
-  
+            console.log(products)
             // ✅ Update stock after successful payment
             const updateStockResponse = await fetch('http://localhost:5000/api/products/update-quantity ', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 products: products.map(product => ({
-                  productId: product.id, // Ensure correct field names
+                  productId: product._id, // Ensure correct field names
                   quantity: product.quantity
                 }))
               }),
