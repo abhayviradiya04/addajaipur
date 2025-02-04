@@ -16,6 +16,7 @@ import ProductSubType from './pages/ProductSubType/ProductSubType';
 import './App.css';
 import Footer from './component/Footer/Footer';
 import Orders from './pages/Orders/Order';
+import ProductForm from './pages/AdminPanel/ProductForm';
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           {/* 404 Route */}
           <Route path="*" element={<div>Page Not Found</div>} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/admin/form" element={<ProductForm />} />
         </Routes>
         <Footer/>
       </div>

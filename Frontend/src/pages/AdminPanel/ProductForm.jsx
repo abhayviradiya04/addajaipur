@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import './ProductForm.css'; // Importing external CSS file for styling
 
-const ProductForm = ({ editingProduct, setEditingProduct, updateProduct }) => {
-    const [product, setProduct] = useState({
+const ProductForm = ({ setEditingProduct, updateProduct }) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const editingProduct = location.state?.product || null;
+    
+    const [product, setProduct] = useState(editingProduct || {
         id: Date.now(),
         name: '',
         stylecode: '',
-        image: [], // Array to hold multiple image URLs
+        image: [],
         description: '',
-        brand: { name: 'Adaa Jaipur' }, // Fixed brand name
+        brand: { name: 'Adaa Jaipur' },
         price: '',
         material: '',
         pattern: '',
         type: '',
-        subtype: '', // Added subtype field
-        size: '', // Added size field
+        subtype: '',
+        size: '',
         fabricCare: '',
         lengthType: '',
         neck: '',
@@ -23,35 +29,16 @@ const ProductForm = ({ editingProduct, setEditingProduct, updateProduct }) => {
 
     useEffect(() => {
         if (editingProduct) {
-            // Fetch the product data for editing
             const fetchProductData = async () => {
                 try {
                     const response = await fetch(`http://localhost:5000/api/products/${editingProduct._id}`);
                     const data = await response.json();
-                    setProduct(data);  // Populate the form with the fetched product data
+                    setProduct(data);
                 } catch (error) {
                     console.error('Error fetching product data:', error);
                 }
             };
             fetchProductData();
-        } else {
-            setProduct({
-                name: '',
-                stylecode: '',
-                image: [],
-                description: '',
-                brand: { name: 'Adaa Jaipur' },
-                price: '',
-                material: '',
-                pattern: '',
-                type: '',
-                subtype: '',
-                size: '',
-                fabricCare: '',
-                lengthType: '',
-                neck: '',
-                stock: '',
-            });
         }
     }, [editingProduct]);
 
@@ -64,231 +51,143 @@ const ProductForm = ({ editingProduct, setEditingProduct, updateProduct }) => {
         const files = e.target.files;
         const uploadedImageUrls = [];
 
-        for (let i = 0; i < files.length; i++) {
+        for (let file of files) {
             const formData = new FormData();
-            formData.append('image', files[i]);
-
+            formData.append('image', file);
             try {
-                const response = await fetch(`http://localhost:5000/api/upload`, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                if (!response.ok) {
-                    throw new Error('Error uploading image');
-                }
-
+                const response = await fetch(`http://localhost:5000/api/upload`, { method: 'POST', body: formData });
+                if (!response.ok) throw new Error('Error uploading image');
                 const data = await response.json();
                 uploadedImageUrls.push(data.imageUrl);
             } catch (error) {
                 console.error('Error uploading image:', error);
             }
         }
-
         setProduct({ ...product, image: [...product.image, ...uploadedImageUrls] });
     };
 
     const removeImage = (index) => {
-        const newImages = product.image.filter((_, i) => i !== index);
-        setProduct({ ...product, image: newImages });
-    };
-
-    const addProduct = async (product) => {
-        try {
-            const response = await fetch('http://localhost:5000/api/products/addproduct', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(product),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to add product');
-            }
-
-            const newProduct = await response.json();
-            return newProduct;
-        } catch (error) {
-            console.error('Error adding product:', error);
-            return null;
-        }
+        setProduct({ ...product, image: product.image.filter((_, i) => i !== index) });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (editingProduct) {
-            // When editing, update the product via API
+        try {
+            const url = editingProduct 
+                ? `http://localhost:5000/api/products/updateProduct/${editingProduct._id}`
+                : 'http://localhost:5000/api/products/addproduct';
             
-            try {
-                console.log(editingProduct);
-                const response = await fetch(`http://localhost:5000/api/products/updateProduct/${editingProduct._id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(product),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to update product');
-                }
-
-                const updatedProduct = await response.json();
-                Swal.fire('Updated!', 'Your product has been updated.', 'success');
-                // Optionally reload the page or update local state with the updated product
-                setEditingProduct(null); // Close the form after successful update
-                window.location.reload(); // Reload the page or navigate to another view if needed
-            } catch (error) {
-                console.error('Error updating product:', error);
-            }
-        } else {
-            // Add new product if not editing
-            const newProduct = await addProduct(product);
-            if (newProduct) {
-                Swal.fire('Added!', 'Your product has been added.', 'success');
-                window.location.reload(); // Reload the page after successful submission
-            }
+            const method = editingProduct ? 'PUT' : 'POST';
+            const response = await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(product),
+            });
+            
+            if (!response.ok) throw new Error(editingProduct ? 'Failed to update product' : 'Failed to add product');
+            
+            Swal.fire({
+                title: editingProduct ? 'Updated!' : 'Added!',
+                text: `Your product has been ${editingProduct ? 'updated' : 'added'}.`,
+                icon: 'success',
+                confirmButtonText: 'OK',
+            });
+            setEditingProduct(null);
+            navigate('/admin');
+        } catch (error) {
+            console.error('Error saving product:', error);
         }
     };
 
+   
     return (
-        <form onSubmit={handleSubmit} className="product-form">
-            <h2>{editingProduct ? 'Edit Product' : 'Add Product'}</h2>
-            <input
-                type="text"
-                name="name"
-                placeholder="Product Name"
-                value={product.name}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="stylecode"
-                placeholder="Style Code"
-                value={product.stylecode}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="file"
-                name="image"
-                placeholder="Upload Images"
-                onChange={handleFileChange}
-                multiple
-            />
-            <textarea
-                name="description"
-                placeholder="Description"
-                value={product.description}
-                onChange={handleChange}
-                required
-            ></textarea>
-            <input
-                type="text"
-                name="brand"
-                value={product.brand.name}
-                readOnly
-                placeholder="Brand"
-            />
-            <input
-                type="number"
-                name="price"
-                placeholder="Price"
-                value={product.price}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="material"
-                placeholder="Material"
-                value={product.material}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="pattern"
-                placeholder="Pattern"
-                value={product.pattern}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="type"
-                placeholder="Type"
-                value={product.type}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="subtype"
-                placeholder="Subtype"
-                value={product.subtype}
-                onChange={handleChange}
-                required
-            />
-            {/* Size dropdown */}
-            <select name="size" value={product.size} onChange={handleChange} required>
-                <option value="">Select Size</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-            </select>
-            <input
-                type="text"
-                name="fabricCare"
-                placeholder="Fabric Care"
-                value={product.fabricCare}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="lengthType"
-                placeholder="Length Type"
-                value={product.lengthType}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="neck"
-                placeholder="Neck"
-                value={product.neck}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="number"
-                name="stock"
-                placeholder="Stock"
-                value={product.stock}
-                onChange={handleChange}
-                required
-            />
-            <button type="submit">{editingProduct ? 'Update Product' : 'Add Product'}</button>
-            <div>
-                <h3>Uploaded Images:</h3>
-                {product.image.map((img, index) => (
-                    <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                        <img
-                            src={img}
-                            alt={`Product Image ${index + 1}`}
-                            style={{ width: '100px', margin: '5px' }}
-                        />
-                        <button type="button" onClick={() => removeImage(index)}>
-                            Remove
-                        </button>
+        <div className="form-container">
+            <form onSubmit={handleSubmit} className="product-form">
+                <h2>{editingProduct ? 'Edit Product' : 'Add Product'}</h2>
+
+                <div className="form-group">
+                    <label htmlFor="name">Product Name:</label>
+                    <input type="text" id="name" name="name" value={product.name} onChange={handleChange} placeholder="e.g., Embroidered Kurti" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="stylecode">Style Code:</label>
+                    <input type="text" id="stylecode" name="stylecode" value={product.stylecode} onChange={handleChange} placeholder="e.g., ABC-1234" required />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="image">Image:</label>
+                    <input type="file" id="image" name="image" onChange={handleFileChange} multiple required={!editingProduct} />
+                    <div className="uploaded-images">
+                        {product.image.map((img, index) => (
+                            <div key={index} className="image-preview">
+                                <img src={img} alt={`Product ${index + 1}`} />
+                                <button type="button" onClick={() => removeImage(index)}>Remove</button>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-        </form>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="description">Description:</label>
+                    <textarea id="description" name="description" value={product.description} onChange={handleChange} placeholder="e.g., Beautifully handcrafted kurti with intricate embroidery." required></textarea>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="price">Price:</label>
+                    <input type="number" id="price" name="price" value={product.price} onChange={handleChange} placeholder="e.g., 999" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="material">Material:</label>
+                    <input type="text" id="material" name="material" value={product.material} onChange={handleChange} placeholder="e.g., Cotton Silk" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="pattern">Pattern:</label>
+                    <input type="text" id="pattern" name="pattern" value={product.pattern} onChange={handleChange} placeholder="e.g., Floral print" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="type">Type:</label>
+                    <input type="text" id="type" name="type" value={product.type} onChange={handleChange} placeholder="e.g., Kurti" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="subtype">Subtype:</label>
+                    <input type="text" id="subtype" name="subtype" value={product.subtype} onChange={handleChange} placeholder="e.g., Anarkali" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="size">Size:</label>
+                    <select id="size" name="size" value={product.size} onChange={handleChange} required>
+                        <option value="">Select Size</option>
+                        <option value="XS">XS</option> <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="fabricCare">Fabric Care:</label>
+                    <input type="text" id="fabricCare" name="fabricCare" value={product.fabricCare} onChange={handleChange} placeholder="e.g., Machine wash" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="lengthType">Length Type:</label>
+                    <input type="text" id="lengthType" name="lengthType" value={product.lengthType} onChange={handleChange} placeholder="e.g., Knee length" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="neck">Neck:</label>
+                    <input type="text" id="neck" name="neck" value={product.neck} onChange={handleChange} placeholder="e.g., Round neck" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="stock">Stock:</label>
+                    <input type="number" id="stock" name="stock" value={product.stock} onChange={handleChange} placeholder="e.g., 100" required />
+                </div>
+
+
+
+                <div className="form-buttons">
+                    <button type="submit">{editingProduct ? 'Update Product' : 'Add Product'}</button>
+                    <Link to="/admin"><button type="button" className="cancel-btn">Cancel</button></Link>
+                </div>
+            </form>
+        </div>
     );
 };
 

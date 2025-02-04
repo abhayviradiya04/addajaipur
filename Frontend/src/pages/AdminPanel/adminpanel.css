@@ -121,3 +121,33 @@ h1 {
     background-color: #f1f1f1;
     border-radius: 5px;
 }
+.add-tour-btn {
+    width: 60px;
+    left: 0px;
+    height: 60px;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 15px rgba(20, 20, 20, 0.3);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.add-tour-btn i {
+    transition: all 0.3s ease;
+}
+
+.add-tour-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(12, 12, 12, 0.4);
+}
+
+.add-tour-btn:hover i {
+    transform: rotate(90deg);
+}

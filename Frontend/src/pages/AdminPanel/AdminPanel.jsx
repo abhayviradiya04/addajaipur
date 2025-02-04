@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ProductList from './ProductList';
 import ProductForm from './ProductForm';
 import UserList from './UserList';
+import { Link } from 'react-router-dom';
 import './adminpanel.css';
 
 const AdminPanel = () => {
@@ -133,7 +134,7 @@ const AdminPanel = () => {
             <div className="content">
                 {activeTab === 'products' ? (
                     <>
-                        <button onClick={() => setIsModalOpen(true)} className="add-product-btn">Add Product</button>
+
                         <ProductList 
                             products={products} 
                             deleteProduct={deleteProduct} 
@@ -146,6 +147,15 @@ const AdminPanel = () => {
                 )}
             </div>
 
+            <div>
+                    <Link className="add-tour-btn position-fixed bottom-0 end-0 m-5" 
+                        style={{background:"#007bff"}} 
+                        to={"/admin/form"}
+                    >
+                        +
+                    </Link>
+                </div>
+
             {/* Modal for adding or editing product */}
             {isModalOpen && (
                 <ProductForm 
@@ -155,6 +165,8 @@ const AdminPanel = () => {
                     setIsModalOpen={setIsModalOpen} 
                 />
             )}
+            
+            
         </div>
     );
 };

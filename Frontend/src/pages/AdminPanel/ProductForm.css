@@ -1,80 +1,103 @@
-.add-product-btn {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.add-product-btn:hover {
-    background-color: #218838;
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+/* ProductForm.css */
+.form-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background: white;
+    justify-content: center; /* Center the form horizontally */
+    align-items: center; /* Center the form vertically */
+    min-height: 100vh; /* Ensure full viewport height */
     padding: 20px;
-    border-radius: 10px;
-    width: 400px;
+    background-color: #f4f4f4; /* Example background color */
 }
 
-form input,
-form textarea {
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.form-actions button {
-    padding: 10px 20px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.form-actions button[type="submit"] {
-    background-color: #28a745;
-    color: white;
-}
-
-.form-actions button[type="button"] {
-    background-color: #dc3545;
-    color: white;
-}
-
-.form-actions button:hover {
-    opacity: 0.8;
-}
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal form {
-    background: white;
+.product-form {
+    background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    max-width: 500px;
-    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 500px; /* Adjust as needed */
+}
+
+.product-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: calc(100% - 12px); /* Account for padding and border */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+.form-group textarea {
+    height: 120px; /* Adjust as needed */
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 20px;
+}
+
+.form-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px; /* Space between buttons */
+}
+
+.form-buttons button[type="submit"] {
+    background-color: #007bff; /* Example primary color */
+    color: #fff;
+}
+
+.cancel-btn {
+    background-color: #dc3545; /* Example danger color */
+    color: #fff;
+}
+
+.uploaded-images {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.image-preview {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative; /* For positioning the remove button */
+}
+
+.image-preview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.image-preview button {
+    position: absolute;
+    
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 1px 3px;
+    cursor: pointer;
+    font-size: 12px;
 }
