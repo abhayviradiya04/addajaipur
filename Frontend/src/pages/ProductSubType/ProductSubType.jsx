@@ -8,6 +8,9 @@ export default function ProductSubType() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => { 
     const fetchProducts = async () => {
@@ -30,6 +33,21 @@ export default function ProductSubType() {
     fetchProducts();
   }, [subtype]);
 
+  useEffect(() => {
+    if (products.length > 0) {
+      let filtered = [...products];
+      
+      if (minPrice !== '') {
+        filtered = filtered.filter(product => product.price >= parseInt(minPrice));
+      }
+      if (maxPrice !== '') {
+        filtered = filtered.filter(product => product.price <= parseInt(maxPrice));
+      }
+      
+      setFilteredProducts(filtered);
+    }
+  }, [products, minPrice, maxPrice]);
+
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -50,14 +68,58 @@ export default function ProductSubType() {
     <div className="product-type-container">
       <div className="product-type-wrapper">
         <h1 className="product-type-title">{subtype.split("-").join(' ')}</h1>
-        
+
         <div className="product-type-filters">
-          <p className="product-type-count">{products.length} Products</p>
-          {/* Add filters here if needed */}
+          <div className="container-fluid">
+            <div className="row align-items-center">
+              <div className="col-12 col-md-2">
+                <p className="mb-0 fw-semibold fs-5">
+                  {filteredProducts.length} Products
+                </p>
+              </div>
+              <div className="col-12 col-md-6 ms-auto">
+                <div className="d-flex align-items-center gap-2">
+                  <input
+                    type="number"
+                    value={minPrice}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === '' || (parseInt(value) >= 0 && !isNaN(parseInt(value)))) {
+                        setMinPrice(value);
+                      }
+                    }}
+                    placeholder="Min Price"
+                    className="form-control form-control-sm"
+                    style={{ width: "120px" }}
+                    min="0"
+                  />
+                  <span className="text-secondary fw-medium">to</span>
+                  <input
+                    type="number"
+                    value={maxPrice}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === '' || (parseInt(value) >= 0 && !isNaN(parseInt(value)))) {
+                        if (minPrice && value !== '' && parseInt(value) < parseInt(minPrice)) {
+                          setMaxPrice(minPrice);
+                        } else {
+                          setMaxPrice(value);
+                        }
+                      }
+                    }}
+                    placeholder="Max Price"
+                    className="form-control form-control-sm"
+                    style={{ width: "120px" }}
+                    min="0"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        
+
         <div className="product-type-grid">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div className="product-type-card-wrapper" key={product._id}>
               <ProductCard
                 product={product}
@@ -69,4 +131,5 @@ export default function ProductSubType() {
       </div>
     </div>
   );
-} 
+}
+
