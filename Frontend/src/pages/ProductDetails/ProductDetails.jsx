@@ -182,12 +182,13 @@ const ProductSkeleton = () => (
           </div>
         </div>
 
-        <div className="product-info">
+        <div className="product-info-details">
           <div className="product-header">
             <h1>{product.name}</h1>
-            <p className="brand">By <span>{product.brand.name}</span></p>
-            <p className="style-code">Style Code: {product.stylecode}</p>
+            <p className="brand-detail">By <span>{product.brand.name}</span></p>
+            <p className="style-code-detail">Style Code: {product.stylecode}</p>
           </div>
+
 
           <div className="product-pricing">
             <div className="price">₹{product.price}</div>
@@ -228,7 +229,7 @@ const ProductSkeleton = () => (
 
           <div className="product-details-info">
             <div className="details-section">
-              <h3>Product Details</h3>
+              <h3><b>Product Details</b></h3>
               <div className="details-grid">
                 <div className="detail-item"><span className="label">Material</span><span className="value">{product.material}</span></div>
                 <div className="detail-item"><span className="label">Pattern</span><span className="value">{product.pattern}</span></div>
@@ -237,8 +238,8 @@ const ProductSkeleton = () => (
                 <div className="detail-item"><span className="label">Neck</span><span className="value">{product.neck}</span></div>
               </div>
             </div>
-            <div className="description"><h3>Description</h3><p>{product.description}</p></div>
-            <div className="fabric-care"><h3>Fabric Care</h3><p>{product.fabricCare}</p></div>
+            <div className="description-detail"><h3><b>Description</b></h3><p>{product.description}</p></div>
+            <div className="fabric-care"><h3><b>Fabric Care</b></h3><p>{product.fabricCare}</p></div>
           </div>
         </div>
       </div>

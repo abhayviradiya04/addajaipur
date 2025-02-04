@@ -110,7 +110,7 @@
 }
 
 /* Product Info Section */
-.product-info {
+.product-info-details {
   background: white;
   border-radius: 16px;
   padding: 2.5rem;
@@ -124,20 +124,20 @@
   line-height: 1.2;
 }
 
-.brand {
-  color: #7f8c8d;
+.brand-detail {
+  color: #000000;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 }
 
-.brand span {
+.brand-detail span {
   color: #01060abf;
   font-weight: 600;
 }
 
-.style-code {
+.style-code-detail {
   font-family: monospace;
-  color: #95a5a6;
+  color: #2b9ba3;
   font-size: 0.9rem;
 }
 
@@ -228,7 +228,7 @@
 }
 
 .details-section h3,
-.description h3,
+.description-detail h3,
 .fabric-care h3 {
   color: #2c3e50;
   font-size: 1.5rem;
@@ -274,10 +274,15 @@
   font-weight: 500;
 }
 
-.description,
+.description-detail,
 .fabric-care {
+  color: #2980b9;
   margin-top: 2rem;
   line-height: 1.6;
+}
+
+.description-detail p{
+  color: #2980b9;
 }
 
 @media (max-width: 1024px) {
