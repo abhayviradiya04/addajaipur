@@ -44,6 +44,7 @@ app.post('/api/create-order', async (req, res) => {
       const order = await razorpay.orders.create(options);
       res.json({
         id: order.id,
+        products:order.product,
         amount: order.amount,
         currency: order.currency,
       });
