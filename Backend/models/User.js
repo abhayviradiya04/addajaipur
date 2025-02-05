@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     admin: {
         type: Number,
         required: true,
-        default:0
+        default: 0
     },
     email: {
         type: String,
@@ -18,6 +18,35 @@ const userSchema = new mongoose.Schema({
         trim: true,
     },
     password: {
+        type: String,
+        required: true,
+    },
+    addressLine1: {
+        type: String,
+        required: true,
+    },
+    addressLine2: {
+        type: String,
+        required: false,
+    },
+    city: {
+        type: String,
+        required: true,
+    },
+    state: {
+        type: String,
+        required: true,
+    },
+    country: {
+        type: String,
+        required: true,
+    },
+   
+    cityCode: {
+        type: String,
+        required: true,
+    },
+    verificationCode: {
         type: String,
         required: true,
     },

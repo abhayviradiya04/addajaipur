@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 const uploadRoutes = require("./routes/uploadRoutes")
 const userActionsRoutes = require('./routes/userActionsRoutes'); // Import the user actions routes
 const Razorpay = require('razorpay');
+
 // Middleware
 app.use(cors({
     origin: ['http://localhost:3000','http://localhost:3002','https://adaajaipur-frontend.vercel.app','https://adaajaipur-frontend-g2l24c137.vercel.app/','*'], // Your frontend URL
