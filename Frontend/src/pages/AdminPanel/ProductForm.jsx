@@ -31,7 +31,7 @@ const ProductForm = ({ setEditingProduct, updateProduct }) => {
         if (editingProduct) {
             const fetchProductData = async () => {
                 try {
-                    const response = await fetch(`http://localhost:5000/api/products/${editingProduct._id}`);
+                    const response = await fetch(`https://addajaipur.onrender.com/api/products/${editingProduct._id}`);
                     const data = await response.json();
                     setProduct(data);
                 } catch (error) {
@@ -55,7 +55,7 @@ const ProductForm = ({ setEditingProduct, updateProduct }) => {
             const formData = new FormData();
             formData.append('image', file);
             try {
-                const response = await fetch(`http://localhost:5000/api/upload`, { method: 'POST', body: formData });
+                const response = await fetch(`https://addajaipur.onrender.com/api/upload`, { method: 'POST', body: formData });
                 if (!response.ok) throw new Error('Error uploading image');
                 const data = await response.json();
                 uploadedImageUrls.push(data.imageUrl);
