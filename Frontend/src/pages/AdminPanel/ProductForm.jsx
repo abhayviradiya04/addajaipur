@@ -73,6 +73,12 @@ const ProductForm = ({ setEditingProduct, updateProduct }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Capitalize first letter of type field
+            const updatedProduct = {
+                ...product,
+                type: product.type.charAt(0).toUpperCase() + product.type.slice(1)
+            };
+            
             const url = editingProduct 
                 ? `https://addajaipur.onrender.com/api/products/updateProduct/${editingProduct._id}`
                 : 'https://addajaipur.onrender.com/api/products/addproduct';
@@ -81,19 +87,22 @@ const ProductForm = ({ setEditingProduct, updateProduct }) => {
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(product),
+                body: JSON.stringify(updatedProduct),
             });
             
             if (!response.ok) throw new Error(editingProduct ? 'Failed to update product' : 'Failed to add product');
             
-            Swal.fire({
+              Swal.fire({
                 title: editingProduct ? 'Updated!' : 'Added!',
                 text: `Your product has been ${editingProduct ? 'updated' : 'added'}.`,
                 icon: 'success',
                 confirmButtonText: 'OK',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    navigate('/admin');
+                }
             });
-            setEditingProduct(null);
-            navigate('/admin');
         } catch (error) {
             console.error('Error saving product:', error);
         }
