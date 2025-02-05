@@ -165,6 +165,35 @@ router.delete('/cart/remove', async (req, res) => {
     }
 });
 
+// Clear Cart
+router.delete('/cart/clear', async (req, res) => {
+    const { userId } = req.body;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID is required.' });
+    }
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        // Clear all cartItems
+        user.cartItems = [];
+        await user.save();
+
+        res.status(200).json({ 
+            message: 'Cart cleared successfully!',
+            cartItems: user.cartItems 
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Error clearing cart.',
+            error: error.message 
+        });
+    }
+});
 
 // Get Wishlist
 router.get('/wishlist/:userId', async (req, res) => {
