@@ -56,9 +56,9 @@ router.post('/cart', async (req, res) => {
     }
 });
 
-// Create Order
+// Create Order (Supports COD and Razorpay)
 router.post('/order', async (req, res) => {
-    const { userId, products, paymentId } = req.body;
+    const { userId, products, paymentId, paymentMethod } = req.body;
 
     if (!userId || !products || products.length === 0) {
         return res.status(400).json({ message: 'User ID and products are required.' });
@@ -84,7 +84,7 @@ router.post('/order', async (req, res) => {
             userId,
             products,
             totalAmount,
-            status: 'Paid',
+            status: paymentMethod === 'COD' ? 'Pending' : 'Paid',
         });
 
         await newOrder.save();
@@ -93,11 +93,17 @@ router.post('/order', async (req, res) => {
         user.orders.push(newOrder._id);
         await user.save();
 
-        res.status(201).json({ message: 'Order created successfully!', orderId: newOrder._id });
+        res.status(201).json({
+            message: 'Order created successfully!',
+            orderId: newOrder._id,
+            paymentMethod,
+            totalAmount,
+        });
     } catch (error) {
         res.status(500).json({ message: 'Error creating order.', error: error.message });
     }
 });
+
 
 // Remove from Wishlist
 router.delete('/wishlist/remove', async (req, res) => {
