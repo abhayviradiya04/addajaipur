@@ -57,7 +57,6 @@ router.post('/cart', async (req, res) => {
 });
 
 // Create Order
-
 router.post('/order', async (req, res) => {
     const { userId, products, paymentId } = req.body;
 
@@ -88,14 +87,18 @@ router.post('/order', async (req, res) => {
             status: 'Paid',
         });
 
-        console.log(newOrder);
-
         await newOrder.save();
+
+        // Add the order ID to the user's orders array
+        user.orders.push(newOrder._id);
+        await user.save();
+
         res.status(201).json({ message: 'Order created successfully!', orderId: newOrder._id });
     } catch (error) {
         res.status(500).json({ message: 'Error creating order.', error: error.message });
     }
 });
+
 // Remove from Wishlist
 router.delete('/wishlist/remove', async (req, res) => {
     const { userId, productId } = req.body;
