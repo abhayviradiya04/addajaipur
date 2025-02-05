@@ -55,7 +55,7 @@ router.patch('/updateUser/:id', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: 'Error updating user.', error: error.message });
     }
-});
+}); 
 
 // Delete a user by ID
 router.delete('/deleteUser/:id', async (req, res) => {
