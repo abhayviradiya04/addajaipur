@@ -56,53 +56,69 @@ router.post('/cart', async (req, res) => {
     }
 });
 
+
 // Create Order (Supports COD and Razorpay)
 router.post('/order', async (req, res) => {
     const { userId, products, paymentId, paymentMethod } = req.body;
-
+  
     if (!userId || !products || products.length === 0) {
-        return res.status(400).json({ message: 'User ID and products are required.' });
+      return res.status(400).json({ message: 'User ID and products are required.' });
     }
-
+  
     try {
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found.' });
-        }
-
-        // Calculate total amount
-        let totalAmount = 0;
-        for (const item of products) {
-            const product = await Product.findById(item.productId);
-            if (product) {
-                totalAmount += product.price * item.quantity;
-            }
-        }
-
-        // Create and save the order
-        const newOrder = new Order({
-            userId,
-            products,
-            totalAmount,
-            status: paymentMethod === 'COD' ? 'Pending' : 'Paid',
-        });
-
-        await newOrder.save();
-
-        // Add the order ID to the user's orders array
-        user.orders.push(newOrder._id);
-        await user.save();
-
-        res.status(201).json({
-            message: 'Order created successfully!',
-            orderId: newOrder._id,
-            paymentMethod,
-            totalAmount,
-        });
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+  
+      // Fetch product details for each product in the order
+      let totalAmount = 0;
+      const productDetails = await Promise.all(
+        products.map(async (item) => {
+          const product = await Product.findById(item._id);
+          if (!product) {
+            throw new Error(`Product with ID ${item._id} not found.`);
+          }
+          // Calculate subtotal for each product
+          const subtotal = product.price * item.quantity;
+          totalAmount += subtotal; // Add to total amount
+          return {
+            _id: item._id,
+            quantity: item.quantity,
+            price: product.price, // Include price in the order
+          };
+        })
+      );
+  
+      console.log('Calculated Total Amount:', totalAmount); // Debug log
+  
+      // Create and save the order
+      const newOrder = new Order({
+        userId,
+        products: productDetails, // Use productDetails with price included
+        totalAmount,
+        status: paymentMethod === 'COD' ? 'Pending' : 'Paid',
+      });
+      console.log('New Order Object:', newOrder); // Debug log
+  
+      await newOrder.save();
+      console.log('Saved Order:', newOrder); // Debug log
+  
+      // Add the order ID to the user's orders array
+      user.orders.push(newOrder._id);
+      await user.save();
+  
+      res.status(201).json({
+        message: 'Order created successfully!',
+        orderId: newOrder._id,
+        paymentMethod,
+        totalAmount,
+      });
     } catch (error) {
-        res.status(500).json({ message: 'Error creating order.', error: error.message });
+      console.error('Error creating order:', error); // Debug log
+      res.status(500).json({ message: 'Error creating order.', error: error.message });
     }
-});
+  });
 
 
 // Remove from Wishlist
