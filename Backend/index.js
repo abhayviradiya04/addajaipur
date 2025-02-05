@@ -19,8 +19,8 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 const razorpay = new Razorpay({
-    key_id: 'rzp_test_2K2eGnhmTiYi44', // Replace with your Razorpay key ID
-    key_secret: 'BmDwbJq0aEFysVnQ9Vr6Q8q4', // Replace with your Razorpay key secret
+    key_id: process.env.KEY_ID, // Replace with your Razorpay key ID
+    key_secret: process.env.KEY_SECRET, // Replace with your Razorpay key secret
   });
 app.use(bodyParser.json());
 app.use(express.json()); // Parse JSON bodies
