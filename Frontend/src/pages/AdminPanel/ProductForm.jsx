@@ -74,8 +74,8 @@ const ProductForm = ({ setEditingProduct, updateProduct }) => {
         e.preventDefault();
         try {
             const url = editingProduct 
-                ? `http://localhost:5000/api/products/updateProduct/${editingProduct._id}`
-                : 'http://localhost:5000/api/products/addproduct';
+                ? `https://addajaipur.onrender.com/api/products/updateProduct/${editingProduct._id}`
+                : 'https://addajaipur.onrender.com/api/products/addproduct';
             
             const method = editingProduct ? 'PUT' : 'POST';
             const response = await fetch(url, {
