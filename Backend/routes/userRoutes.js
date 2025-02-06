@@ -181,4 +181,38 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
+// Update User Data
+router.patch('/updateUser/:userId', async (req, res) => {
+    const { userId } = req.params;
+    const { name, email, password, country, state, city, addressLine1, addressLine2, cityCode } = req.body;
+
+    try {
+        // Find the user by ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update user fields if provided
+        if (name) user.name = name.trim();
+        if (email) user.email = email.trim().toLowerCase();
+        if (password) user.password = await bcrypt.hash(password.trim(), 10);
+        if (country) user.country = country.trim();
+        if (state) user.state = state.trim();
+        if (city) user.city = city.trim();
+        if (addressLine1) user.addressLine1 = addressLine1.trim();
+        if (addressLine2 !== undefined) user.addressLine2 = addressLine2.trim();
+        if (cityCode) user.cityCode = cityCode.trim();
+
+        // Save updated user data
+        await user.save();
+        res.status(200).json({ message: 'User updated successfully', user });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ message: 'Error updating user.', error: error.message });
+    }
+});
+
+module.exports = router;
+
 module.exports = router;
