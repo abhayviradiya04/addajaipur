@@ -129,8 +129,12 @@ const Checkout = () => {
     });
 
     if (!response.ok) throw new Error('Failed to create COD order');
-    await updateStockAndClearCart(userId);
     generateInvoice(await response.json());
+    await updateStockAndClearCart(userId);
+    Swal.fire('Success!', 'Payment processed successfully!', 'success').then(() => {
+      localStorage.removeItem('cart');
+      navigate('/home');
+    });
   };
 
   const handleRazorpayPayment = async (user, totalAmount) => {
@@ -172,9 +176,9 @@ const Checkout = () => {
         totalAmount: calculateGrandTotal()
       }),
     });
-
-    await updateStockAndClearCart(userId);
     generateInvoice(await response.json());
+    await updateStockAndClearCart(userId);
+    
     Swal.fire('Success!', 'Payment processed successfully!', 'success').then(() => {
       localStorage.removeItem('cart');
       navigate('/home');
@@ -202,29 +206,89 @@ const Checkout = () => {
     const doc = new jsPDF();
     let y = 20;
     
-    doc.setFontSize(18).text('Invoice', 105, y, { align: 'center' });
-    y += 15;
-    
-    doc.setFontSize(12)
-      .text(`Delivery Address: ${address.street}, ${address.city}, ${address.state} ${address.zip}`, 20, y)
-      .text(`Contact: ${address.contact}`, 20, y + 7);
-    y += 20;
-
-    doc.setFontSize(14).text(`Order ID: ${orderData.orderId}`, 20, y);
+    // Header
+    doc.setFontSize(18)
+       .setTextColor(40, 40, 40)
+       .setFont('helvetica', 'bold')
+       .text('INVOICE', 105, y, { align: 'center' });
     y += 10;
 
+    // Company Info
+    doc.setFontSize(10)
+       .setTextColor(100, 100, 100)
+       .setFont('helvetica', 'normal')
+       .text('Outfit Craze', 20, y)
+       .text('123 Fashion Street', 20, y + 5)
+       .text('Jaipur, Rajasthan 302001', 20, y + 10)
+       .text(`Invoice Date: ${new Date().toLocaleDateString()}`, 20, y + 20);
+    y += 30;
+
+    // Order and Customer Info
+    const customer = JSON.parse(localStorage.getItem('user')) || {};
+    doc.setFont('helvetica', 'bold').text(`Order ID: ${orderData.orderId}`, 20, y);
+    doc.setFont('helvetica', 'normal').text(`Customer: ${customer.name || ''}`, 20, y + 10);
+    y += 20;
+
+    // Product Table Header
+    doc.setFillColor(245, 245, 245)
+       .rect(20, y, 170, 10, 'F')
+       .setFont('helvetica', 'bold')
+       .text('Product', 22, y + 7)
+       .text('Quantity', 120, y + 7)
+       .text('Price', 160, y + 7);
+    y += 15;
+
+    // Product Items
+    products.forEach((product, index) => {
+      if (y > 250) { // Page break
+        doc.addPage();
+        y = 20;
+      }
+      
+      doc.setFont('helvetica', 'normal')
+         .text(product.name, 22, y + 7)
+         .text(product.quantity.toString(), 120, y + 7)
+         .text(`₹${(product.price * product.quantity).toFixed(2)}`, 160, y + 7);
+      
+      // Add line separator
+      doc.setDrawColor(200, 200, 200)
+         .line(20, y + 12, 190, y + 12);
+      y += 15;
+    });
+
+    // Price Breakdown
     const subtotal = calculateSubtotal();
     const gst = calculateGST(subtotal - discount);
-    doc.text(`Subtotal: ₹${subtotal.toFixed(2)}`, 20, y);
-    doc.text(`Discount: -₹${discount.toFixed(2)}`, 20, y + 10);
-    doc.text(`GST (9%): ₹${gst.toFixed(2)}`, 20, y + 20);
-    doc.text(`CGST (9%): ₹${gst.toFixed(2)}`, 20, y + 30);
+    y += 10;
+
     doc.setFont('helvetica', 'bold')
-      .text(`Grand Total: ₹${calculateGrandTotal().toFixed(2)}`, 20, y + 40);
+       .text('Subtotal:', 120, y)
+       .text(`₹${subtotal.toFixed(2)}`, 160, y);
+    y += 10;
+
+    doc.text(`Discount (${isPromoApplied ? '10%' : '0%'}):`, 120, y)
+       .text(`-₹${discount.toFixed(2)}`, 160, y);
+    y += 10;
+
+    doc.text('GST (9%):', 120, y)
+       .text(`₹${gst.toFixed(2)}`, 160, y);
+    y += 10;
+
+    doc.text('CGST (9%):', 120, y)
+       .text(`₹${gst.toFixed(2)}`, 160, y);
+    y += 15;
+
+    doc.setFontSize(12)
+       .text('Grand Total:', 120, y)
+       .text(`₹${calculateGrandTotal().toFixed(2)}`, 160, y);
     
+    // Footer
+    doc.setFontSize(8)
+       .setTextColor(150, 150, 150)
+       .text('Thank you for shopping with us!', 105, 280, { align: 'center' });
+
     setInvoice(doc);
     doc.save(`invoice_${orderData.orderId}.pdf`);
-    navigate('/home');
   };
 
   return (
