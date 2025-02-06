@@ -163,27 +163,47 @@ const Checkout = () => {
 
     new window.Razorpay(options).open();
   };
-
   const handleSuccessfulPayment = async (userId, paymentId) => {
-   const response = await fetch('https://addajaipur.onrender.com/api/user-actions/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId,
-        products,
-        paymentId,
-        paymentMethod: 'Razorpay',
-        totalAmount: calculateGrandTotal()
-      }),
-    });
-
-    await updateStockAndClearCart(userId);
-    generateInvoice(await response.json());
-    Swal.fire('Success!', 'Payment processed successfully!', 'success').then(() => {
-      localStorage.removeItem('cart');
-      navigate('/home');
-    });
-  };
+    try {
+       const response = await fetch('https://addajaipur.onrender.com/api/user-actions/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+             userId,
+             products,
+             paymentId,
+             paymentMethod: 'Razorpay',
+             totalAmount: calculateGrandTotal()
+          }),
+       });
+ 
+       if (!response.ok) {
+          throw new Error('Failed to process order');
+       }
+ 
+       const orderData = await response.json();
+       await updateStockAndClearCart(userId);
+       
+       Swal.fire({
+          title: 'Payment Successful!',
+          text: 'Do you want to download the invoice?',
+          icon: 'success',
+          showCancelButton: true,
+          confirmButtonText: 'Download Invoice',
+          cancelButtonText: 'No, Just Go Home',
+       }).then((result) => {
+          if (result.isConfirmed) {
+             generateInvoice(orderData);
+          }
+          localStorage.removeItem('cart');
+          navigate('/home');
+       });
+    } catch (error) {
+       console.error('Error processing payment:', error);
+       Swal.fire('Error!', 'Something went wrong. Please try again.', 'error');
+    }
+ };
+ 
 
   const updateStockAndClearCart = async (userId) => {
     await Promise.all([
