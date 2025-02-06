@@ -161,25 +161,26 @@ const Checkout = () => {
   };
 
   const handleSuccessfulPayment = async (userId, paymentId) => {
-   const response = await fetch('https://addajaipur.onrender.com/api/user-actions/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId,
-        products,
-        paymentId,
-        paymentMethod: 'Razorpay',
-        totalAmount: calculateGrandTotal()
-      }),
-    });
-
-    await updateStockAndClearCart(userId);
-    generateInvoice(await response.json());
-    Swal.fire('Success!', 'Payment processed successfully!', 'success').then(() => {
-      localStorage.removeItem('cart');
-      navigate('/home');
-    });
-  };
+    const response = await fetch('https://addajaipur.onrender.com/api/user-actions/order', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({
+         userId,
+         products,
+         paymentId,
+         paymentMethod: 'Razorpay',
+         totalAmount: calculateGrandTotal()
+       }),
+     });
+ 
+     await updateStockAndClearCart(userId);
+     generateInvoice(await response.json());
+     Swal.fire('Success!', 'Payment processed successfully!', 'success').then(() => {
+       localStorage.removeItem('cart');
+       navigate('/home');
+     });
+   };
+ 
 
   const updateStockAndClearCart = async (userId) => {
     await Promise.all([
