@@ -5,9 +5,26 @@
 }
 
 .cart-container h1 {
-  margin-bottom: 2rem;
-  color: #333;
-  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: clamp(1rem, 4vw, 2rem);
+  padding: clamp(1rem, 2vw, 1.5rem) 0;
+  color: #2c3e50;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  text-align: center;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.cart-container h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(60px, 10vw, 100px);
+  height: 4px;
+  background: linear-gradient(to right, #3498db, #2ecc71);
+  border-radius: 2px;
 }
 
 .cart-content {
@@ -197,6 +214,8 @@
 }
 
 .empty-cart h2 {
+  
+  text-align: center;
   font-size: clamp(1.2rem, 4vw, 1.5rem);
   margin-bottom: 1rem;
 }

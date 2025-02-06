@@ -135,166 +135,172 @@ export default function Register() {
     <div className="register-container">
       <div className="register-card">
         <h2>Create Account</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className={errors.name ? 'error' : ''}
-            />
-            {errors.name && <span className="error-text">{errors.name}</span>}
-          </div>
+        <form onSubmit={handleSubmit} className="register-form">
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className={errors.name ? 'error' : ''}
+              />
+              {errors.name && <span className="error-text">{errors.name}</span>}
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={errors.email ? 'error' : ''}
-              disabled={emailSent}
-            />
-            {errors.email && <span className="error-text">{errors.email}</span>}
-            {!emailSent && (
-              <button type="button" onClick={handleSendVerification} className="verification-button" disabled={loading}>
-                Send Verification Code
-              </button>
-            )}
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={errors.email ? 'error' : ''}
+                disabled={emailSent}
+              />
+              {errors.email && <span className="error-text">{errors.email}</span>}
+              {!emailSent && (
+                <button type="button" onClick={handleSendVerification} className="verification-button" disabled={loading}>
+                  Send Verification Code
+                </button>
+              )}
+            </div>
           </div>
 
           {emailSent && (
-            <div className="form-group">
-              <label htmlFor="verificationCode">Verification Code</label>
-              <input
-                type="text"
-                id="verificationCode"
-                name="verificationCode"
-                value={formData.verificationCode}
-                onChange={handleChange}
-                className={errors.verificationCode ? 'error' : ''}
-              />
-              {errors.verificationCode && <span className="error-text">{errors.verificationCode}</span>}
-              <button type="button" onClick={handleResendVerification} className="verification-button" disabled={loading}>
-                Resend Verification Code
-              </button>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="verificationCode">Verification Code</label>
+                <input
+                  type="text"
+                  id="verificationCode"
+                  name="verificationCode"
+                  value={formData.verificationCode}
+                  onChange={handleChange}
+                  className={errors.verificationCode ? 'error' : ''}
+                />
+                {errors.verificationCode && <span className="error-text">{errors.verificationCode}</span>}
+                <button type="button" onClick={handleResendVerification} className="verification-button" disabled={loading}>
+                  Resend Verification Code
+                </button>
+              </div>
             </div>
           )}
 
-          
-<div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className={errors.password ? 'error' : ''}
-            />
-            {errors.password && <span className="error-text">{errors.password}</span>}
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={errors.password ? 'error' : ''}
+              />
+              {errors.password && <span className="error-text">{errors.password}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className={errors.confirmPassword ? 'error' : ''}
+              />
+              {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className={errors.confirmPassword ? 'error' : ''}
-            />
-            {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="addressLine1">Address Line 1</label>
+              <input
+                type="text"
+                id="addressLine1"
+                name="addressLine1"
+                value={formData.addressLine1}
+                onChange={handleChange}
+                className={errors.addressLine1 ? 'error' : ''}
+              />
+              {errors.addressLine1 && <span className="error-text">{errors.addressLine1}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="addressLine2">Address Line 2</label>
+              <input
+                type="text"
+                id="addressLine2"
+                name="addressLine2"
+                value={formData.addressLine2}
+                onChange={handleChange}
+                className={errors.addressLine2 ? 'error' : ''}
+              />
+              {errors.addressLine2 && <span className="error-text">{errors.addressLine2}</span>}
+            </div>
           </div>
 
-         
-          <div className="form-group">
-            <label htmlFor="addressLine1">Address Line 1</label>
-            <input
-              type="text"
-              id="addressLine1"
-              name="addressLine1"
-              value={formData.addressLine1}
-              onChange={handleChange}
-              className={errors.addressLine1 ? 'error' : ''}
-            />
-            {errors.addressLine1 && <span className="error-text">{errors.addressLine1}</span>}
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="city">City</label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                className={errors.city ? 'error' : ''}
+              />
+              {errors.city && <span className="error-text">{errors.city}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="cityCode">City Code</label>
+              <input
+                type="text"
+                id="cityCode"
+                name="cityCode"
+                value={formData.cityCode}
+                onChange={handleChange}
+                className={errors.cityCode ? 'error' : ''}
+              />
+              {errors.cityCode && <span className="error-text">{errors.cityCode}</span>}
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="addressLine2">Address Line 2</label>
-            <input
-              type="text"
-              id="addressLine2"
-              name="addressLine2"
-              value={formData.addressLine2}
-              onChange={handleChange}
-              className={errors.addressLine2 ? 'error' : ''}
-            />
-            {errors.addressLine2 && <span className="error-text">{errors.addressLine2}</span>}
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="state">State</label>
+              <input
+                type="text"
+                id="state"
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                className={errors.state ? 'error' : ''}
+              />
+              {errors.state && <span className="error-text">{errors.state}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="country">Country</label>
+              <input
+                type="text"
+                id="country"
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                className={errors.country ? 'error' : ''}
+              />
+              {errors.country && <span className="error-text">{errors.country}</span>}
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="city">City</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              className={errors.city ? 'error' : ''}
-            />
-            {errors.city && <span className="error-text">{errors.city}</span>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="cityCode">City Code</label>
-            <input
-              type="text"
-              id="cityCode"
-              name="cityCode"
-              value={formData.cityCode}
-              onChange={handleChange}
-              className={errors.cityCode ? 'error' : ''}
-            />
-            {errors.cityCode && <span className="error-text">{errors.cityCode}</span>}
-          </div>
-
-
-          <div className="form-group">
-            <label htmlFor="state">State</label>
-            <input
-              type="text"
-              id="state"
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              className={errors.state ? 'error' : ''}
-            />
-            {errors.state && <span className="error-text">{errors.state}</span>}
-          </div>
-
-         
-          
-          <div className="form-group">
-            <label htmlFor="country">Country</label>
-            <input
-              type="text"
-              id="country"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              className={errors.country ? 'error' : ''}
-            />
-            {errors.country && <span className="error-text">{errors.country}</span>}
-          </div>
-
-
 
           <button type="submit" className="register-button" disabled={loading}>
             {loading ? 'Creating Account...' : 'Register'}
