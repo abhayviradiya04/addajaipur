@@ -17,6 +17,8 @@ export default function ProductDetails() {
   const [currentImage, setCurrentImage] = useState(0);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const [showLens, setShowLens] = useState(false);
 
   // Get user from localStorage
   const user = JSON.parse(localStorage.getItem('user'));
@@ -158,6 +160,15 @@ const ProductSkeleton = () => (
     </div>
   );
 
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setZoomPosition({ x, y });
+    e.currentTarget.style.setProperty('--zoom-x', `${x}%`);
+    e.currentTarget.style.setProperty('--zoom-y', `${y}%`);
+  };
+
   if (loading) return <ProductSkeleton />;
   if (error) return <div className="error">Error: {error}</div>;
   if (!product) return <div className="error">Product not found</div>;
@@ -166,10 +177,14 @@ const ProductSkeleton = () => (
     <div className="product-details-container">
       <div className="product-details">
         <div className="product-images">
-          <div className="main-image-container">
+          <div className="main-image-container" 
+               onMouseMove={handleMouseMove}
+               onMouseEnter={() => setShowLens(true)}
+               onMouseLeave={() => setShowLens(false)}>
             <div className="main-image">
               <img src={product.image[currentImage]} alt={product.name} />
             </div>
+            {showLens && <div className="zoom-lens" style={{ left: `${zoomPosition.x}%`, top: `${zoomPosition.y}%` }} />}
             <div className="image-zoom-hint">
               <span>Hover to zoom</span>
             </div>
