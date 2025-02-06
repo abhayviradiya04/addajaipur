@@ -65,7 +65,7 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/sendVerification', {
+      const response = await fetch('https://addajaipur.onrender.com/api/users/sendVerification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: formData.email })
@@ -91,7 +91,7 @@ export default function Register() {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/users/addUser', {
+      const response = await fetch('https://addajaipur.onrender.com/api/users/addUser', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
