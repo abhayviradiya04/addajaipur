@@ -211,23 +211,41 @@
   text-align: center;
   padding: clamp(1.5rem, 5vw, 3rem);
   margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh; /* Adjust height as needed */
 }
 
 .empty-cart h2 {
-  
-  text-align: center;
   font-size: clamp(1.2rem, 4vw, 1.5rem);
   margin-bottom: 1rem;
+  color: #2c3e50;
 }
 
 .empty-cart p {
   font-size: clamp(0.9rem, 3vw, 1rem);
   margin-bottom: 1.5rem;
+  color: #7f8c8d;
 }
 
 .empty-cart button {
   padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
   font-size: clamp(0.9rem, 2.5vw, 1rem);
+  background: linear-gradient(90deg, #3498db, #2980b9);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.empty-cart button:hover {
+  background: linear-gradient(to right, #2980b9, #216a94);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
 }
 
 .cart-loading,

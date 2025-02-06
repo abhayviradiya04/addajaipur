@@ -109,7 +109,7 @@ router.post('/addUser', async (req, res) => {
 
 // Login User with Password Hashing
 router.post('/login', async (req, res) => {
-    console.log('Received login request:', req.body); // Log the entire request body
+     // Log the entire request body
 
     const { email, password } = req.body;
 
@@ -118,22 +118,21 @@ router.post('/login', async (req, res) => {
         return res.status(400).json({ message: 'Email and password are required.' });
     }
 
-    console.log('Login attempt:', { email }); // Log input email (not password for security)
+     // Log input email (not password for security)
 
     try {
         // Find the user by email (case insensitive)
         const user = await User.findOne({ email: email.toLowerCase() });
-        console.log('User found:', user); // Log user found
-
+       
         if (!user) {
-            console.log('User not found'); // Log if user is not found
+            
             return res.status(401).json({ message: 'Invalid email or password.' });
         }
 
         // Compare hashed passwords
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            console.log('Password does not match'); // Log if password does not match
+           
             return res.status(401).json({ message: 'Invalid email or password.' });
         }
 
