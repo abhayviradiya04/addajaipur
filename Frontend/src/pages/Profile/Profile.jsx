@@ -5,11 +5,30 @@ import Swal from 'sweetalert2';
 
 const ProfileSkeleton = () => {
   return (
-    <div className="profile-container">
-      <h1>Profile</h1>
-      <div className="skeleton skeleton-text"></div>
-      <div className="skeleton skeleton-text"></div>
-      <div className="skeleton skeleton-button"></div>
+    <div className="profile-skeleton skeleton-loader">
+      <div className="skeleton-header"></div>
+      
+      <div className="skeleton-info-group">
+        <div className="skeleton-text" style={{width: '30%'}}></div>
+        <div className="skeleton-text" style={{width: '50%'}}></div>
+        <div className="skeleton-text" style={{width: '40%'}}></div>
+        <div className="skeleton-text" style={{width: '60%'}}></div>
+        <div className="skeleton-text" style={{width: '55%'}}></div>
+      </div>
+
+      <div className="skeleton-form-group">
+        <div className="skeleton-input"></div>
+        <div className="skeleton-input"></div>
+        <div className="skeleton-input"></div>
+        <div className="skeleton-input"></div>
+        <div className="skeleton-input"></div>
+        <div className="skeleton-input"></div>
+        <div className="skeleton-input"></div>
+        <div className="skeleton-input"></div>
+      </div>
+
+      <div className="skeleton-button" style={{width: '200px'}}></div>
+      <div className="skeleton-button" style={{width: '100%', marginTop: '2rem'}}></div>
     </div>
   );
 };

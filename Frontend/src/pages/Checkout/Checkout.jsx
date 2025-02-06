@@ -147,7 +147,7 @@ const Checkout = () => {
       key: 'rzp_test_2K2eGnhmTiYi44',
       amount: orderData.amount.toString(),
       currency: 'INR',
-      name: 'E-clothing',
+      name: 'Outfit Craze',
       description: 'Order Payment',
       order_id: orderData.id,
       handler: async (response) => {
