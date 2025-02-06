@@ -1,181 +1,125 @@
+/* Container */
 .checkout-container {
-  max-width: 800px;
-  margin: 20px auto;
+  max-width: 600px;
+  margin: 50px auto;
   padding: 30px;
-  background: #ffffff;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  background: #fff;
   border-radius: 12px;
-  font-family: 'Arial', sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
 }
 
-h1 {
-  text-align: center;
-  color: #2c3e50;
-  font-size: 28px;
-  margin-bottom: 20px;
-  font-weight: 600;
-}
-
+/* Section Titles */
 h2 {
-  color: #34495e;
-  font-size: 22px;
+  font-size: 20px;
+  color: #2c3e50;
+  font-weight: 600;
   margin-bottom: 15px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
 }
 
-h2 .icon {
-  margin-right: 10px;
-}
-
-.error-message {
-  color: #e74c3c;
-  background: #f8d7da;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.checkout-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
-
-.checkout-section {
-  background: #f9f9f9;
+/* Address Section */
+.address-section {
+  background: #f8f9fa;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid #ddd;
 }
 
 .address-form input {
   width: 100%;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Payment Selection */
+.payment-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
   border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.address-display p {
-  margin: 5px 0;
-}
-
-.edit-button, .save-button {
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.edit-button:hover, .save-button:hover {
-  background: #2980b9;
+  margin-top: 20px;
 }
 
 .payment-options {
   display: flex;
-  flex-direction: column;
+  gap: 15px;
 }
 
 .payment-option {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  margin: 10px 0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.payment-option:hover {
-  border-color: #3498db;
-  background: #f0f8ff;
-}
-
-.payment-option.active {
-  border-color: #3498db;
-  background: #e6f4ff;
-}
-
-.promo-section {
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-}
-
-.promo-section input {
   flex: 1;
-  padding: 10px;
-  margin-right: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.apply-button {
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
+  text-align: center;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.apply-button:hover {
-  background: #2980b9;
+.payment-option img {
+  width: 50px;
+  display: block;
+  margin: 0 auto 10px;
 }
 
-.price-breakdown {
+.payment-option.selected {
+  border-color: #3498db;
+  background: rgba(52, 152, 219, 0.1);
+}
+
+/* Order Summary */
+.order-summary {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
   margin-top: 20px;
 }
 
-.price-row {
+.order-summary p {
+  font-size: 16px;
+  margin: 8px 0;
   display: flex;
   justify-content: space-between;
-  margin: 5px 0;
-}
-
-.price-row.total {
-  font-weight: bold;
-  font-size: 18px;
-  color: #2c3e50;
-}
-
-.pay-now-button {
-  width: 100%;
-  padding: 15px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
   font-weight: 500;
-  cursor: pointer;
-  transition: background 0.3s ease;
 }
 
-.pay-now-button:hover {
+.order-total {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3498db;
+}
+
+/* Pay Button */
+.pay-button {
+  background: #3498db;
+  color: #fff;
+  font-size: 18px;
+  padding: 14px;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.pay-button:hover {
   background: #2980b9;
 }
-
-.pay-now-button:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
-.edit-icon {
+.apply-button{
+  background-color: #2980b9;
+  color: #fff;
   margin-left: 10px;
-  display: inline-block;
-  cursor: pointer;
-  transition: transform 0.2s;
+ 
 }
-
-.edit-icon:hover {
-  transform: scale(1.5);
+.section-title{
+  color: #2980b9;
+}
+.checkout-button {
+  background-color: #2980b9;
+  color: #fff;
 }

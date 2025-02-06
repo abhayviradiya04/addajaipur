@@ -105,19 +105,22 @@
   font-size: 2.5rem;
   color: var(--primary);
   margin: 0 0 3rem;
-  padding-left: 1rem;
+  padding-left: 1rem; /* Remove this if not needed */
   position: relative;
+  text-align: center;
+  display: inline-block; /* Ensures proper centering */
 }
 
 .type-title::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: 50%; /* Center based on parent */
   bottom: -10px;
   width: 60px;
   height: 4px;
   background: var(--gradient);
   border-radius: 2px;
+  transform: translateX(-50%); /* Moves it back by half its width */
 }
 
 /* Modern Product Grid */

@@ -141,14 +141,14 @@
 
 .style-code-detail {
   font-family: monospace;
-  color: #2b9ba3;
+  color: #000301;
   font-size: 1.1rem;
 }
-
 .product-pricing {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center horizontally */
+  gap: 1rem; /* Adjust spacing */
   margin: 2rem 0;
   padding: 1.5rem 0;
   border-bottom: 2px solid var(--border);
@@ -157,9 +157,10 @@
 .price {
   font-size: 2.4rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: linear-gradient(100deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-align: center; /* Ensure text is centered */
 }
 
 .stock-info {
@@ -167,14 +168,15 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 1.1rem;
+  justify-content: center; /* Center stock info horizontally */
 }
 
-.in-stock { color: #27ae60; }
 .out-of-stock { color: var(--accent); }
 
 /* Size Selection */
 .size-selection {
   margin: 2rem 0;
+  text-align: center; /* Centers the heading */
 }
 
 .size-selection h3 {
@@ -187,6 +189,7 @@
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  justify-content: center; /* Centers size options horizontally */
 }
 
 .size-option {
@@ -196,6 +199,7 @@
   cursor: pointer;
   transition: var(--transition);
   font-size: 1.1rem;
+  text-align: center; /* Ensures text inside is centered */
 }
 
 .size-option.selected {

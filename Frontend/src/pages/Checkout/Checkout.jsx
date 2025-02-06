@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
-import { FaTruck, FaMoneyBillWave, FaTag, FaHome, FaPen } from 'react-icons/fa';
+import { FaTruck, FaMoneyBillWave, FaTag, FaHome, FaPen, FaCashRegister, FaCreditCard } from 'react-icons/fa';
 import './Checkout.css';
 
 const Checkout = () => {
@@ -52,13 +52,12 @@ const Checkout = () => {
 
         const userData = await response.json();
         
-        // Map backend address fields to local state
         setAddress({
           street: `${userData.addressLine1}${userData.addressLine2 ? `, ${userData.addressLine2}` : ''}`,
           city: userData.city,
           state: userData.state,
           zip: userData.cityCode,
-          contact: address.contact // Keep existing contact or add phone to user model
+          contact: address.contact
         });
 
       } catch (error) {
@@ -72,7 +71,7 @@ const Checkout = () => {
     };
 
     fetchUserAddress();
-  }, []); // Empty dependency array to run only once on mount
+  }, []);
 
   const calculateSubtotal = () => products.reduce((total, product) => total + product.price * product.quantity, 0);
   const calculateGST = (amount) => amount * 0.09;
@@ -126,7 +125,9 @@ const Checkout = () => {
         paymentMethod: 'COD',
         totalAmount
       }),
+      
     });
+    console.log(response);
 
     if (!response.ok) throw new Error('Failed to create COD order');
     await updateStockAndClearCart(userId);
@@ -174,6 +175,7 @@ const Checkout = () => {
     });
 
     await updateStockAndClearCart(userId);
+    
     generateInvoice(await response.json());
     Swal.fire('Success!', 'Payment processed successfully!', 'success').then(() => {
       localStorage.removeItem('cart');
@@ -202,30 +204,87 @@ const Checkout = () => {
     const doc = new jsPDF();
     let y = 20;
     
-    doc.setFontSize(18).text('Invoice', 105, y, { align: 'center' });
-    y += 15;
+    // Add logo (Make sure to replace 'logo.png' with the actual path to your logo)
+    const logo = new Image();
+    logo.src = '../../../public/asset/images/logo.webp';
+    doc.addImage(logo, 'webp', 10, y, 40, 40);
     
-    doc.setFontSize(12)
+    // Title
+    doc.setFontSize(18).setTextColor(0, 123, 255).text("Outfit's Craze", 105, y + 20, { align: 'center' });
+    y += 40; // Adjust for logo and title space
+    
+    // Date and Time of Payment
+    doc.setFontSize(12).setTextColor(0, 0, 0);
+    const currentDate = new Date().toLocaleString();
+    doc.text(`Order Date: ${currentDate}`, 20, y);
+    y += 10;
+    
+    // Add a horizontal line for separation
+    doc.setLineWidth(0.5);
+    doc.line(20, y, 190, y);
+    y += 10;
+    
+    // Billing Section (Delivery address, etc.)
+    doc.setFontSize(12).text("Billing Information", 20, y);
+    y += 7;
+    
+    doc.setFontSize(10)
       .text(`Delivery Address: ${address.street}, ${address.city}, ${address.state} ${address.zip}`, 20, y)
       .text(`Contact: ${address.contact}`, 20, y + 7);
     y += 20;
-
-    doc.setFontSize(14).text(`Order ID: ${orderData.orderId}`, 20, y);
+    
+    // Order ID
+    doc.setFontSize(12).text(`Order ID: ${orderData.orderId}`, 20, y);
     y += 10;
-
+  
+    // Products List
+    doc.setFontSize(12).text("Product Details", 20, y);
+    y += 10;
+  
+    // Product Table (if you have products to list)
+    doc.setFontSize(10);
+    products.forEach((product, index) => {
+      doc.text(`${index + 1}. ${product.name} x ${product.quantity} - ₹${(product.price * product.quantity).toFixed(2)}`, 20, y);
+      y += 7;
+    });
+    
+    // Add another line for separation
+    doc.setLineWidth(0.5);
+    doc.line(20, y, 190, y);
+    y += 10;
+    
+    // Calculations (Subtotal, Discount, GST, Grand Total)
     const subtotal = calculateSubtotal();
     const gst = calculateGST(subtotal - discount);
-    doc.text(`Subtotal: ₹${subtotal.toFixed(2)}`, 20, y);
-    doc.text(`Discount: -₹${discount.toFixed(2)}`, 20, y + 10);
-    doc.text(`GST (9%): ₹${gst.toFixed(2)}`, 20, y + 20);
-    doc.text(`CGST (9%): ₹${gst.toFixed(2)}`, 20, y + 30);
-    doc.setFont('helvetica', 'bold')
-      .text(`Grand Total: ₹${calculateGrandTotal().toFixed(2)}`, 20, y + 40);
     
+    doc.setFontSize(12)
+      .text(`Subtotal: ₹${subtotal.toFixed(2)}`, 20, y)
+      .text(`Discount: -₹${discount.toFixed(2)}`, 120, y)
+      y += 10;
+    
+    doc.text(`GST (9%): ₹${gst.toFixed(2)}`, 20, y);
+    doc.text(`CGST (9%): ₹${gst.toFixed(2)}`, 120, y);
+    y += 10;
+    
+    doc.setFont('helvetica', 'bold').setTextColor(255, 87, 34);
+    doc.text(`Grand Total: ₹${calculateGrandTotal().toFixed(2)}`, 20, y);
+    
+    // Add another line for separation
+    doc.setLineWidth(1);
+    doc.line(20, y + 7, 190, y + 7);
+    
+    // Footer (Terms, Website, etc.)
+    y += 20;
+    doc.setFontSize(8).setTextColor(0, 0, 0);
+    doc.text("Thank you for shopping with Outfit's!", 20, y);
+    doc.text("Visit us at Our Website for more awesome deals!", 20, y + 7);
+    
+    // Save the invoice
     setInvoice(doc);
     doc.save(`invoice_${orderData.orderId}.pdf`);
     navigate('/home');
   };
+  
 
   return (
     <div className="checkout-container">
@@ -237,7 +296,6 @@ const Checkout = () => {
         <div className="checkout-section address-section">
           <h2 className="section-title">
             <FaHome /> Delivery Address
-            
             <span className="edit-icon" onClick={() => setIsEditingAddress(!isEditingAddress)}>
               <FaPen size={12} />
             </span>
@@ -296,6 +354,7 @@ const Checkout = () => {
                 checked={paymentMethod === 'Razorpay'}
                 onChange={() => setPaymentMethod('Razorpay')}
               />
+              <FaCreditCard size={20} style={{ marginRight: 8 }} />
               <span>Razorpay</span>
             </label>
             <label className={`payment-option ${paymentMethod === 'COD' ? 'active' : ''}`}>
@@ -305,6 +364,7 @@ const Checkout = () => {
                 checked={paymentMethod === 'COD'}
                 onChange={() => setPaymentMethod('COD')}
               />
+              <FaCashRegister size={20} style={{ marginRight: 8 }} />
               <span>Cash on Delivery</span>
             </label>
           </div>
@@ -313,21 +373,9 @@ const Checkout = () => {
         {/* Order Summary Section */}
         <div className="checkout-section order-summary">
           <h2 className="section-title"><FaTruck /> Order Summary</h2>
-          <div className="order-items">
-            {products.map((product, i) => (
-              <div key={i} className="order-item">
-                <div className="item-details">
-                  <span className="item-name">{product.name}</span>
-                  <span className="item-quantity">x{product.quantity}</span>
-                </div>
-                <span className="item-price">₹{(product.price * product.quantity).toFixed(2)}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Promo Code Section */}
-          <div className="promo-section">
-            <FaTag />
+           {/* Promo Code Section */}
+           <div className="promo-section mb-3">
+            {/* <FaTag /> */}
             <input
               type="text"
               placeholder="Enter promo code"
@@ -343,6 +391,19 @@ const Checkout = () => {
               {isPromoApplied ? 'Applied' : 'Apply'}
             </button>
           </div>
+          <div className="order-items">
+            {products.map((product, i) => (
+              <div key={i} className="order-item">
+                <div className="item-details">
+                  <span className="item-name">{product.name}</span>
+                  <span className="item-quantity">x{product.quantity}</span>
+                </div>
+                <span className="item-price">₹{(product.price * product.quantity).toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
+
+         
 
           {/* Price Breakdown */}
           <div className="price-breakdown">
@@ -365,21 +426,19 @@ const Checkout = () => {
               <span>₹{calculateGST(calculateSubtotal() - discount).toFixed(2)}</span>
             </div>
             <div className="price-row total">
-              <span>Grand Total</span>
+              <b><span>Total</span>
               <span>₹{calculateGrandTotal().toFixed(2)}</span>
+              </b>
             </div>
+          </div>
+
+          <div className="checkout-buttons m-3">
+            <button className="checkout-button" onClick={handlePayment} disabled={loading}>
+              {loading ? 'Processing...' : 'Place Order'}
+            </button>
           </div>
         </div>
       </div>
-
-      {/* Payment Button */}
-      <button
-        className="pay-now-button"
-        onClick={handlePayment}
-        disabled={loading || products.length === 0}
-      >
-        {loading ? 'Processing...' : `Pay ₹${calculateGrandTotal().toFixed(2)}`}
-      </button>
     </div>
   );
 };

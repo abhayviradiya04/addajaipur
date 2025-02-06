@@ -125,17 +125,17 @@ router.put('/update-quantity', async (req, res) => {
   
       // Loop through each product and update its stock
       for (const item of products) {
-        const { productId, quantity } = item;
+        const { _id, quantity } = item;
   
         // Validate productId and quantity
-        if (!mongoose.Types.ObjectId.isValid(productId) || typeof quantity !== 'number' || quantity <= 0) {
+        if (!mongoose.Types.ObjectId.isValid(_id) || typeof quantity !== 'number' || quantity <= 0) {
           return res.status(400).json({ message: 'Invalid product ID or quantity' });
         }
   
         // Find the product in the database
-        const product = await Product.findById(productId);
+        const product = await Product.findById(_id);
         if (!product) {
-          return res.status(404).json({ message: `Product not found: ${productId}` });
+          return res.status(404).json({ message: `Product not found: ${_id}` });
         }
   
         // Check if there's enough stock
