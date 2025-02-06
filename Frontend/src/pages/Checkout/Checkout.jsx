@@ -30,6 +30,50 @@ const Checkout = () => {
     setProducts(storedProducts);
   }, []);
 
+  useEffect(() => {
+    const fetchUserAddress = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user?._id) {
+          throw new Error('User not logged in');
+        }
+
+        const response = await fetch(`https://addajaipur.onrender.com/api/users/${user._id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch address');
+        }
+
+        const userData = await response.json();
+        
+        // Map backend address fields to local state
+        setAddress({
+          street: `${userData.addressLine1}${userData.addressLine2 ? `, ${userData.addressLine2}` : ''}`,
+          city: userData.city,
+          state: userData.state,
+          zip: userData.cityCode,
+          contact: address.contact // Keep existing contact or add phone to user model
+        });
+
+      } catch (error) {
+        console.error('Address fetch error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Address Loading Failed',
+          text: 'Could not load your saved address. Using default address.',
+        });
+      }
+    };
+
+    fetchUserAddress();
+  }, []); // Empty dependency array to run only once on mount
+
   const calculateSubtotal = () => products.reduce((total, product) => total + product.price * product.quantity, 0);
   const calculateGST = (amount) => amount * 0.09;
   const calculateGrandTotal = () => {
@@ -117,7 +161,7 @@ const Checkout = () => {
   };
 
   const handleSuccessfulPayment = async (userId, paymentId) => {
-    await fetch('https://addajaipur.onrender.com/api/user-actions/order', {
+   const response = await fetch('https://addajaipur.onrender.com/api/user-actions/order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -130,6 +174,7 @@ const Checkout = () => {
     });
 
     await updateStockAndClearCart(userId);
+    generateInvoice(await response.json());
     Swal.fire('Success!', 'Payment processed successfully!', 'success').then(() => {
       localStorage.removeItem('cart');
       navigate('/home');
