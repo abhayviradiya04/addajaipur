@@ -13,7 +13,7 @@ const Razorpay = require('razorpay');
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:3000','http://localhost:3002','https://adaajaipur-frontend.vercel.app','https://adaajaipur-frontend-g2l24c137.vercel.app/','*'], // Your frontend URL
+    origin: '*', // Your frontend URL
     credentials: true, // Allow credentials
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
